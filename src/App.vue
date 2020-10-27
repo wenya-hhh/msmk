@@ -14,7 +14,8 @@ export default {
 </script>
 
 <style>
-/* body{
-  font-size: 0.16rem;
-} */
+html,body{
+  width: 100%;
+  height: 100%;
+}
 </style>
