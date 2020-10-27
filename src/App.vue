@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-   
+   <router-view/>
   </div>
 </template>
 
@@ -14,5 +14,7 @@ export default {
 </script>
 
 <style>
-
+/* body{
+  font-size: 0.16rem;
+} */
 </style>

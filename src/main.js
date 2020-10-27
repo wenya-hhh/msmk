@@ -5,6 +5,7 @@ import store from './store'
 import './plugins/vant.js'
 import './plugins/element.js'
 import axios from "./utils/request"
+import css from '../src/css/common.css'
 import rem from "@/assets/rem"
 Vue.prototype.$http=axios
 Vue.config.productionTip = false

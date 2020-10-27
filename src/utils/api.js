@@ -1,29 +1,22 @@
 import axios from "./request.js"
 
 
-export function gets(url,data){
+export function gets(url, data) {
 
-    return axios.get(url,{
-       params:data
+    return axios.get(url, {
+        params: data
     })
 
 }
 
-export function pots(url,data){
+export function pots(url, data) {
 
-    return axios.get(url,data)
+    return axios.post(url, data)
 
 }
 
 
 // 封装获取数据的接口
-export function all(type,pages){
-       
-    return axios.get("topics",{params:{
-          tab:type,
-          page:pages
-    }})
+export function all(type,pages) {
+    return axios.get('/courseBasis',pages)
 }
-
-
-
