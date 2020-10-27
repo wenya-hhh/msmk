@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
     <div class="home">
          <div class="content">
 
@@ -32,6 +33,30 @@ export default {
 
     }
 };
+=======
+  <div class="home">
+<<<<<<< HEAD
+  home
+=======
+  <couser/>
+>>>>>>> 38a55e3f242d2fd2e1f79c9c0f746c69ce2ffebf
+  </div>
+</template>
+
+<script>
+// @ is an alias to /src
+import couser from './kc/couser'
+export default {
+  name: 'Home',
+<<<<<<< HEAD
+  
+=======
+  components: {
+   couser
+  }
+>>>>>>> 38a55e3f242d2fd2e1f79c9c0f746c69ce2ffebf
+}
+>>>>>>> cf079cacf9e9bdb7c7de6b83dcb2552f7b6d8dfc
 </script>
 
 <style lang="scss" scoped>
