@@ -1,0 +1,295 @@
+<template>
+  <div>
+    <div class="login_pic_container">
+      <div class="login_pic_wrapper">
+        <div class="pic_container">
+          <img src="@/assets/login_pic.png" alt="" />
+        </div>
+      </div>
+    </div>
+    <!-- 登录页面 -->
+    <div class="login_input_container" v-show="loginShow">
+      <div class="login_input_wrapper">
+        <div class="tel_container">
+          <van-field
+            placeholder="请输入手机号"
+            :class="active == true ? 'changBottom' : ''"
+            @focus="active = true"
+            @blur="active = false"
+            v-model="loginTel"
+          />
+        </div>
+        <div class="pass_container">
+          <van-field
+            placeholder="请输入密码"
+            :class="nother == true ? 'changBottom' : ''"
+            @focus="nother = true"
+            @blur="nother = false"
+            v-model="loginPass"
+          />
+        </div>
+        <div class="password_container">
+          <span @click="retrieve">找回密码</span>
+          <span @click="onClick">注册/验证码登录</span>
+        </div>
+      </div>
+    </div>
+    <!-- 注册页面 -->
+    <div class="logon_input_container" v-show="logonShow">
+      <div class="logon_input_wrapper">
+        <div class="logon_tel_container">
+          <van-field
+            placeholder="请输入手机号"
+            :class="active == true ? 'changBottom' : ''"
+            @focus="active = true"
+            @blur="active = false"
+            v-model="tel"
+          >
+            <template #button>
+              <span @click="getmsg" v-show="getCode">获取验证码</span>
+              <div class="time_box" v-show="timeOut">
+                获取验证码 (<van-count-down  :time="time"  format="ss" @finish="timeend" />)
+              </div>
+            </template>
+          </van-field>
+        </div>
+        <div class="logon_pass_container">
+          <van-field
+            placeholder="请输入短信验证码"
+            :class="nother == true ? 'changBottom' : ''"
+            @focus="nother = true"
+            @blur="nother = false"
+            v-model="msgCode"
+          />
+        </div>
+        <div class="logon_password_container">
+          <span>*未注册手机将自动注册</span>
+          <span @click="againClick">使用密码登录</span>
+        </div>
+      </div>
+    </div>
+    <div class="login_button_container">
+      <div class="login_button_wrapper">
+        <van-button
+          type="primary"
+          size="large"
+          round
+          color="linear-gradient(to right, #FF9349, #FC5500)"
+          @click="Signin"
+          >登录</van-button
+        >
+      </div>
+    </div>
+    <!-- 弹出框 -->
+    <div class="mes" v-show="show">
+      <span>手机号码格式不正确</span>
+    </div>
+  </div>
+</template>
+<script>
+import Vue from "vue";
+import { Field } from "vant";
+Vue.use(Field);
+import axios from "axios";
+export default {
+  data() {
+    return {
+      active: false,
+      nother: false,
+      loginShow: true,
+      logonShow: false,
+      tel: "",
+      show: false,
+      loginTel: "",
+      loginPass: "",
+      time: 60 * 1000,
+      timeOut:false,
+      getCode:true,
+      msgCode:''
+    };
+  },
+  methods: {
+    onClick() {
+      this.loginShow = false;
+      this.logonShow = true;
+    },
+    timeout(){
+      this.timeout=false
+    },
+    againClick() {
+      this.loginShow = true;
+      this.logonShow = false;
+    },
+    getmsg() {
+      var reg = /^((13[0-9])|(17[0-1,6-8])|(15[^4,\\D])|(18[0-9]))\d{8}$/;
+      if (this.tel == "" || !reg.test(this.tel)) {
+        this.show = true;
+        setTimeout(() => {
+          this.show = false;
+        }, 1500);
+        return;
+      }
+      this.getCode=false
+      this.timeOut=true
+      axios.post("http://120.53.31.103:84/api/app/smsCode",{
+          mobile: this.tel,
+          sms_type:'login'
+      }).then(res=>{
+        console.log(res);
+      })
+    },
+    retrieve() {
+      this.$router.push("/Retrieve");
+    },
+    Signin() {
+      axios
+        .post("http://120.53.31.103:84/api/app/login", {
+          mobile: this.loginTel,
+          password: this.loginPass,
+          type: 1,
+        })
+        .then((res) => {
+          console.log(res);
+        });
+    },
+    timeend(){
+      this.timeOut=false
+      this.getCode=true
+    }
+  },
+};
+</script>
+<style <style lang="scss">
+.login_pic_container {
+  width: 100%;
+  height: 20vh;
+  .login_pic_wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .pic_container {
+      width: 85%;
+      img {
+        width: 100%;
+      }
+    }
+  }
+}
+.login_input_container {
+  width: 100%;
+  height: 28vh;
+  // background-color: powderblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .login_input_wrapper {
+    width: 85%;
+    .tel_container {
+      border-bottom: 1px solid rgba(211, 211, 211, 0.308);
+      .van-field__control {
+        font-size: 16px;
+      }
+    }
+    .pass_container {
+      border-bottom: 1px solid rgba(211, 211, 211, 0.308);
+      .van-field__control {
+        font-size: 16px;
+      }
+    }
+    .password_container {
+      height: 6vh;
+      font-size: 13px;
+      color: #999;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+}
+.logon_input_container {
+  width: 100%;
+  height: 28vh;
+  // background-color: powderblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .logon_input_wrapper {
+    width: 85%;
+    .logon_tel_container {
+      border-bottom: 1px solid rgba(211, 211, 211, 0.308);
+      .van-field__control {
+        font-size: 16px;
+      }
+    }
+    .logon_pass_container {
+      border-bottom: 1px solid rgba(211, 211, 211, 0.308);
+      .van-field__control {
+        font-size: 16px;
+      }
+    }
+    .logon_password_container {
+      height: 6vh;
+      font-size: 13px;
+      color: #999;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+}
+.login_button_container {
+  width: 100%;
+  height: 10vh;
+  // background-color: lightsalmon;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .login_button_wrapper {
+    width: 85%;
+  }
+}
+.changBottom {
+  border-bottom: 1px solid #fc5500;
+}
+.mes {
+  width: 100%;
+  color: white;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 295px;
+  left: 0px;
+  span {
+    display: inline-block;
+    width: 45%;
+    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0.534);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+// .van-field__button{
+//   width: 20px;
+//   height: 10px;
+// }
+.time_box{
+  margin: 0;
+  padding: 0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  color: #999;
+  .van-count-down {
+    text-align: center;
+    height: 18px;
+    width: 20px;
+    font-size: 4px;
+    color: #999;
+}
+}
+
+</style>
