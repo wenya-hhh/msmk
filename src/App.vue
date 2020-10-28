@@ -1,16 +1,9 @@
 <template>
   <div id="app">
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <!-- <login></login> -->
-    <!-- <retrieve></retrieve> -->
-    <router-view></router-view>
-=======
-<<<<<<< HEAD
-=======
 
->>>>>>> a07d9695dd951f1e33ca4e729c665f1f9d1b8eb2
-   <router-view></router-view>
+    <router-view></router-view>
+
+   
 
    <!-- 留言 -->
     <p v-drag class="liuyan" @click="messageShow=!messageShow"><i style="" class="el-icon-message"></i></p>
@@ -37,17 +30,7 @@
 
    </div>
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-   <router-view></router-view>
-=======
-   <router-view/>
->>>>>>> 38a55e3f242d2fd2e1f79c9c0f746c69ce2ffebf
->>>>>>> cf079cacf9e9bdb7c7de6b83dcb2552f7b6d8dfc
->>>>>>> 1814c543eb8fb0a97702ff783856ea3653056503
-=======
->>>>>>> a07d9695dd951f1e33ca4e729c665f1f9d1b8eb2
+
   </div>
 </template>
 
@@ -55,32 +38,21 @@
 // import login from "../src/login/Login.vue";
 // import retrieve from "../src/login/Retrieve.vue";
 export default {
-<<<<<<< HEAD
+
   name: "app",
   components: {
     // login,
     // retrieve
+    
   },
+  data(){
+    return {
+      messageShow:false
+    }
+  }
 };
 </script>
 
-<style>
-body{
-  font-size: 16px;
-}
-*{
-  margin: 0;
-  padding: 0;
-=======
-  name: 'app',
-  data(){
-    return {
-      messageShow:false,
-    }
-  },
-  
-}
-</script>
 
 <style lang="scss">
 
@@ -184,15 +156,6 @@ body{
     border: 0;
     margin-top: 0.2rem;
   }
-<<<<<<< HEAD
-=======
-<style>
-html,body{
-  width: 100%;
-  height: 100%;
->>>>>>> cf079cacf9e9bdb7c7de6b83dcb2552f7b6d8dfc
->>>>>>> 1814c543eb8fb0a97702ff783856ea3653056503
-=======
->>>>>>> a07d9695dd951f1e33ca4e729c665f1f9d1b8eb2
+
 }
 </style>

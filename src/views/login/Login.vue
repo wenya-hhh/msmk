@@ -162,7 +162,7 @@ export default {
 <style <style lang="scss">
 .login_pic_container {
   width: 100%;
-  height: 20vh;
+  height: 1.52rem;
   .login_pic_wrapper {
     width: 100%;
     height: 100%;
@@ -179,7 +179,7 @@ export default {
 }
 .login_input_container {
   width: 100%;
-  height: 28vh;
+  height: 2.2rem;
   // background-color: powderblue;
   display: flex;
   justify-content: center;
@@ -187,20 +187,20 @@ export default {
   .login_input_wrapper {
     width: 85%;
     .tel_container {
-      border-bottom: 1px solid rgba(211, 211, 211, 0.308);
+      border-bottom: 0.01rem solid rgba(211, 211, 211, 0.308);
       .van-field__control {
-        font-size: 16px;
+        font-size: 0.16rem;
       }
     }
     .pass_container {
-      border-bottom: 1px solid rgba(211, 211, 211, 0.308);
+      border-bottom: 0.01rem solid rgba(211, 211, 211, 0.308);
       .van-field__control {
-        font-size: 16px;
+        font-size: 0.16rem;
       }
     }
     .password_container {
       height: 6vh;
-      font-size: 13px;
+      font-size: 0.13rem;
       color: #999;
       display: flex;
       justify-content: space-between;
@@ -218,20 +218,20 @@ export default {
   .logon_input_wrapper {
     width: 85%;
     .logon_tel_container {
-      border-bottom: 1px solid rgba(211, 211, 211, 0.308);
+      border-bottom: 0.01rem solid rgba(211, 211, 211, 0.308);
       .van-field__control {
-        font-size: 16px;
+        font-size: 0.16rem;
       }
     }
     .logon_pass_container {
-      border-bottom: 1px solid rgba(211, 211, 211, 0.308);
+      border-bottom: 0.01rem solid rgba(211, 211, 211, 0.308);
       .van-field__control {
-        font-size: 16px;
+        font-size: 0.16rem;
       }
     }
     .logon_password_container {
       height: 6vh;
-      font-size: 13px;
+      font-size: 0.13rem;
       color: #999;
       display: flex;
       justify-content: space-between;
@@ -251,21 +251,21 @@ export default {
   }
 }
 .changBottom {
-  border-bottom: 1px solid #fc5500;
+  border-bottom: 0.01rem solid #fc5500;
 }
 .mes {
   width: 100%;
   color: white;
-  height: 25px;
+  height: 0.25rem;
   display: flex;
   justify-content: center;
   position: fixed;
-  top: 295px;
+  top:2.95rem;
   left: 0px;
   span {
     display: inline-block;
     width: 45%;
-    font-size: 16px;
+    font-size: 0.16rem;
     background-color: rgba(0, 0, 0, 0.534);
     display: flex;
     justify-content: center;
@@ -279,15 +279,15 @@ export default {
 .time_box{
   margin: 0;
   padding: 0;
-  height: 40px;
+  height: 0.4rem;
   display: flex;
   align-items: center;
   color: #999;
   .van-count-down {
     text-align: center;
-    height: 18px;
-    width: 20px;
-    font-size: 4px;
+    height: 0.18rem;
+    width: 0.2rm;
+    font-size: 0.04rem;
     color: #999;
 }
 }
