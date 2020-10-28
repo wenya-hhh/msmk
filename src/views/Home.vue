@@ -1,22 +1,24 @@
 <template>
-<<<<<<< HEAD
-    <div class="home">
-         <div class="content">
-
-             <router-view></router-view>
-
-         </div>    
-
-         <!-- 底部组件 -->
-        <Footer></Footer>
+  <div class="home">
+    <div class="content">
+      <router-view></router-view>
+      
     </div>
+
+    <!-- 底部组件 -->
+    <footer class="footer">
+         <app-footer></app-footer>
+    </footer>
+   
+  </div>
 </template>
 
 <script>
-import Footer from "@/components/Footer"
+import appFooter from "@/components/Footer"
 export default {
+    name:"Home",
     components:{
-       Footer
+       appFooter
     },
     data() {
         return {
@@ -32,6 +34,7 @@ export default {
     methods: {
 
     }
+<<<<<<< HEAD
 };
 =======
   <div class="home">
@@ -68,20 +71,13 @@ export default {
 >>>>>>> 1814c543eb8fb0a97702ff783856ea3653056503
 }
 >>>>>>> cf079cacf9e9bdb7c7de6b83dcb2552f7b6d8dfc
+=======
+};   
+>>>>>>> a07d9695dd951f1e33ca4e729c665f1f9d1b8eb2
 </script>
-
 <style lang="scss" scoped>
-.home{
- width: 100%;
- height: 100%;
- display: flex;
- flex-direction: column;
-}
-.content{
- 
- flex: 1;
- background:#F0F2F5 ;
- overflow: auto;
-
+.footer{
+    width:100%;
+    height: 0.55rem;
 }
 </style>

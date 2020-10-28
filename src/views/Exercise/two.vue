@@ -1,6 +1,6 @@
 <template>
     <div>
-        <NavigationBar></NavigationBar>
+        <!-- <NavigationBar></NavigationBar> -->
         <!-- 下拉菜单 -->
         <van-dropdown-menu>
   <van-dropdown-item v-model="value1" :options="option1" />

@@ -1,11 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Home from '../views/Home.vue'
 import login from '../views/login/Login.vue'
 import retrieve from '../views/login/Retrieve.vue'
 =======
 // import Home from '../views/Home.vue'
+=======
+>>>>>>> a07d9695dd951f1e33ca4e729c665f1f9d1b8eb2
 import Home from "@/views/Home"
 import Index from "@/components/Index"
 import Couser from "@/components/Couser"
@@ -42,9 +45,18 @@ const routes = [
           component:Index
         },
         {
-          path:"/couser",  //课程路由
-          name:"couser",
-          component:Couser
+          path: '/couser',  //课程路由
+          name: 'Couser', 
+          component: function () {
+            return import('../views/Couser/Couser.vue')
+          },
+          children:[
+            // {
+            //   path:'text',
+            //   name:"text",
+            //   component:
+            // }
+          ]
         },
         {
           path:"/lar",  //约课记录路由
@@ -52,9 +64,11 @@ const routes = [
           component:Lar
         },
         {
-          path:"/exercise",  //练习路由
-          name:"exercise",
-          component:Exercise
+          path: '/exercise',
+          name: 'exercise',
+          component: function () {
+            return import( '../views/Exercise/Exercise_index.vue')
+          },
         },
         {
           path:"/my",  //我的路由
@@ -63,6 +77,7 @@ const routes = [
         },
 
     ]
+<<<<<<< HEAD
 >>>>>>> 1814c543eb8fb0a97702ff783856ea3653056503
   },
 <<<<<<< HEAD
@@ -97,25 +112,23 @@ const routes = [
       return import('../views/kc/couser.vue')
     }
   },
+=======
+  }, 
+ 
+>>>>>>> a07d9695dd951f1e33ca4e729c665f1f9d1b8eb2
   {
     path: '/text',
     name: 'Text',
     component: function () {
-      return import('../views/kc/text.vue')
+      return import('../views/Couser/Test.vue')
     }
   },
-  {
-    path: '/exercise',
-    name: 'exercise',
-    component: function () {
-      return import( '../views/exercise.vue')
-    },
-  },
+  
 
     {
       path:'/one',
       name:"one",
-      component:()=>import('../views/myexercise/one.vue'),
+      component:()=>import('../views/Exercise/one.vue'),
       meta:{
         isShowNav:true,
         title:"考点专练"
@@ -124,7 +137,7 @@ const routes = [
     {
       path:'/two',
       name:"two",
-      component:()=>import('../views/myexercise/two.vue'),
+      component:()=>import('../views/Exercise/two.vue'),
       meta:{
         isShowNav:true,
         title:"套卷练习"
@@ -133,7 +146,7 @@ const routes = [
     {
       path:'/three',
       name:"three",
-      component:()=>import('../views/myexercise/three.vue'),
+      component:()=>import('../views/Exercise/three.vue'),
       meta:{
         isShowNav:true,
         title:"仿真模考"
@@ -142,7 +155,7 @@ const routes = [
     {
       path:'/four',
       name:"four",
-      component:()=>import('../views/myexercise/four.vue'),
+      component:()=>import('../views/Exercise/four.vue'),
       meta:{
         isShowNav:true,
         title:"错题练习"
@@ -151,7 +164,7 @@ const routes = [
     {
       path:'/five',
       name:"five",
-      component:()=>import('../views/myexercise/five.vue'),
+      component:()=>import('../views/Exercise/five.vue'),
       meta:{
         isShowNav:true,
         title:"测评记录"
@@ -160,7 +173,7 @@ const routes = [
     {
       path:'/six',
       name:"six",
-      component:()=>import('../views/myexercise/six.vue'),
+      component:()=>import('../views/Exercise/six.vue'),
       meta:{
         isShowNav:true,
         title:"习题收藏"
@@ -168,8 +181,11 @@ const routes = [
     },
     
   
+<<<<<<< HEAD
 >>>>>>> cf079cacf9e9bdb7c7de6b83dcb2552f7b6d8dfc
 >>>>>>> 1814c543eb8fb0a97702ff783856ea3653056503
+=======
+>>>>>>> a07d9695dd951f1e33ca4e729c665f1f9d1b8eb2
 ]
 
 const router = new VueRouter({

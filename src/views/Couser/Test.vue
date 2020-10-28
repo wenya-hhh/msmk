@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="Test">
     <!-- 头部 -->
     <van-sticky>
       <header>
@@ -130,12 +130,12 @@ export default {
       // 课程内容
       let { data } = await first("/courseInfo/basis_id=" + this.id);
       console.log(this.id, data);
-      this.arr = data.info;
-      this.arr1 = data.teachers;
+      this.arr = data.data.info;
+      this.arr1 = data.data.teachers;
       // 课程大纲
       let { data: res } = await two("/courseChapter", { id: this.id });
       console.log(res);
-      this.arr3 = res;
+      this.arr3 = res.data;
       // 课程评论
       let { data: lun } = await treen("/courseComment", {
         page: 1,
@@ -143,7 +143,7 @@ export default {
         id: this.id
       });
       console.log(lun);
-      this.arr4 = lun.list;
+      this.arr4 = lun.data.list;
     }
   },
   /**
@@ -179,12 +179,12 @@ export default {
 <!--然而子组件的根节点元素会同时被设置了scoped的父css样式和设置了scoped的子css样式影响，-->
 <!--这么设计的目的是父组件可以对子组件根元素进行布局。-->
 <style scoped lang="scss">
-html,
-body,
-#app {
+
+#Test {
   width: 100%;
   height: 100%;
   background: #f0f2f5;
+  overflow: auto;
 }
 // 头部布局
 header {

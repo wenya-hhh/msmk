@@ -1,11 +1,15 @@
 <template>
   <div id="app">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <!-- <login></login> -->
     <!-- <retrieve></retrieve> -->
     <router-view></router-view>
 =======
 <<<<<<< HEAD
+=======
+
+>>>>>>> a07d9695dd951f1e33ca4e729c665f1f9d1b8eb2
    <router-view></router-view>
 
    <!-- 留言 -->
@@ -33,6 +37,7 @@
 
    </div>
 
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
    <router-view></router-view>
@@ -41,6 +46,8 @@
 >>>>>>> 38a55e3f242d2fd2e1f79c9c0f746c69ce2ffebf
 >>>>>>> cf079cacf9e9bdb7c7de6b83dcb2552f7b6d8dfc
 >>>>>>> 1814c543eb8fb0a97702ff783856ea3653056503
+=======
+>>>>>>> a07d9695dd951f1e33ca4e729c665f1f9d1b8eb2
   </div>
 </template>
 
@@ -75,7 +82,6 @@ body{
 }
 </script>
 
-<<<<<<< HEAD
 <style lang="scss">
 
 .liuyan{
@@ -178,6 +184,7 @@ body{
     border: 0;
     margin-top: 0.2rem;
   }
+<<<<<<< HEAD
 =======
 <style>
 html,body{
@@ -185,5 +192,7 @@ html,body{
   height: 100%;
 >>>>>>> cf079cacf9e9bdb7c7de6b83dcb2552f7b6d8dfc
 >>>>>>> 1814c543eb8fb0a97702ff783856ea3653056503
+=======
+>>>>>>> a07d9695dd951f1e33ca4e729c665f1f9d1b8eb2
 }
 </style>

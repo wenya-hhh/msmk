@@ -1,7 +1,7 @@
 <template>
     <div>
-        <NavigationBar></NavigationBar>
-        错题练习
+        <!-- <NavigationBar></NavigationBar> -->
+        习题收藏
     </div>
 </template>
 <script>
