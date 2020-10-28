@@ -88,7 +88,7 @@
       </div>
     </section>
   </div>
-</template>p
+</template>
 
 <script>
 import { all } from "../../utils/api";
@@ -119,7 +119,8 @@ export default {
     async ajax() {
       let { data } = await all({ page: this.page, limit: this.limit });
       console.log(data);
-      this.arr = data.list;
+      this.arr = data.data.list;
+      console.log(data.data.list)
     }
   },
   filters: {

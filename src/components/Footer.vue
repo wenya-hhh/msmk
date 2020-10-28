@@ -70,6 +70,7 @@ export default {
 .footer-content{
     width: 100%;
     height: 0.55rem;
+    z-index: 9999;
     display: flex;
     justify-content: space-around;
     align-items: center;

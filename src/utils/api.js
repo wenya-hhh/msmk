@@ -1,5 +1,5 @@
 import axios from "./request.js"
-
+import http from "axios"
 
 export function gets(url, data) {
 
@@ -17,17 +17,17 @@ export function post(url, data) {
 
 // 课程首页的数据
 export function all(type,pages) {
-    return axios.get('/courseBasis',pages)
+    return http.get('https://www.365msmk.com/api/app/courseBasis',pages)
 }
 // 课程列表页的数据
 export function first(type,pages) {
-    return axios.get(type,pages)
+    return http.get('https://www.365msmk.com/api/app'+type,pages)
 }
 // 课程大纲的数据
 export function two(type,pages) {
-    return axios.post(type,pages)
+    return http.post('https://www.365msmk.com/api/app'+type,pages)
 }
 // 课程评论的数据
 export function treen(type,pages) {
-    return axios.post(type,pages)
+    return http.post('https://www.365msmk.com/api/app'+type,pages)
 }

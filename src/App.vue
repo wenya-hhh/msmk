@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-<<<<<<< HEAD
+
    <router-view></router-view>
 
    <!-- 留言 -->
@@ -28,13 +28,6 @@
 
    </div>
 
-=======
-<<<<<<< HEAD
-   <router-view></router-view>
-=======
-   <router-view/>
->>>>>>> 38a55e3f242d2fd2e1f79c9c0f746c69ce2ffebf
->>>>>>> cf079cacf9e9bdb7c7de6b83dcb2552f7b6d8dfc
   </div>
 </template>
 
@@ -51,7 +44,6 @@ export default {
 }
 </script>
 
-<<<<<<< HEAD
 <style lang="scss">
 
 .liuyan{
@@ -154,11 +146,5 @@ export default {
     border: 0;
     margin-top: 0.2rem;
   }
-=======
-<style>
-html,body{
-  width: 100%;
-  height: 100%;
->>>>>>> cf079cacf9e9bdb7c7de6b83dcb2552f7b6d8dfc
 }
 </style>

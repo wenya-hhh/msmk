@@ -1,6 +1,7 @@
 <template>
   <div>
-    <NavigationBar></NavigationBar>
+    <!-- 头部组件 -->
+    <NavigationBar></NavigationBar> 
     <!-- 搜索栏 -->
     <van-search v-model="value" placeholder="请输入搜索关键词" height="1rem" />
     <!-- 侧边导航 -->
@@ -19,12 +20,14 @@
   </van-col>
 </van-row>
     
-    </div>
+ 
   </div>
 </template>
 <script>
-import NavigationBar from "./../../components/navigation/NavigationBar";
+import axios from "axios"
+import NavigationBar from "@/components/navigation/NavigationBar";
 export default {
+ name:"one",
   components: {
     NavigationBar,
   },
@@ -45,14 +48,14 @@ export default {
   computed:{
 
       listInfo(){
-
+           console.log(this.list)
            let data = this.list.filter((res)=>{
                return res.id==this.type
            })
 
-           console.log(data[0].children)
+           console.log(data)
 
-           return data[0].children
+           return data.children
 
       }
 
@@ -60,9 +63,9 @@ export default {
   methods: {
       /* 侧边栏数据 */
   async  getlist() {
-       let {data} = await this.$axios.get("/list.json")
-        console.log(data);
-        this.list = data;
+       let {data} = await axios.get("http://localhost:8080/list.json")
+        console.log(data.data);
+        this.list = data.data;
     
     },
   
