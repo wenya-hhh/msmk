@@ -73,7 +73,7 @@ const routes = [{
 
       {
         path: '/couser', //课程路由
->>>>>>> 788e2ef135d2cb4698c0315c3bdb8dd5407e8cce
+>>>>>>> 788e2ef135d2cb4698c0315c3bdb8dd5407e8cce 
         name: 'Couser',
         component: function () {
           return import('../views/Couser/Couser.vue')
