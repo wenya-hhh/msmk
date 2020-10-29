@@ -46,9 +46,9 @@
             v-model="tel"
           >
             <template #button>
-              <span @click="getmsg" v-show="getCode">获取验证码</span>
+              <span @click="getmsg" v-show="getCode" >获取验证码</span>
               <div class="time_box" v-show="timeOut">
-                获取验证码 (<van-count-down  :time="time"  format="ss" @finish="timeend" />)
+                获取验证码 (<van-count-down ref="countDown" :time="time"  format="ss" @finish="timeend" :auto-start="false" />)
               </div>
             </template>
           </van-field>
@@ -68,7 +68,7 @@
         </div>
       </div>
     </div>
-    <div class="login_button_container">
+    <div class="login_button_container"  v-show="loginShow">
       <div class="login_button_wrapper">
         <van-button
           type="primary"
@@ -77,6 +77,18 @@
           color="linear-gradient(to right, #FF9349, #FC5500)"
           @click="Signin"
           >登录</van-button
+        >
+      </div>
+    </div>
+     <div class="login_button_container" v-show="logonShow">
+      <div class="login_button_wrapper">
+        <van-button
+          type="primary"
+          size="large"
+          round
+          color="linear-gradient(to right, #FF9349, #FC5500)"
+          @click="logondenglu"
+          >注册</van-button
         >
       </div>
     </div>
@@ -91,6 +103,7 @@ import Vue from "vue";
 import { Field } from "vant";
 Vue.use(Field);
 import axios from "axios";
+import {phoneTest}from '@/plugins/phoneTest.js'
 export default {
   data() {
     return {
@@ -105,31 +118,40 @@ export default {
       time: 60 * 1000,
       timeOut:false,
       getCode:true,
-      msgCode:''
+      msgCode:'',
+      showtime:false
     };
   },
   methods: {
+    // 点击注册登录按钮，注册页面显示，登录页面隐藏
     onClick() {
       this.loginShow = false;
       this.logonShow = true;
     },
-    timeout(){
-      this.timeout=false
-    },
+    // 
+    // timeout(){
+    //   this.timeout=false
+    // },
+    //点击使用密码登录，登录页面显示，注册页面隐藏
     againClick() {
       this.loginShow = true;
       this.logonShow = false;
     },
+    // 点击获取验证码按钮
     getmsg() {
-      var reg = /^((13[0-9])|(17[0-1,6-8])|(15[^4,\\D])|(18[0-9]))\d{8}$/;
-      if (this.tel == "" || !reg.test(this.tel)) {
+     
+      if (this.tel == "" || !phoneTest(this.tel)) {
         this.show = true;
         setTimeout(() => {
           this.show = false;
         }, 1500);
         return;
       }
+      // 验证码倒计时
+      this.$refs.countDown.start();
+      // 验证码第一个样式消失
       this.getCode=false
+      // 验证码第二个样式出现
       this.timeOut=true
       axios.post("http://120.53.31.103:84/api/app/smsCode",{
           mobile: this.tel,
@@ -138,9 +160,11 @@ export default {
         console.log(res);
       })
     },
+    // 点击找回密码跳转该页面
     retrieve() {
       this.$router.push("/Retrieve");
     },
+    // 点击首页面登录请求接口
     Signin() {
       axios
         .post("http://120.53.31.103:84/api/app/login", {
@@ -152,9 +176,27 @@ export default {
           console.log(res);
         });
     },
+    // 点击注册页面的登录
+    logondenglu(){
+        axios.post(" http://120.53.31.103:84/api/app/login",{
+          mobile:this.tel,
+          sms_code:this.msgCode,
+          client:1,
+          type:2
+        }).then(res=>{
+          console.log(res);
+          if(res.data.msg==="操作成功"){
+            window.localStorage.setItem('Token',res.data.data.mobile)
+            this.$router.push('/setPass')
+            console.log(111111);
+          }
+        })
+    },
+    // 倒计时结束时触发样式改变
     timeend(){
       this.timeOut=false
       this.getCode=true
+      this.$refs.countDown.reset();
     }
   },
 };
