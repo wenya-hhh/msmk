@@ -88,7 +88,8 @@
       </div>
     </section>
     <!-- 尾部立即报名 -->
-    <footer>立即报名</footer>
+    <footer @click="bao()" v-show="kai">立即报名</footer>
+    <footer @click="xue()" v-show="!kai">立即学习</footer>
   </div>
 </template>
 <script>
@@ -103,6 +104,7 @@ export default {
   // 组件状态值
   data() {
     return {
+      kai:true,
       top: 0,
       flag: true,
       id: this.$route.query.id, //传过来的id
@@ -120,6 +122,12 @@ export default {
   watch: {},
   // 组件方法
   methods: {
+    bao(){
+      this.kai = false;
+    },
+    xue(){
+      this.$router.push('/xuexi')
+    },
     async ajax() {
       // 课程内容
       let { data } = await first("/courseInfo/basis_id=" + this.id);
@@ -140,7 +148,12 @@ export default {
       this.arr4 = lun.data.list;
     },
     goto(id){
-      this.$router.push('/teacher?id='+id)
+      if(localStorage.Token){
+ this.$router.push('/teacher?id='+id)
+      }else{
+         this.$router.push('/login')
+      }
+      
     },
   },
   created() {},

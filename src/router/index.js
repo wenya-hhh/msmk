@@ -19,9 +19,11 @@ const routes = [{
           name:"Index",
           component: function () {
             return import('../components/Index.vue')
-          },
+          }, 
+          meta:{
+            title:'每时每课'
+          }
         },
-     
       {
         path:"/my",
         name:"my",
@@ -46,13 +48,18 @@ const routes = [{
           component: function () {
             return import('../components/Couser/Couser.vue')
           },
-        
+          meta:{
+            title:'特色课'
+          }
         },
      
       {
         path: "/lar", //约课记录路由
         name: "Lar",
-        component: Lar
+        component: Lar,
+        meta:{
+          title:'约课记录'
+        }
       },
       {
         path: '/exercise',
@@ -60,6 +67,9 @@ const routes = [{
         component: function () {
           return import('../views/Exercise/Exercise_index.vue')
         },
+        meta:{
+          title:'个人中心'
+        }
       },
     ]
 
@@ -172,14 +182,27 @@ const routes = [{
     name: 'Teacher',
     component: function () {
       return import('../components/Couser/Teacher.vue')
-    }
+    },
+    // meta: {
+    //   isShowNav: true,
+    //   isShowLeft:true,
+    //   isShowRight:false,
+    //   title: "讲师详情"
+    // }
   },
   {
     path: '/yuyue',
     name: 'Yuyue',
     component: function () {
       return import('../components/Couser/Yuyue.vue')
-    }
+    },
+  },
+  {
+    path: '/xuexi',
+    name: 'Xuexi',
+    component: function () {
+      return import('../components/Couser/Xuexi.vue')
+    },
   },
  
 
