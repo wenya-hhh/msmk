@@ -165,7 +165,7 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
-        border-bottom: 1px solid #f0f2f5;
+        border-bottom: 0.01rem solid #f0f2f5;
     }
 }
 </style>

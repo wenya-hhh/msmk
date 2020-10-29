@@ -28,7 +28,7 @@ const routes = [
         path: '/my',  //我的路由
         name: 'My',
         component: function () {
-          return import('../components/My.vue')},
+          return import('../components/my.vue')},
         // var token=window.localStorage.getItem('Token')
         beforeEnter(to,from,next){
           console.log(to,from,next)
