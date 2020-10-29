@@ -1,10 +1,34 @@
-html,body{
+html {
     width: 100%;
     height: 100%;
-    font-size: 0.16rem;
-    /* background: red; */
 }
-*{
+
+body {
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    /* overflow: hidden; */
+}
+* {
     margin: 0;
     padding: 0;
+    list-style: none;
+    box-sizing: border-box;
+}
+.home {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.content {
+    flex: 1;
+    background: #F0F2F5;
+    overflow: auto;
 }
