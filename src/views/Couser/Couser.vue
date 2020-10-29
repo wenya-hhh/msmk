@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <van-sticky>
+  <div class="couser">
+    <header>
       <!-- 标题导航栏 -->
       <van-nav-bar title="特色课">
         <template #right>
@@ -66,10 +66,16 @@
           </div>
         </van-dropdown-item>
       </van-dropdown-menu>
-    </van-sticky>
+    </header>
     <!-- 中间课程 -->
     <section>
-      <div class="list" v-for="(item,index) in arr" :key="index" @click="$router.push('/text?id='+item.id)">
+      <div class="con">
+      <div
+        class="list"
+        v-for="(item,index) in arr"
+        :key="index"
+        @click="$router.push('/test?id='+item.id)"
+      >
         <p>{{item.title}}</p>
         <div class="time">
           <van-icon name="clock-o" style="margin-right:0.1rem" />
@@ -78,13 +84,14 @@
           <span>共{{item.total_periods}}课时</span>
         </div>
         <div class="tou" v-for="(i,k) in item.teachers_list" :key="k">
-          <img :src="i.teacher_avatar" alt="">
+          <img :src="i.teacher_avatar" alt />
           <span>{{i.teacher_name}}</span>
         </div>
         <p class="section_p">
           <span>{{item.sales_num}}人已报名</span>
           <span style="color:green;font-size:0.18rem">免费</span>
         </p>
+      </div>
       </div>
     </section>
   </div>
@@ -120,7 +127,11 @@ export default {
       let { data } = await all({ page: this.page, limit: this.limit });
       console.log(data);
       this.arr = data.data.list;
-      console.log(data.data.list)
+      console.log(data.data.list);
+    },
+    handleScrollx() {
+      // console.log('滚动高度', window.pageYOffset)
+      // console.log( this.$refs.content.scrollTop)
     }
   },
   filters: {
@@ -143,14 +154,13 @@ export default {
         .getMinutes()
         .toString()
         .padStart(2, "0");
-      return (
-        month + "月" + day + "日" +" "+ hour + ":" + minute
-      );
+      return month + "月" + day + "日" + " " + hour + ":" + minute;
     }
   },
   created() {},
   mounted() {
     this.ajax();
+    window.addEventListener("scroll", this.handleScrollx, true);
   },
   updated() {},
   activated() {},
@@ -158,48 +168,60 @@ export default {
 };
 </script> 
 <style scoped lang="scss">
+.couser {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  // overflow: auto;
+}
+header{
+  width: 100%;
+  height: 1rem;
+}
 // 分类布局
 .box {
   padding-left: 0.2rem;
   padding-bottom: 0.1rem;
-}
-.top {
-  padding-bottom: 0.1rem;
-  border-bottom: 1px solid #f1f1f1;
-  p {
-    padding: 0.1rem 0 0.1rem;
-    font-size: 0.16rem;
-    color: #595959;
-  }
-  .s {
-    display: flex;
-    flex-wrap: wrap;
-    span {
-      display: block;
-      margin-right: 0.23rem;
-      margin-bottom: 0.2rem;
-      width: 19%;
-      height: 0.4rem;
-      background: #f5f5f5;
-      font-size: 0.12rem;
-      text-align: center;
-      line-height: 0.4rem;
+  .top {
+    padding-bottom: 0.1rem;
+    border-bottom: 1px solid #f1f1f1;
+    p {
+      padding: 0.1rem 0 0.1rem;
+      font-size: 0.16rem;
       color: #595959;
+    }
+    .s {
+      display: flex;
+      flex-wrap: wrap;
+      span {
+        display: block;
+        margin-right: 0.23rem;
+        margin-bottom: 0.2rem;
+        width: 19%;
+        height: 0.4rem;
+        background: #f5f5f5;
+        font-size: 0.12rem;
+        text-align: center;
+        line-height: 0.4rem;
+        color: #595959;
+      }
+    }
+  }
+  .bt {
+    box-sizing: border-box;
+    padding: 0.1rem 0.1rem 0;
+    display: flex;
+    justify-content: space-between;
+    button {
+      width: 48%;
+      background: white;
+      height: 0.4rem;
+      border: none;
     }
   }
 }
-.bt {
-  box-sizing: border-box;
-  padding: 0.1rem 0.1rem 0;
-  display: flex;
-  justify-content: space-between;
-  button {
-    width: 48%;
-    background: white;
-    height: 0.4rem;
-    border: none;
-  }
-}
+
 // 排序布局
 ul {
   display: flex;
@@ -237,7 +259,11 @@ ul {
   }
 }
 // 中间课程布局
-section {
+section{
+  flex: 1;
+  overflow: auto;
+}
+.con {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
@@ -260,20 +286,20 @@ section {
       font-size: 0.12rem;
       color: #666666;
     }
-    .tou{
+    .tou {
       width: 0.8rem;
       height: 0.7rem;
       display: flex;
       font-size: 0.12rem;
       align-items: center;
-       color: #666666;
-      img{
+      color: #666666;
+      img {
         width: 0.3rem;
         height: 0.3rem;
         margin-right: 0.1rem;
       }
     }
-    .section_p{
+    .section_p {
       width: 100%;
       height: 0.5rem;
       // background: red;
@@ -281,9 +307,9 @@ section {
       justify-content: space-between;
       align-items: center;
       border-top: 1px solid #f0f2f5;
-      span{
+      span {
         font-size: 0.12rem;
-        color:#666666;
+        color: #666666;
       }
     }
   }
