@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+<<<<<<< HEAD
+   <router-view/>
+=======
 
     <router-view></router-view>
 
@@ -31,6 +34,7 @@
    </div>
 
 
+>>>>>>> 41613f16fef5c084bac89b7dcc16fd46eccd6c97
   </div>
 </template>
 

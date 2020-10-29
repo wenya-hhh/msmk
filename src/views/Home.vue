@@ -1,5 +1,9 @@
 <template>
   <div class="home">
+<<<<<<< HEAD
+  <!-- home -->
+  <couser/>
+=======
     <div class="content">
       <router-view></router-view>
       
@@ -10,12 +14,20 @@
          <app-footer></app-footer>
     </div>
    
+>>>>>>> 41613f16fef5c084bac89b7dcc16fd46eccd6c97
   </div>
 </template>
 
 <script>
 import appFooter from "@/components/Footer"
 export default {
+<<<<<<< HEAD
+  name: 'Home',
+  
+  components: {
+   couser
+  }
+=======
     name:"Home",
     components:{
        appFooter
@@ -35,6 +47,7 @@ export default {
 
     }
 
+>>>>>>> 41613f16fef5c084bac89b7dcc16fd46eccd6c97
 }
 </script>
 
