@@ -65,6 +65,9 @@ const routes = [
           component: function () {
             return import( '../views/Exercise/Exercise_index.vue')
           },
+        
+            
+
         },
       ]
 
@@ -89,15 +92,26 @@ const routes = [
       return import('../views/Couser/Test.vue')
     }
   },
-  
-
+  {
+    path:'/oneElect',
+    name:"one_elect",
+    component:()=>import('../views/Exercise/one_elect.vue'),
+    meta:{
+      isShowNav:true,//判断头部是否显示
+      isShowLeft:true,//判断左边返回按钮
+      isShowRight:false,//判断右边按钮
+      title:"数学"//头部标题
+    }
+  },
     {
       path:'/one',
       name:"one",
       component:()=>import('../views/Exercise/one.vue'),
       meta:{
-        isShowNav:true,
-        title:"考点专练"
+        isShowNav:true,//判断头部是否显示
+        isShowLeft:true,//判断左边返回按钮
+        isShowRight:true,//判断右边按钮
+        title:"考点专练"//头部标题
       }
     },
     {
@@ -105,7 +119,9 @@ const routes = [
       name:"two",
       component:()=>import('../views/Exercise/two.vue'),
       meta:{
-        isShowNav:true,
+        isShowNav:true,//判断头部是否显示
+        isShowLeft:true,//判断左边返回按钮
+        isShowRight:true,//判断右边按钮
         title:"套卷练习"
       }
     },
@@ -114,7 +130,9 @@ const routes = [
       name:"three",
       component:()=>import('../views/Exercise/three.vue'),
       meta:{
-        isShowNav:true,
+        isShowNav:true,//判断头部是否显示
+        isShowLeft:true,//判断左边返回按钮
+        isShowRight:true,//判断右边按钮
         title:"仿真模考"
       }
     },
@@ -123,16 +141,21 @@ const routes = [
       name:"four",
       component:()=>import('../views/Exercise/four.vue'),
       meta:{
-        isShowNav:true,
+        isShowNav:true,//判断头部是否显示
+        isShowLeft:true,//判断左边返回按钮
+        isShowRight:true,//判断右边按钮
         title:"错题练习"
-      }
+      },
+
     },
     {
       path:'/five',
       name:"five",
       component:()=>import('../views/Exercise/five.vue'),
       meta:{
-        isShowNav:true,
+        isShowNav:true,//判断头部是否显示
+        isShowLeft:true,//判断左边返回按钮
+        isShowRight:true,//判断右边按钮
         title:"测评记录"
       }
     },
@@ -141,10 +164,24 @@ const routes = [
       name:"six",
       component:()=>import('../views/Exercise/six.vue'),
       meta:{
-        isShowNav:true,
+        isShowNav:true,//判断头部是否显示
+        isShowLeft:true,//判断左边返回按钮
+        isShowRight:true,//判断右边按钮
         title:"习题收藏"
       }
     },
+    //练习题库里的搜索
+    {
+      path:'/exerciseSearch',
+      name:"exercise_search",
+      component:()=>import('../views/Exercise/exercise_search.vue'),
+    },
+    //练习题four全部考题
+    {
+      path:'/fourAll',
+      name:"four_all",
+      component:()=>import('../views/Exercise/four_all.vue'),
+    }
     
 ]
 
