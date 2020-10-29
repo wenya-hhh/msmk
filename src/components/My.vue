@@ -54,7 +54,7 @@
                 alt=""
               />
             </div>
-            <p>关注的老师</p>
+            <p @click="toMyAttention()">关注的老师</p>
           </div>
           <div class="course_icon_wrapper">
             <div class="icon">
@@ -63,7 +63,7 @@
                 alt=""
               />
             </div>
-            <p>关注的老师</p>
+            <p @click="$router.push('/my-collect')">我的收藏</p>
           </div>
         </div>
       </div>
@@ -189,9 +189,29 @@
   </div>
 </template>
 <script>
-export default {};
+// import func from '../../vue-temp/vue-editor-bridge';
+export default {
+  name:"My",
+  data(){
+    return {
+
+    };
+  },
+
+  methods:{
+   
+   toMyAttention(){
+      
+      this.$router.push("/my-attention")
+
+   }
+
+
+  }
+};
 </script>
-<style lang="scss">
+
+<style lang="scss" scoped>
 .my_container {
   width: 100%;
   .null_container {
@@ -330,10 +350,10 @@ export default {};
       .course_icon_container {
         width: 90%;
         display: flex;
-        justify-content: space-around;
+        
         align-items: center;
         .course_icon_wrapper {
-          width: 40%;
+          width: 0.93rem;
           // background-color: lightpink;
           display: flex;
           justify-content: center;
@@ -342,7 +362,7 @@ export default {};
           font-size: 0.12rem;
           color: rgb(39, 40, 41);
           .icon {
-            width: 100%;
+            width: 0.92rem;
             display: flex;
             justify-content: center;
             align-items: center;

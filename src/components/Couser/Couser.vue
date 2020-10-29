@@ -69,6 +69,8 @@
     </header>
     <!-- 中间课程 -->
     <section>
+      <div class="con">
+
       <div class="list" v-for="(item,index) in arr" :key="index" @click="$router.push('/couserDetail?id='+item.id)">
         <p>{{item.title}}</p>
         <div class="time">
@@ -85,6 +87,7 @@
           <span>{{item.sales_num}}人已报名</span>
           <span style="color:green;font-size:0.18rem">免费</span>
         </p>
+      </div>
       </div>
      
     </section>
@@ -161,6 +164,8 @@ export default {
   deactivated() {}
 };
 </script> 
+
+
 <style scoped lang="scss">
 .couser {
   width: 100%;

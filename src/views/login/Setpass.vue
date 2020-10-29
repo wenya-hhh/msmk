@@ -30,7 +30,7 @@
           size="large"
           round
           color="linear-gradient(to right, #FF9349, #FC5500)"
-          >登录</van-button
+          >确认</van-button
         >
       </div>
     </div>

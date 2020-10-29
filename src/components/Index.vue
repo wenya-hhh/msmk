@@ -400,13 +400,15 @@ export default {
     > :nth-child(4) {
       display: flex;
       width: 100%;
+      align-items: center;
       height: 0.48rem;
       justify-content: space-between;
       border-top: 0.01rem solid #f9f9f9;
       > :nth-child(1) {
         width: 2.93rem;
         height: 0.48rem;
-        align-items: 0.48rem;
+        display: flex;
+        align-items: center;
       }
     }
   }
@@ -415,7 +417,7 @@ export default {
   //免费
   width: 0.53rem;
   height: 0.48rem;
-  align-items: 0.48rem;
+  line-height: 0.48rem;
   img {
     width: 0.13rem;
     height: 0.14rem;

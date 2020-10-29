@@ -4,6 +4,8 @@ import login from '../views/login/Login.vue'
 import retrieve from '../views/login/Retrieve.vue'
 import Lar from "@/components/Lar"
 
+
+
 Vue.use(VueRouter)
 
 const routes = [{
@@ -20,11 +22,17 @@ const routes = [{
           component: function () {
             return import('../components/Index.vue')
           },
+          meta:{
+            title:"首页"
+          }
         },
      
       {
         path:"/my",
         name:"my",
+        meta:{
+          title:"我的"
+        },
         component: function () {
           return import('../components/My.vue')},
         // var token=window.localStorage.getItem('Token')
@@ -43,6 +51,9 @@ const routes = [{
         {
           path: '/couser',  //课程路由
           name: 'Couser', 
+          meta:{
+            title:"课程"
+          },
           component: function () {
             return import('../components/Couser/Couser.vue')
           },
@@ -52,11 +63,17 @@ const routes = [{
       {
         path: "/lar", //约课记录路由
         name: "Lar",
-        component: Lar
+        component: Lar,
+        meta:{
+          title:"约课记录"
+        },
       },
       {
-        path: '/exercise',
+        path: '/exercise',  //练习
         name: 'exercise',
+        meta:{
+          title:"练习"
+        },
         component: function () {
           return import('../views/Exercise/Exercise_index.vue')
         },
@@ -67,10 +84,42 @@ const routes = [{
 
   // 一级路由区域
 
+//  我的关注
+  {
+   path:"/my-attention",
+   name:"MyAttention",
+   component:function(){
+     return import("@/components/my/MyAttention")
+   },
+  meta:{
+   title:"我的关注"
+  }
+
+  },
+
+
+// 我的收藏
+{
+  path:"/my-collect",
+  name:"MyCollect",
+  component:function(){
+    return import("@/components/my/Collect")
+  },
+ meta:{
+  title:"我的收藏"
+ }
+
+ },
+
+  
+
   // 一对一辅导
   {
     path:"/oto",
     name:"oto",
+    meta:{
+      title:"一对一辅导"
+    },
     component:function(){
       return import("@/components/Couser/Oto.vue")
     },
@@ -85,11 +134,17 @@ const routes = [{
     component: function () {
       return import("@/views/login/Login.vue")
     },
+    meta:{
+      title:"登录"
+    }
   },
 
   {
     path: "/retrieve",//找回密码页面
     name: "Retrieve",
+    meta:{
+      title:"找回密码"
+    },
     component: function () {
       return import("@/views/login/Retrieve.vue")
     },
@@ -97,6 +152,9 @@ const routes = [{
   {
     path: "/setPass",//设置密码页面
     name: "SetPass",
+    meta:{
+      title:"设置密码"
+    },
     component: function () {
       return import("@/views/login/Setpass.vue")
     },
@@ -106,6 +164,9 @@ const routes = [{
   {
     path: '/couserDetail',
     name: 'couserDetail',
+    meta:{
+      title:"课程详情"
+    },
     component: function () {
       return import('../components/Couser/couserDetail.vue')
     }
@@ -168,15 +229,21 @@ const routes = [{
   },
 
   {
-    path: '/teacher',
+    path: '/teacher',  //讲师详情
     name: 'Teacher',
+    meta:{
+      title:"讲师详情"
+    },
     component: function () {
       return import('../components/Couser/Teacher.vue')
     }
   },
   {
-    path: '/yuyue',
+    path: '/yuyue',  //预约
     name: 'Yuyue',
+    meta:{
+      title:"预约"
+    },
     component: function () {
       return import('../components/Couser/Yuyue.vue')
     }
@@ -191,6 +258,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
 
 
 export default router
