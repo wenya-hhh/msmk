@@ -1,14 +1,16 @@
 <template>
   <div class="Text">
     <!-- 头部 -->
-    <header id="header">
-      <van-icon name="arrow-left" @click="$router.go(-1)" />
-      <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程介绍</span>
-      <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程大纲</span>
-      <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程评价</span>
-      <span v-if="flag">课程详情</span>
-      <van-icon name="info-o" />
-    </header>
+    <van-sticky>
+      <header>
+        <van-icon @click="$router.go(-1)" name="arrow-left" />
+        <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程介绍</span>
+        <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程大纲</span>
+        <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程评价</span>
+        <span v-if="flag">课程详情</span>
+        <van-icon name="info-o" />
+      </header>
+    </van-sticky>
     <!-- 中间 -->
     <section id="section">
       <div class="content" id="content">

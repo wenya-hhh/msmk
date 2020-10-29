@@ -128,18 +128,12 @@ export default {
       this.loginShow = false;
       this.logonShow = true;
     },
-    // 
-    // timeout(){
-    //   this.timeout=false
-    // },
-    //点击使用密码登录，登录页面显示，注册页面隐藏
     againClick() {
       this.loginShow = true;
       this.logonShow = false;
     },
     // 点击获取验证码按钮
     getmsg() {
-     
       if (this.tel == "" || !phoneTest(this.tel)) {
         this.show = true;
         setTimeout(() => {

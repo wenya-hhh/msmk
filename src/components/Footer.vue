@@ -71,9 +71,12 @@ export default {
     width: 100%;
     height: 0.55rem;
     z-index: 9999;
+    position: fixed;
+    bottom: 0;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    background: white;
     li{
         width: 0.82rem;
         height: 0.54rem;
