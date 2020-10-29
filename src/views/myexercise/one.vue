@@ -20,7 +20,6 @@
 </van-row>
     
     </div>
-  </div>
 </template>
 <script>
 import NavigationBar from "./../../components/navigation/NavigationBar";

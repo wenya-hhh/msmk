@@ -5,6 +5,17 @@
       left-text="返回"
       right-text="按钮"
       left-arrow
+      @click-left="onClickLeft"
     />
   </div>
 </template>
+<script>
+export default {
+ methods:{
+   //点击返回
+    onClickLeft(){
+    this.$router.go("-1")
+  }
+ }
+}
+</script>
