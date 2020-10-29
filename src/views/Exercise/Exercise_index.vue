@@ -33,12 +33,12 @@
           >时间
           <span v-show="show == true">
             <img
-              src="http://localhost:8080/down.png"
+              src="/img/down.png"
               alt=""
               v-show="shows == true"
             />
             <img
-              src="http://localhost:8080/up.png"
+              src="/img/up.png"
               alt=""
               v-show="showse == true"
             />
@@ -68,10 +68,9 @@ export default {
       //九宫格数据
       grids: [
         {
-          
             img:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAwCAYAAAC8NUKEAAAF0UlEQVRoQ9WZaWxUVRTH/+e+brRGBATFBdC0QGG6t0Lng4JIBgybBBswGjERSSARS6VAC0lBDDGGGBKjJgZC/ECkSpQuKbTgtFC60NJZWkrZxAQqLVDbWEvpMveYN+1ILR3mzXTKTN/HmfPu/f/e+b9z7r2P4M9XNiuxL19LFUy7ABZM2Gpqv/EN5s/vHUo2+R1LFotZqy6E1ut0HQnnrqYxYQeYx6o6GdRKhL01SeFfjgqYuOorWyF5JUjcJOZFAEIHCe8AY3/NnIjMwUB+k5lpxush48J6thBotwa33GfmdNO9xm8HWs4vYFSQCWG2TMn8CQFPaIABA60M3msuOLwPWVlSvccvYOIqLu8EIV0riAOWgQ6bggXWxOmVPoexW2tMbzqBd2nJxkMxxC1SykRzcuQfPoVRQcaHdO1gok3uZqS/sllY2jaY9ZFlDkif2SyuomEnmNKh8R0ZlJVrkOI9U1F4JbLI/r74JDN91uraAtZUtYZ0n1rJzPqZD/Wax5oZO0hwVwaAVA8z0p8COm5KnrHYp30m/mxDpiRs8+QdGSC8E1AWm/QRJT6BmWY0howPmpzG4D0eVa2+pQwTo0VKftfyauQJnyxnVJCxgZO2E4nNw8oI464E1lt6mnJ8ttCMLb2QAdD2YYEQ7rGCFebOZqMzkBGtZmpGngp8djMxf+6xtUhdteAuKQHvmJKnn3Q1zohUMxVknDIxg4lSh5MRBm6Dab25KTIXKWTzCUxcSZ3a2bcOBwRAh5S81HJ79mktIF63mT0jYuKnAD5z9RSd/c9EqrXuSMYa62uzf3NnHK/ZzN4QRXsmQ2hexg8llIFmAj4yNdfnIyXFpbUGjuE1mJhi606Cx2sth6Z/wFhqvnPxjLsgXrGZvWrh6TQAHjdE9FWt2wxaY5mnM7pjLa9lxt4QeUIG7FWLNe0QnVirCaB1ljsXCzzJiFdWzbFGy/vM9PUwq1Y7bLZl5tYrHlnLa5mJPWU6zCRWE7u//eY+azUTyTXm+XHFnlrLazAxJ83TiegQA3PJ3fMEoluqtcx3Lx4fjrW8BqMeiOhOno9SSMkmxgztT5f/tkllWW1bQ6m3QDyqZupLH9oVHFpfUdjmOOKJPmF5SSiymEEvErPTcq82RGJuskllda0h+rR2eG2RbveZ6CLTV8RIBss9FkNCnmMau+XAh5idW46BRib5oXVBfCHowd5dm1TXUW7BRBVVRwlWqggIVju1ZP6g1hBf0D8NRRVZdQLyJ2J+yHIM+ksKuaS2NO5/hxCuJWqP0A6TZQyI0T+ZTUxvOYa3nyoS3raW5Rgdlos8VTM12IYSBqaoVa6/ajVKgZTaN+LLtUtzP1IzTPSJ868T6DABzwychkGXiG1p5kWJ+Y7fIwtNEUHAQUjWk8ANMK0zlx875QB2X6a2OzTBJFRXB/a2YB+YNhJBDB6agSZIrLUsTnDszSm20BQOxsJeKUvrKnPrRhpEczWLzK+ZGqxI1SKTnT0jZmplxirrudzixyF8KB2aMhNbUK0euKn7lEdeDL4kBa2oNSQ2uIodif9dwswsKJ8WgsA6AGGuBfA1Jl5uWfTKBdex3o94NEwWi5ikqgMgWut0akIPGG0g+rGzt/uLy0v1jd6XqW3ER8JE51fPIcijAD0/1HAMqHY6ggD8bDUkqdnz6eUcJpuVmLAqdcO1BYAySOUtML4jJfCH7vbAP+tTdN0+peif3CnMjGM1z4UoPSUAhdtjCern6jYAeRzAu62GOdf9AWCgBqcwMfkV28C0ty+YfmfCEWZ5tHbJ3PP+BuHQMyTMrJwzUwJFkBVADyAO2ET39/cx6ebVNyO6/BWkzzxDXFG5VRsJciWk2GBdnnTJnwFc2uyF7LIxN1P0naMF4oHNsowBurggg4CykBQSUv73iXBUsAgmIQWVtUD5lWLyKg2QMg+ggFGh3olIhkyl6Jzy/cT4eDSD9BVcOku6X8rnCYE80rT28ltk9bBr078EKT6KxTKQyAAAAABJRU5ErkJggg==",
           title: "考点专练",
-          path: "/one",
+          path: "/oneElect",
         },
         {
           img:
@@ -107,6 +106,7 @@ export default {
     };
   },
   methods: {
+    //点击显示时间三角
     changes() {
       console.log(this.show);
       if (this.show == false) {
@@ -123,6 +123,7 @@ export default {
         }
       }
     },
+    //点击九宫格切换到相应的页面
     changRouter(path) {
       this.$router.push(path);
     },
@@ -187,7 +188,7 @@ export default {
 /* 近期模考 */
 .practive_mokao_container {
   width: 100vw;
-  height: 3rem;
+  height: 2.6rem;
   background: white;
   font-size: 0.17rem;
   padding: 0.1rem;
@@ -211,9 +212,14 @@ export default {
 
 .practive_mokao_container .main {
   width: 100%;
-  height: 2.2rem;
+  height: 2rem;
+  margin-top: 0.1rem;
   text-align: center;
   font-size: 0.15rem;
   /* line-height: 2.2rem; */
+}
+.practive_mokao_container .date img{
+  width: 0.15rem;
+  height: 0.15rem;
 }
 </style>

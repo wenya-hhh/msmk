@@ -1,94 +1,87 @@
 <template>
-  <div id="Test">
+  <div class="Text">
     <!-- 头部 -->
-    <van-sticky>
-      <header>
-        <van-icon name="arrow-left" />
-        <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程介绍</span>
-        <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程大纲</span>
-        <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程评价</span>
-        <span v-if="flag">课程详情</span>
-        <van-icon name="info-o" />
-      </header>
-    </van-sticky>
+    <header id="header">
+      <van-icon name="arrow-left" @click="$router.go(-1)" />
+      <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程介绍</span>
+      <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程大纲</span>
+      <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程评价</span>
+      <span v-if="flag">课程详情</span>
+      <van-icon name="info-o" />
+    </header>
     <!-- 中间 -->
-    <section>
-      <!-- 第一块 -->
-      <div class="top">
-        <p>{{arr.title}}</p>
-        <span>免费</span>
-        <p class="p1">
-          <span>共{{arr.total_periods}}课时</span>
-          <span style="margin:0 0.1rem;">|</span>
-          <span>{{arr.sales_num}}人已报名</span>
-        </p>
-        <p class="p1">开课时间：{{arr.start_play_date}} ~ {{arr.end_play_date}}</p>
-      </div>
-      <!-- 第二块 -->
-      <div class="bottom">
-        <p>教学团队</p>
-        <div class="tou" v-for="(item,index) in arr1" :key="index">
-          <div class="xiang">
-            <img :src="item.avatar" alt />
-            <span>{{item.teacher_name}}</span>
+    <section id="section">
+      <div class="content" id="content">
+        <!-- 第一块 -->
+        <div class="top">
+          <p>{{arr.title}}</p>
+          <van-icon name="star-o" size="0.25rem" />
+          <span>免费</span>
+          <p class="p1">
+            <span>共{{arr.total_periods}}课时</span>
+            <span style="margin:0 0.1rem;">|</span>
+            <span>{{arr.sales_num}}人已报名</span>
+          </p>
+          <p class="p1">开课时间：{{arr.start_play_date}} ~ {{arr.end_play_date}}</p>
+        </div>
+        <!-- 第二块 -->
+        <div class="bottom">
+          <p>教学团队</p>
+          <div class="tou" v-for="(item,index) in arr1" :key="index">
+            <div class="xiang" @click="goto(item.teacher_id)">
+              <img :src="item.avatar" alt />
+              <span>{{item.teacher_name}}</span>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- 课程介绍 -->
-      <div class="jieshao">
-        <p>课程介绍</p>
-      </div>
-      <!-- 课程大纲 -->
-      <div class="gang">
-        <p>课程大纲</p>
-        <div class="gang_list">
-          <ul v-for="(item,index) in arr3" :key="index">
-            <li>
-              <div>
-                <span class="dian"></span>
-                <span class="hui">回放</span>
-                <span>{{item.periods_title}}</span>
-              </div>
-              <p>
-                <span
-                  style="margin-right:0.18rem"
-                  v-for="(i,k) in item.teachers"
-                  :key="k"
-                >{{i.teacher_name}}</span>
-                <span>{{item.start_play}}</span> ~
-                <span>{{item.end_play}}</span>
-              </p>
-            </li>
-          </ul>
+        <!-- 课程介绍 -->
+        <div class="jieshao">
+          <p>课程介绍</p>
         </div>
-      </div>
-      <!-- 课程评论-->
-      <div class="lun">
-        <p>课程评论</p>
-        <div class="ping">
-          <ul>
-            <li v-for="(item,index) in arr4" :key="index">
-              <div class="tu">
-                <img :src="item.avatar" alt />
-              </div>
-              <div class="zi">
+        <!-- 课程大纲 -->
+        <div class="gang">
+          <p>课程大纲</p>
+          <div class="gang_list">
+            <ul v-for="(item,index) in arr3" :key="index">
+              <li>
+                <div>
+                  <span class="dian"></span>
+                  <span class="hui">回放</span>
+                  <span>{{item.periods_title}}</span>
+                </div>
                 <p>
-                  <span>{{item.nickname}}</span>
-
-                  <el-rate
-                    v-model="value"
-                    disabled
-                    show-score
-                    text-color="#ff9900"
-                   
-                  ></el-rate>
-
-                  <span>{{item.created_at}}</span>
+                  <span
+                    style="margin-right:0.18rem"
+                    v-for="(i,k) in item.teachers"
+                    :key="k"
+                  >{{i.teacher_name}}</span>
+                  <span>{{item.start_play}}</span> ~
+                  <span>{{item.end_play}}</span>
                 </p>
-                <p style="margin-top:0.1rem;color:#8c8c8c;font-size:0.12rem">{{item.content}}</p>
-              </div>
-            </li>
-          </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- 课程评论-->
+        <div class="lun">
+          <p>课程评论</p>
+          <div class="ping">
+            <ul>
+              <li v-for="(item,index) in arr4" :key="index">
+                <div class="tu">
+                  <img :src="item.avatar" alt />
+                </div>
+                <div class="zi">
+                  <p>
+                    <span style="margin-right:0.1rem;font-size:0.14rem">{{item.nickname}}</span>
+                    <van-rate v-model="item.grade" readonly size="0.14rem" color="#ea7a2f"></van-rate>
+                    <span>{{item.created_at}}</span>
+                  </p>
+                  <p style="margin-top:0.1rem;color:#8c8c8c;font-size:0.12rem">{{item.content}}</p>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -96,7 +89,6 @@
     <footer>立即报名</footer>
   </div>
 </template>
-
 <script>
 import { first, two, treen } from "../../utils/api";
 export default {
@@ -109,7 +101,7 @@ export default {
   // 组件状态值
   data() {
     return {
-      value: 3.7,
+      top: 0,
       flag: true,
       id: this.$route.query.id, //传过来的id
       arr: [], //课程内容
@@ -144,11 +136,11 @@ export default {
       });
       console.log(lun);
       this.arr4 = lun.data.list;
-    }
+    },
+    goto(id){
+      this.$router.push('/teacher?id='+id)
+    },
   },
-  /**
-   * 组件实例创建完成，属性已绑定，但DOM还未生成，$ el属性还不存在
-   */
   created() {},
   /**
  /**
@@ -157,6 +149,7 @@ export default {
  */
   mounted() {
     this.ajax();
+    window.addEventListener("scroll", this.handleScrollx, true);
   },
   /**
    * 由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。
@@ -179,12 +172,13 @@ export default {
 <!--然而子组件的根节点元素会同时被设置了scoped的父css样式和设置了scoped的子css样式影响，-->
 <!--这么设计的目的是父组件可以对子组件根元素进行布局。-->
 <style scoped lang="scss">
-
-#Test {
+.Text {
   width: 100%;
   height: 100%;
   background: #f0f2f5;
-  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  // overflow: auto;
 }
 // 头部布局
 header {
@@ -199,15 +193,27 @@ header {
   background: white;
   border-bottom: 1px solid #f1f1f1;
 }
+
 // 中间第一块
 section {
+  flex: 1;
+  overflow: auto;
+}
+.content {
+  width: 100%;
+  // height: 100%;
   box-sizing: border-box;
-  padding-bottom: 0.5rem;
   .top {
     width: 100%;
     box-sizing: border-box;
     padding: 0.15rem 0.15rem;
     background: white;
+    position: relative;
+    .van-icon {
+      position: absolute;
+      right: 0.2rem;
+      top: 0rem;
+    }
     p {
       font-size: 0.16rem;
     }
@@ -348,6 +354,14 @@ section {
           .zi {
             padding-left: 0.1rem;
             box-sizing: border-box;
+            p {
+              width: 3.2rem;
+              > :nth-child(3) {
+                font-size: 0.14rem;
+                color: #8c8c8c;
+                float: right;
+              }
+            }
           }
         }
       }
@@ -363,7 +377,7 @@ footer {
   text-align: center;
   line-height: 0.5rem;
   font-size: 0.2rem;
-  position: fixed;
-  bottom: 0;
+  // position: fixed;
+  // bottom: 0;
 }
 </style>

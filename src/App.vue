@@ -61,10 +61,11 @@ export default {
   height: 0.62rem;
   border-radius: 50%;
   background: #007AFF;
-  position: absolute;
+  position: fixed;
   bottom:0.82rem ;
   right: 0.3rem;
   display: flex;
+  z-index: 999;
   justify-content: center;
   align-items: center;
   i{
