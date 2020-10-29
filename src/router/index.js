@@ -4,8 +4,8 @@ import VueRouter from 'vue-router'
 import login from '../views/login/Login.vue'
 import retrieve from '../views/login/Retrieve.vue'
 // import Home from '../views/Home.vue'
-import Home from "@/views/Home"
-import Index from "@/components/Index"
+// import Home from "@/views/Home"
+// import Index from "@/components/Index"
 import Couser from "@/components/Couser"
 import Exercise from "@/components/Exercise"
 import Lar from "@/components/Lar"
@@ -16,13 +16,17 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    component: function () {
+      return import('../views/Home.vue')
+    },
     redirect:"/index", //默认显示index页面
     children:[  
         {
           path:"/index",  //首页路由
           name:"Index",
-          component:Index
+          component: function () {
+            return import('../components/Index.vue')
+          },
         },
         {
         path:'my',  //我的路由
@@ -50,7 +54,7 @@ const routes = [
           path: '/couser',  //课程路由
           name: 'Couser', 
           component: function () {
-            return import('../views/Couser/Couser.vue')
+            return import('../components/Couser/Couser.vue')
           },
         
         },
@@ -71,6 +75,26 @@ const routes = [
     },
 
   // 一级路由区域
+
+  // 一对一辅导
+  {
+    path:"/oto",
+    name:"oto",
+    component:function(){
+      return import("@/components/Couser/Oto.vue")
+    },
+    
+  },
+
+  // 讲师详情
+  {
+    path:"/teacher",
+    name:"Teacher",
+    component:function(){
+      return import("@/components/Teacher.vue")
+    },
+  },
+// 登录路由
   {
     path:"/login",
     name:"login",
@@ -81,12 +105,12 @@ const routes = [
 
   },
  
-
+  // 课程详情
   {
-    path: '/text',
-    name: 'Text',
+    path: '/couserDetail',
+    name: 'couserDetail',
     component: function () {
-      return import('../views/Couser/Test.vue')
+      return import('../components/Couser/couserDetail.vue')
     }
   },
   

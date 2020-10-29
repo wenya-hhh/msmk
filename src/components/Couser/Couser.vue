@@ -69,7 +69,7 @@
     </van-sticky>
     <!-- 中间课程 -->
     <section>
-      <div class="list" v-for="(item,index) in arr" :key="index" @click="$router.push('/text?id='+item.id)">
+      <div class="list" v-for="(item,index) in arr" :key="index" @click="$router.push('/couserDetail?id='+item.id)">
         <p>{{item.title}}</p>
         <div class="time">
           <van-icon name="clock-o" style="margin-right:0.1rem" />

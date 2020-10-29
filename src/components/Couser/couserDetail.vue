@@ -3,7 +3,7 @@
     <!-- 头部 -->
     <van-sticky>
       <header>
-        <van-icon name="arrow-left" />
+        <van-icon @click="$router.go(-1)" name="arrow-left" />
         <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程介绍</span>
         <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程大纲</span>
         <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程评价</span>
