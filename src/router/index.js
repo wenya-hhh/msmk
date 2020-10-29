@@ -6,8 +6,9 @@ import Lar from "@/components/Lar"
 
 Vue.use(VueRouter)
 
-const routes = [{
-  path: '/',
+const routes = [
+  {
+    path: '/',
   name: 'Home',
   component: function () {
     return import('../views/Home.vue')
@@ -15,49 +16,20 @@ const routes = [{
   redirect: "/index", //默认显示index页面
   children: [
     {
-      path: "/index",  //首页路由
+      path: "/index", //首页路由
       name: "Index",
       component: function () {
         return import('../components/Index.vue')
       },
+      meta: {
+        title: '每时每课'
+      }
     },
-<<<<<<< HEAD
-    redirect:"/index", //默认显示index页面
-    children:[  
-        {
-          path:"/index",  //首页路由
-          name:"Index",
-          component: function () {
-            return import('../components/Index.vue')
-          }, 
-          meta:{
-            title:'每时每课'
-          }
-        },
-      {
-        path:"/my",
-        name:"my",
-        component: function () {
-          return import('../components/My.vue')},
-        // var token=window.localStorage.getItem('Token')
-        beforeEnter(to,from,next){
-          console.log(to,from,next)
-          if(localStorage.Token){
-              next()
-          }else{
-            setTimeout(()=>{
-               next("/login")
-            },200)
-          }
-         }
-=======
-
     {
       path: "/my",
       name: "my",
       component: function () {
         return import('../components/My.vue')
->>>>>>> cacab8a2e3bfa466809dca902e2672b505f42bd5
       },
       // var token=window.localStorage.getItem('Token')
       beforeEnter(to, from, next) {
@@ -71,62 +43,38 @@ const routes = [{
         }
       }
     },
-    
-<<<<<<< HEAD
-        {
-          path: '/couser',  //课程路由
-          name: 'Couser', 
-          component: function () {
-            return import('../components/Couser/Couser.vue')
-          },
-          meta:{
-            title:'特色课'
-          }
-        },
-     
-      {
-        path: "/lar", //约课记录路由
-        name: "Lar",
-        component: Lar,
-        meta:{
-          title:'约课记录'
-        }
-      },
-      {
-        path: '/exercise',
-        name: 'exercise',
-        component: function () {
-          return import('../views/Exercise/Exercise_index.vue')
-        },
-        meta:{
-          title:'个人中心'
-        }
-=======
-     {
-      path: '/couser',  //课程路由
-      name: 'Couser',
-      component: function () {
-        return import('../components/Couser/Couser.vue')
-      }
+    // var token=window.localStorage.getItem('Token')
+    {
+    path: '/couser', //课程路由
+    name: 'Couser',
+    component: function () {
+      return import('../components/Couser/Couser.vue')
     },
-        
-      {
-      path: "/lar", //约课记录路由
-      name: "Lar",
-      component: Lar
+    meta: {
+      title: '特色课'
+    }
+    },
+
+    {
+    path: "/lar", //约课记录路由
+    name: "Lar",
+    component: Lar,
+    meta: {
+      title: '约课记录'
+    }
     },
     {
-      path: '/exercise',
-      name: 'exercise',
-      component: function () {
-        return import('../views/Exercise/Exercise_index.vue')
->>>>>>> cacab8a2e3bfa466809dca902e2672b505f42bd5
-      },
+    path: '/exercise',
+    name: 'exercise',
+    component: function () {
+      return import('../views/Exercise/Exercise_index.vue')
     },
-  ]
-
+    meta: {
+      title: '个人中心'
+    }
+    }
+]
 },
-
 // 一级路由区域
 
 // 一对一辅导
@@ -136,9 +84,7 @@ const routes = [{
   component: function () {
     return import("@/components/Couser/Oto.vue")
   },
-
 },
-
 
 // 登录路由
 {
@@ -150,57 +96,57 @@ const routes = [{
 },
 
 {
-  path: "/retrieve",//找回密码页面
+  path: "/retrieve", //找回密码页面
   name: "Retrieve",
   component: function () {
     return import("@/views/login/Retrieve.vue")
   },
 },
-{
-  path: "/setPass",//设置密码页面
+ {
+  path: "/setPass", //设置密码页面
   name: "SetPass",
   component: function () {
     return import("@/views/login/Setpass.vue")
   },
-},
+}, 
 {
-  path: "/setPerson",//登录设置密码页面
+  path: "/setPerson", //登录设置密码页面
   name: "SetPerson",
   component: function () {
     return import("@/views/login/SetPerson.vue")
   },
-  meta:{
-    thitle:'设置'
+  meta: {
+    thitle: '设置'
   }
 },
 {
-  path: "/mySet",//我的设置密码页面
+  path: "/mySet", //我的设置密码页面
   name: "MySet",
   component: function () {
     return import("@/components/myChild/MySet.vue")
   },
-  meta:{
-    thitle:'设置'
+  meta: {
+    thitle: '设置'
   }
-},
+}, 
 {
-  path: "/changepass",//改变密码
+  path: "/changepass", //改变密码
   name: "Changepass",
   component: function () {
     return import("@/components/myChild/ChangePass.vue")
   },
-  meta:{
-    title:'修改密码'
+  meta: {
+    title: '修改密码'
   }
-},
+}, 
 {
-  path: "/personal",//修改个人信息
+  path: "/personal", //修改个人信息
   name: "Personal",
   component: function () {
     return import("@/components/myChild/Personal.vue")
   },
-  meta:{
-    title:'修改个人信息'
+  meta: {
+    title: '修改个人信息'
   }
 },
 
@@ -222,7 +168,7 @@ const routes = [{
     isShowNav: true,
     title: "考点专练"
   }
-},
+}, 
 {
   path: '/two',
   name: "two",
@@ -231,7 +177,7 @@ const routes = [{
     isShowNav: true,
     title: "套卷练习"
   }
-},
+}, 
 {
   path: '/three',
   name: "three",
@@ -240,7 +186,7 @@ const routes = [{
     isShowNav: true,
     title: "仿真模考"
   }
-},
+}, 
 {
   path: '/four',
   name: "four",
@@ -249,7 +195,7 @@ const routes = [{
     isShowNav: true,
     title: "错题练习"
   }
-},
+}, 
 {
   path: '/five',
   name: "five",
@@ -258,7 +204,7 @@ const routes = [{
     isShowNav: true,
     title: "测评记录"
   }
-},
+}, 
 {
   path: '/six',
   name: "six",
@@ -276,7 +222,7 @@ const routes = [{
     return import('../components/Couser/Teacher.vue')
   }
 },
-{
+ {
   path: '/yuyue',
   name: 'Yuyue',
   component: function () {
@@ -284,38 +230,33 @@ const routes = [{
   }
 },
 
-<<<<<<< HEAD
-  {
-    path: '/teacher',
-    name: 'Teacher',
-    component: function () {
-      return import('../components/Couser/Teacher.vue')
-    },
-    // meta: {
-    //   isShowNav: true,
-    //   isShowLeft:true,
-    //   isShowRight:false,
-    //   title: "讲师详情"
-    // }
+{
+  path: '/teacher',
+  name: 'Teacher',
+  component: function () {
+    return import('../components/Couser/Teacher.vue')
   },
-  {
-    path: '/yuyue',
-    name: 'Yuyue',
-    component: function () {
-      return import('../components/Couser/Yuyue.vue')
-    },
+  // meta: {
+  //   isShowNav: true,
+  //   isShowLeft:true,
+  //   isShowRight:false,
+  //   title: "讲师详情"
+  // }
+},
+ {
+  path: '/yuyue',
+  name: 'Yuyue',
+  component: function () {
+    return import('../components/Couser/Yuyue.vue')
   },
-  {
-    path: '/xuexi',
-    name: 'Xuexi',
-    component: function () {
-      return import('../components/Couser/Xuexi.vue')
-    },
+}, 
+{
+  path: '/xuexi',
+  name: 'Xuexi',
+  component: function () {
+    return import('../components/Couser/Xuexi.vue')
   },
- 
-=======
->>>>>>> cacab8a2e3bfa466809dca902e2672b505f42bd5
-
+},
 ]
 
 
