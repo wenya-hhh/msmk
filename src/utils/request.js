@@ -9,7 +9,17 @@ let serve=  axios.create({
 })
 
 serve.interceptors.request.use((req)=>{
-  
+   let token= localStorage.getItem("Token")
+      console.log(token)
+      if(token){
+          
+          req.headers.authorization=token
+         
+      }else{
+               
+         router.push("/login")
+
+      }
   
  return req
 
