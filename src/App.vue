@@ -1,40 +1,6 @@
 <template>
   <div id="app">
-<<<<<<< HEAD
    <router-view/>
-=======
-
-    <router-view></router-view>
-
-   
-
-   <!-- 留言 -->
-    <p v-drag class="liuyan" @click="messageShow=!messageShow"><i style="" class="el-icon-message"></i></p>
-   
-   <!-- 留言页面 -->
-   <div v-show="messageShow" class="message">
-       
-       <header>
-         <p>给我们留言</p>
-         <i @click="messageShow=!messageShow" class="el-icon-arrow-down"></i>
-       </header>
-
-        <p class="tishi">
-          您好，很抱歉我们暂时无法为您提供服务，如需帮助，请留言，我们将尽快联系并解决您的问题
-        </p>
-
-        <div class="from">
-          <p>手机</p>
-          <input type="text" placeholder="请输入">
-           <p>留言内容</p>
-           <textarea name="" id="" cols="30" rows="10"></textarea>
-           <button>提交</button>
-        </div>
-
-   </div>
-
-
->>>>>>> 41613f16fef5c084bac89b7dcc16fd46eccd6c97
   </div>
 </template>
 
@@ -52,6 +18,11 @@ export default {
   data(){
     return {
       messageShow:false
+    }
+  }, 
+  watch:{
+    $route(to){
+      document.title = to.meta.title;
     }
   }
 };

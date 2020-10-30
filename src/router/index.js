@@ -8,8 +8,9 @@ import Lar from "@/components/Lar"
 
 Vue.use(VueRouter)
 
-const routes = [{
-  path: '/',
+const routes = [
+  {
+    path: '/',
   name: 'Home',
   component: function () {
     return import('../views/Home.vue')
@@ -85,7 +86,6 @@ const routes = [{
   ]
 
 },
-
 // 一级路由区域
 
 //  我的关注
@@ -186,57 +186,57 @@ const routes = [{
 },
 
 {
-  path: "/retrieve",//找回密码页面
+  path: "/retrieve", //找回密码页面
   name: "Retrieve",
   component: function () {
     return import("@/views/login/Retrieve.vue")
   },
 },
-{
-  path: "/setPass",//设置密码页面
+ {
+  path: "/setPass", //设置密码页面
   name: "SetPass",
   component: function () {
     return import("@/views/login/Setpass.vue")
   },
-},
+}, 
 {
-  path: "/setPerson",//登录设置密码页面
+  path: "/setPerson", //登录设置密码页面
   name: "SetPerson",
   component: function () {
     return import("@/views/login/SetPerson.vue")
   },
-  meta:{
-    thitle:'设置'
+  meta: {
+    thitle: '设置'
   }
 },
 {
-  path: "/mySet",//我的设置密码页面
+  path: "/mySet", //我的设置密码页面
   name: "MySet",
   component: function () {
     return import("@/components/myChild/MySet.vue")
   },
-  meta:{
-    thitle:'设置'
+  meta: {
+    thitle: '设置'
   }
-},
+}, 
 {
-  path: "/changepass",//改变密码
+  path: "/changepass", //改变密码
   name: "Changepass",
   component: function () {
     return import("@/components/myChild/ChangePass.vue")
   },
-  meta:{
-    title:'修改密码'
+  meta: {
+    title: '修改密码'
   }
-},
+}, 
 {
-  path: "/personal",//修改个人信息
+  path: "/personal", //修改个人信息
   name: "Personal",
   component: function () {
     return import("@/components/myChild/Personal.vue")
   },
-  meta:{
-    title:'修改个人信息'
+  meta: {
+    title: '修改个人信息'
   }
 },
 
@@ -373,7 +373,7 @@ const routes = [{
     return import('../components/Couser/Teacher.vue')
   }
 },
-{
+ {
   path: '/yuyue',
   name: 'Yuyue',
   component: function () {

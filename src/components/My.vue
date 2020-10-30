@@ -189,7 +189,6 @@
   </div>
 </template>
 <script>
-<<<<<<< HEAD
 // import func from '../../vue-temp/vue-editor-bridge';
 export default {
   name:"My",
@@ -205,21 +204,17 @@ export default {
       
       this.$router.push("/my-attention")
 
-   }
+   },
 
-
-=======
-export default {
-  methods:{
     gotoSet(){
       this.$router.push('/personal')
     },
     gotoChange(){
        this.$router.push('/personal')
     }
->>>>>>> cacab8a2e3bfa466809dca902e2672b505f42bd5
+
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

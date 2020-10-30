@@ -3,10 +3,11 @@
     <div class="header">
       <header>
         <span>
-          <van-icon name="arrow-left" size="0.3rem" />
+          <van-icon name="arrow-left" size="0.3rem"  @click="$router.go(-1)"/>
         </span>
         <h3>讲师详情</h3>
       </header>
+      <!-- <Navigation></Navigation> -->
     </div>
     <section>
       <div class="xiang">
@@ -52,7 +53,9 @@
                 </ul>
               </div>
             </van-tab>
-            <van-tab title="主讲课程"></van-tab>
+            <van-tab title="主讲课程">
+              
+            </van-tab>
             <van-tab title="学员评价"></van-tab>
           </van-tabs>
         </div>
@@ -64,13 +67,16 @@
 </template>
 
 <script>
+// import Navigation from "@/components/navigation/NavigationBar"
 export default {
   // 组件名称
   name: "",
   // 组件参数 接收来自父组件的数据
   props: [],
   // 局部注册的组件
-  components: {},
+  components: {
+    // Navigation,
+  },
   // 组件状态值
   data() {
     return {};

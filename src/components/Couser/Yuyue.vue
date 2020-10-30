@@ -3,7 +3,7 @@
     <div class="header">
       <header>
         <span>
-          <van-icon name="arrow-left" size="0.3rem" />
+          <van-icon name="arrow-left" size="0.3rem"  @click="$router.go(-1)"/>
         </span>
         <h3>预约课程</h3>
       </header>

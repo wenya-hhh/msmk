@@ -3,7 +3,7 @@
     
     <ul class="footer-content">
         <li :class="i.path==$route.path?'active':''"  @click="to(i.path)" v-for="(i,k) in Footer_font" :key="k">
-            <span :class="i.font"></span>
+           <i :class="i.font"></i>
             <p>{{i.text}}</p>
         </li>
     </ul>

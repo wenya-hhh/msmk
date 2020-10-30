@@ -104,7 +104,7 @@
     </div>
   </div>
 </template>
-<script>
+<scrip>
 import Vue from "vue";
 import { Field } from "vant";
 Vue.use(Field);
@@ -135,33 +135,22 @@ export default {
       this.loginShow = false;
       this.logonShow = true;
     },
-<<<<<<< HEAD
     //
     // timeout(){
     //   this.timeout=false
     // },
     //点击使用密码登录，登录页面显示，注册页面隐藏
-=======
->>>>>>> cacab8a2e3bfa466809dca902e2672b505f42bd5
     againClick() {
       this.loginShow = true;
       this.logonShow = false;
     },
     // 点击获取验证码按钮
     getmsg() {
-<<<<<<< HEAD
       if (phoneTest(this.tel) != true) {
         this.$toast({
           message: phoneTest(this.tel),
           position: "top",
         });
-=======
-      if (this.tel == "" || !phoneTest(this.tel)) {
-        this.show = true;
-        setTimeout(() => {
-          this.show = false;
-        }, 1500);
->>>>>>> cacab8a2e3bfa466809dca902e2672b505f42bd5
         return;
       }
 
@@ -260,7 +249,9 @@ export default {
   },
 };
 </script>
-<style <style lang="scss">
+
+
+<style  lang="scss">
 .login_pic_container {
   width: 100%;
   height: 1.52rem;
