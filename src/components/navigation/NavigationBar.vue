@@ -1,6 +1,24 @@
 <template>
   <div>
     <van-nav-bar
+<<<<<<< HEAD
+      title="标题"
+      left-text="返回"
+      right-text="按钮"
+      left-arrow
+      @click-left="onClickLeft"
+    />
+  </div>
+</template>
+<script>
+export default {
+ methods:{
+   //点击返回
+    onClickLeft(){
+    this.$router.go("-1")
+  }
+ }
+=======
     v-show="isShowNav"
       :title="this.$route.meta.title"
       :left-arrow="isShowLeft"
@@ -44,5 +62,6 @@ export default {
     }
   },
  
+>>>>>>> 41613f16fef5c084bac89b7dcc16fd46eccd6c97
 }
 </script>

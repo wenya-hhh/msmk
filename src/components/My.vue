@@ -5,10 +5,10 @@
       <div class="my_top_wrapper">
         <div class="top_portrait_container">
           <div class="portrait_container">
-            <div class="portrait_wrapper">
+            <div class="portrait_wrapper" @click="gotoSet">
               <img src="@/assets/00.png" alt="" />
             </div>
-            <div class="portrait_name">
+            <div class="portrait_name" @click="gotoChange">
               <span>马兴龙123</span>
               <span><img src="@/assets/编辑.png" alt="" /></span>
             </div>
@@ -180,7 +180,7 @@
                 alt=""
               />
             </div>
-            <p>设置</p>
+            <p @click="gotoSet">设置</p>
           </div>
         </div>
       </div>
@@ -189,6 +189,7 @@
   </div>
 </template>
 <script>
+<<<<<<< HEAD
 // import func from '../../vue-temp/vue-editor-bridge';
 export default {
   name:"My",
@@ -207,6 +208,16 @@ export default {
    }
 
 
+=======
+export default {
+  methods:{
+    gotoSet(){
+      this.$router.push('/personal')
+    },
+    gotoChange(){
+       this.$router.push('/personal')
+    }
+>>>>>>> cacab8a2e3bfa466809dca902e2672b505f42bd5
   }
 };
 </script>
@@ -214,29 +225,30 @@ export default {
 <style lang="scss" scoped>
 .my_container {
   width: 100%;
+  position: relative;
   .null_container {
     width: 100%;
     height: 15vh;
     background-color: rgb(252, 85, 0);
-    border-radius: 0 0 50px 50px;
+    border-radius: 0 0 0.5rem 0.5rem;
     position: absolute;
-    z-index: -1;
+    z-index: 1;
     top: 0;
     left: 0;
   }
   .my_top_container {
     width: 100%;
     height: 35vh;
-    // background-color: rgba(24, 30, 32, 0.274);
+    background-color: rgba(24, 30, 32, 0);
     display: flex;
     justify-content: center;
-    // margin-top: 10vh;
     .my_top_wrapper {
       width: 92%;
       height: 80%;
       background-color: #ffff;
       margin-top: 6vh;
-      border-radius: 10px 10px 0px 0px;
+      border-radius: 0.1rem 0.1rem 0 0;
+      z-index: 999;
       .top_portrait_container {
         width: 100%;
         height: 15vh;
@@ -251,8 +263,8 @@ export default {
           align-items: center;
           justify-content: space-around;
           .portrait_wrapper {
-            width: 70px;
-            height: 70px;
+            width: 0.7rem;
+            height: 0.7rem;
             //    border: 1px solid black;
             border-radius: 50%;
             img {
@@ -262,13 +274,13 @@ export default {
             }
           }
           .portrait_name {
-            width: 130px;
-            height: 40px;
+            width: 1.3rem;
+            height: 0.4rem;
             display: flex;
             align-items: center;
             justify-content: space-around;
             img {
-              width: 35px;
+              width: 0.35rem;
             }
           }
         }
@@ -279,13 +291,13 @@ export default {
           justify-content: flex-end;
           align-items: center;
           .cansle_wrapper {
-            width: 50px;
-            height: 20px;
-            border-radius: 10px 0px 0px 10px;
+            width: 0.5rem;
+            height: 0.2rem;
+            border-radius: 0.1rem 0 0 0.1rem;
             text-align: center;
             color: #fff;
             background-color: rgb(252, 85, 0);
-            font-size: 14px;
+            font-size: 0.14rem;
           }
         }
       }

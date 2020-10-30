@@ -9,11 +9,12 @@ import Lar from "@/components/Lar"
 Vue.use(VueRouter)
 
 const routes = [{
-    path: '/',
-    name: 'Home',
-    component: function () {
-      return import('../views/Home.vue')
-    },
+  path: '/',
+  name: 'Home',
+  component: function () {
+    return import('../views/Home.vue')
+  },
+
     redirect:"/index", //默认显示index页面
     children:[  
         {
@@ -46,7 +47,9 @@ const routes = [{
             },200)
           }
          }
-      },
+      
+  
+    },
     
         {
           path: '/couser',  //课程路由
@@ -78,11 +81,12 @@ const routes = [{
           return import('../views/Exercise/Exercise_index.vue')
         },
       },
-    ]
+  
+  ]
 
-  },
+},
 
-  // 一级路由区域
+// 一级路由区域
 
 //  我的关注
   {
@@ -172,61 +176,210 @@ const routes = [{
     }
   },
 
+// 登录路由
+{
+  path: "/login",
+  name: "login",
+  component: function () {
+    return import("@/views/login/Login.vue")
+  },
+},
 
-  {
-    path: '/one',
-    name: "one",
-    component: () => import('../views/Exercise/one.vue'),
-    meta: {
-      isShowNav: true,
-      title: "考点专练"
-    }
+{
+  path: "/retrieve",//找回密码页面
+  name: "Retrieve",
+  component: function () {
+    return import("@/views/login/Retrieve.vue")
   },
-  {
-    path: '/two',
-    name: "two",
-    component: () => import('../views/Exercise/two.vue'),
-    meta: {
-      isShowNav: true,
-      title: "套卷练习"
-    }
+},
+{
+  path: "/setPass",//设置密码页面
+  name: "SetPass",
+  component: function () {
+    return import("@/views/login/Setpass.vue")
   },
-  {
-    path: '/three',
-    name: "three",
-    component: () => import('../views/Exercise/three.vue'),
-    meta: {
-      isShowNav: true,
-      title: "仿真模考"
-    }
+},
+{
+  path: "/setPerson",//登录设置密码页面
+  name: "SetPerson",
+  component: function () {
+    return import("@/views/login/SetPerson.vue")
   },
-  {
-    path: '/four',
-    name: "four",
-    component: () => import('../views/Exercise/four.vue'),
-    meta: {
-      isShowNav: true,
-      title: "错题练习"
-    }
+  meta:{
+    thitle:'设置'
+  }
+},
+{
+  path: "/mySet",//我的设置密码页面
+  name: "MySet",
+  component: function () {
+    return import("@/components/myChild/MySet.vue")
   },
-  {
-    path: '/five',
-    name: "five",
-    component: () => import('../views/Exercise/five.vue'),
-    meta: {
-      isShowNav: true,
-      title: "测评记录"
-    }
+  meta:{
+    thitle:'设置'
+  }
+},
+{
+  path: "/changepass",//改变密码
+  name: "Changepass",
+  component: function () {
+    return import("@/components/myChild/ChangePass.vue")
   },
-  {
-    path: '/six',
-    name: "six",
-    component: () => import('../views/Exercise/six.vue'),
-    meta: {
-      isShowNav: true,
-      title: "习题收藏"
-    }
+  meta:{
+    title:'修改密码'
+  }
+},
+{
+  path: "/personal",//修改个人信息
+  name: "Personal",
+  component: function () {
+    return import("@/components/myChild/Personal.vue")
   },
+  meta:{
+    title:'修改个人信息'
+  }
+},
+
+// 课程详情
+{
+  path: '/couserDetail',
+  name: 'couserDetail',
+  component: function () {
+    return import('../components/Couser/couserDetail.vue')
+  }
+},
+
+
+
+//练习下面的小页面
+  {
+    path: '/oneElect',//考点专练下的第一个页面
+    name: "oneElect",
+    component: () => import('../views/Exercise/one_elect.vue'),
+    meta: {
+      isShowNav: true,
+      isShowLeft:true,
+      isShowRight:true,
+      title: "考点专练"
+    }
+  },
+  //练习下的九宫格里的搜索页面
+  {
+    path: '/exerciseSearch',//考点专练下的第一个页面
+    name: "exerciseSearch",
+    component: () => import('../views/Exercise/exercise_search.vue'),
+    meta: {
+      isShowNav: true,
+      isShowLeft:true,
+      isShowRight:true,
+      title: "考点专练"
+    }
+  },
+  {
+    path: '/fourAll',//考点专练下的第一个页面
+    name: "fourAll",
+    component: () => import('../views/Exercise/four_all.vue'),
+
+  },
+  {
+    path: '/one',//考点专练下的第二个页面
+    name: "one",
+    component: () => import('../views/Exercise/one.vue'),
+    meta: {
+      isShowNav: true,
+      isShowLeft:true,
+      isShowRight:true,
+      title: "题库选择"
+    }
+  },
+  {
+    path: '/two',//套卷练习下的第一个页面
+    name: "two",
+    component: () => import('../views/Exercise/two.vue'),
+    meta: {
+      isShowNav: true,
+      isShowLeft:true,
+      isShowRight:true,
+      title: "套卷练习"
+    }
+  },
+  {
+    path: '/three',//仿真模考下的第一个页面
+    name: "three",
+    component: () => import('../views/Exercise/three.vue'),
+    meta: {
+      isShowNav: true,
+      isShowLeft:true,
+      isShowRight:true,
+      title: "仿真模考"
+    }
+  },
+  {
+    path: '/four',//错题练习下的第一个页面
+    name: "four",
+    component: () => import('../views/Exercise/four.vue'),
+    meta: {
+      isShowNav: true,
+      isShowLeft:true,
+      isShowRight:true,
+      title: "错题练习"
+    }
+  },
+  {
+    path: '/five',//测评记录下的第一个页面
+    name: "five",
+    component: () => import('../views/Exercise/five.vue'),
+    meta: {
+      isShowNav: true,
+      isShowLeft:true,
+      isShowRight:true,
+      title: "测评记录"
+    }
+  },
+  {
+    path: '/six',//习题收藏下的第一个页面
+    name: "six",
+    component: () => import('../views/Exercise/six.vue'),
+    meta: {
+      isShowNav: true,
+      isShowLeft:true,
+      isShowRight:true,
+      title: "习题收藏"
+    }
+  },
+
+
+
+ //学习日历
+  {
+    path: '/date',
+    name: 'date',
+    component: function () {
+      return import('../components/Couser/Date.vue')
+    },
+    meta:{
+      isShowNav: true,
+      isShowLeft:true,
+      isShowRight:false,
+      title:"学习日历"
+    }
+  },
+
+
+{
+  path: '/teacher',
+  name: 'Teacher',
+  component: function () {
+    return import('../components/Couser/Teacher.vue')
+  }
+},
+{
+  path: '/yuyue',
+  name: 'Yuyue',
+  component: function () {
+    return import('../components/Couser/Yuyue.vue')
+  }
+},
 
   {
     path: '/teacher',  //讲师详情
