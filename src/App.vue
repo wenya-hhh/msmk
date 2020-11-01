@@ -1,33 +1,48 @@
 <template>
   <div id="app">
-   <router-view/>
+    
+   <router-view></router-view>
+
+   <!-- 留言 -->
+    <p v-drag class="liuyan" @click="messageShow=!messageShow"><i style="" class="el-icon-message"></i></p>
+   
+   <!-- 留言页面 -->
+   <div v-show="messageShow" class="message">
+       
+       <header>
+         <p>给我们留言</p>
+         <i @click="messageShow=!messageShow" class="el-icon-arrow-down"></i>
+       </header>
+
+        <p class="tishi">
+          您好，很抱歉我们暂时无法为您提供服务，如需帮助，请留言，我们将尽快联系并解决您的问题
+        </p>
+
+        <div class="from">
+          <p>手机</p>
+          <input type="text" placeholder="请输入">
+           <p>留言内容</p>
+           <textarea name="" id="" cols="30" rows="10"></textarea>
+           <button>提交</button>
+        </div>
+
+   </div>
+
   </div>
 </template>
 
 <script>
-// import login from "../src/login/Login.vue";
-// import retrieve from "../src/login/Retrieve.vue";
-export default {
 
-  name: "app",
-  components: {
-    // login,
-    // retrieve
-    
-  },
+export default {
+  name: 'app',
   data(){
     return {
-      messageShow:false
+      messageShow:false,
     }
-  }, 
-  watch:{
-    $route(to){
-      document.title = to.meta.title;
-    }
-  }
-};
+  },
+  
+}
 </script>
-
 
 <style lang="scss">
 
@@ -36,11 +51,10 @@ export default {
   height: 0.62rem;
   border-radius: 50%;
   background: #007AFF;
-  position: fixed;
+  position: absolute;
   bottom:0.82rem ;
   right: 0.3rem;
   display: flex;
-  z-index: 999;
   justify-content: center;
   align-items: center;
   i{
@@ -54,7 +68,7 @@ export default {
   width: 100%;
   height: 100%;
   position: absolute;
-  z-index: 100;
+  z-index: 10000;
   background:#F2F3F5;
   top: 0;
   header{
@@ -132,6 +146,5 @@ export default {
     border: 0;
     margin-top: 0.2rem;
   }
-
 }
 </style>

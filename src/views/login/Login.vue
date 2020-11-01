@@ -26,6 +26,7 @@
             @focus="nother = true"
             @blur="nother = false"
             v-model="loginPass"
+            type="password"
           />
         </div>
         <div class="password_container">
@@ -104,7 +105,7 @@
     </div>
   </div>
 </template>
-<scrip>
+<script>
 import Vue from "vue";
 import { Field } from "vant";
 Vue.use(Field);
@@ -208,6 +209,17 @@ export default {
           })
           .then((res) => {
             console.log(res);
+           if(res.data.code==200){
+
+                localStorage.Token=res.data.data.remember_token
+                localStorage.deviceid=res.data.data.device_id
+               
+               this.$router.push("/my")
+           }
+            // 把token保存到本地
+           
+
+
           });
       }
     },
@@ -222,8 +234,10 @@ export default {
         })
           if(res.data.code==200){
              
+                localStorage.Token=res.data.data.remember_token
+                localStorage.deviceid=res.data.data.device_id
            if(res.data.data.is_new==1){
-              window.localStorage.setItem("Token", res.data.data.mobile);
+             
                         this.$router.push("/setPass");
           }else{
                this.$router.push("/my");

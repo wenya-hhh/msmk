@@ -221,6 +221,7 @@ export default {
 .my_container {
   width: 100%;
   position: relative;
+  overflow: auto;
   .null_container {
     width: 100%;
     height: 15vh;
