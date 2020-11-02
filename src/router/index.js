@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import login from '../views/login/Login.vue'
-import retrieve from '../views/login/Retrieve.vue'
 import Lar from "@/components/Lar"
 
 
@@ -10,7 +8,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path:"/",
+    redirect:"/home"
+  },
+  {
+    path: '/home',
   name: 'Home',
   component: function () {
     return import('../views/Home.vue')
@@ -43,6 +45,7 @@ const routes = [
           if(localStorage.Token){
               next()
           }else{
+          next()
             setTimeout(()=>{
                next("/login")
             },200)
@@ -206,7 +209,7 @@ const routes = [
     return import("@/views/login/SetPerson.vue")
   },
   meta: {
-    thitle: '设置'
+    title: '设置'
   }
 },
 {
@@ -216,7 +219,7 @@ const routes = [
     return import("@/components/myChild/MySet.vue")
   },
   meta: {
-    thitle: '设置'
+    title: '设置密码'
   }
 }, 
 {
@@ -366,19 +369,16 @@ const routes = [
   },
 
 
-{
-  path: '/teacher',
-  name: 'Teacher',
-  component: function () {
-    return import('../components/Couser/Teacher.vue')
-  }
-},
+
  {
   path: '/yuyue',
   name: 'Yuyue',
   component: function () {
     return import('../components/Couser/Yuyue.vue')
-  }
+  },
+  meta:{
+    title:"预约课程"
+  },
 },
 
   {
@@ -407,7 +407,12 @@ const routes = [
 
 
 const router = new VueRouter({
+<<<<<<< HEAD
  
+=======
+  // mode: 'history',
+  // base: process.env.BASE_URL,
+>>>>>>> 9b08959d556af362f40c4e9da170f1e497679df4
   routes
 })
 

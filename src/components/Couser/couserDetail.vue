@@ -107,7 +107,7 @@ export default {
       kai:true,
       top: 0,
       flag: true,
-      id: this.$route.query.id, //传过来的id
+      id: this.$route.query.couserDetailId, //传过来的id
       arr: [], //课程内容
       arr1: [], //头像内容
       arr3: [], //课程大纲

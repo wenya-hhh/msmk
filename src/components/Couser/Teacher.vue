@@ -87,9 +87,18 @@ export default {
   watch: {},
   // 组件方法
   methods: {
-    onClickLeft() {
+    onClickLeft() {  //返回
       Toast("返回");
-    }
+    },
+    
+  //  获取讲师详情数据
+ async getTeacherDetail(){
+        let {data:res} = await this.$http("/api/app/teacher/"+this.$route.query.teacherId)
+        console.log(res)
+        let {data} = await this.$http("/api/app/teacher/info/"+this.$route.query.teacherId)
+        console.log(data)
+   }
+
   },
   /**
    * 组件实例创建完成，属性已绑定，但DOM还未生成，$ el属性还不存在
@@ -100,8 +109,14 @@ export default {
  * el 被新创建的 vm.$ el 替换，并挂载到实例上去之后调用该钩子。
  * 如果 root 实例挂载了一个文档内元素，当 mounted 被调用时 vm.$ el 也在文档内。
  */
-  mounted() {},
-  /**
+  mounted() {
+
+    this.getTeacherDetail()
+    
+    },
+   
+   
+  /** 
    * 由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。
    * 当这个钩子被调用时，组件 DOM 已经更新，所以你现在可以执行依赖于 DOM 的操作。
    */
@@ -184,9 +199,9 @@ section{
     button {
       width: 0.7rem;
       height: 0.3rem;
-      color: orange;
+      color: #EB6100;
       border-radius: 0.15rem;
-      background: #ccc;
+      background: #EBEEEE;
       font-size: 0.12rem;
       border: none;
     }
@@ -202,9 +217,9 @@ section{
       width: 0.8rem;
       height: 0.3rem;
       border-radius: 0.15rem;
-      background: #ccc;
-      color: orange;
-      font-size: 0.12rem;
+      background: #FFE4D3;
+      color: #EB6100;
+      font-size: 0.14rem;
       text-align: center;
       line-height: 0.3rem;
     }

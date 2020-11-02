@@ -10,7 +10,7 @@
     <div class="banner">
       <el-carousel height="2.18rem">
         <el-carousel-item v-for="(item, index) in banner" :key="index">
-          <img :src="item" alt="" />
+          <img :src="item.banner_img" alt="" />
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -174,10 +174,11 @@ export default {
   },
   created() {},
   mounted() {
-    this.getBanner(); //调用获取列表数据的方法
+    this. getIndexList(); //调用获取列表数据的方法
+     this. getBanner(); //调用获取轮播图数据的方法
   },
   methods: {
-    async getBanner() {
+    async getIndexList() {
       //获取列表数据
       let { data } = await this.$http.get("/api/app/recommend/appIndex");
       console.log(data); 
@@ -185,13 +186,21 @@ export default {
       this.jpkc = data[1].list;
       this.tjkc = data[3].list;
       this.mxjs = data[0].list;
-      console.log(this.mxjs);
+      // console.log(this.mxjs);
+    },
+
+    async getBanner(){
+
+      let {data} =await this.$http.get("/api/app/banner")
+    //  console.log(data)
+     this.banner=data
     },
 
     // 跳转到课程详情
     toDetail(val) {
       console.log(val);
       this.$router.push({
+<<<<<<< HEAD
         path: "/couserDetail",
         query: {
           id: val.id,
@@ -212,6 +221,33 @@ export default {
         });
       }
     },
+=======
+        path:"/couserDetail",
+        query:{
+         couserDetailId:val.course_classify_id,
+         course_type:val.course_type
+        }
+      })
+
+    },
+
+    // 跳转到教师阵容详情页面
+    toTeacher(i){
+   
+      if(!localStorage.Token){
+
+      this.LoginMessageShow=!this.LoginMessageShow
+      
+    }else{
+       this.$router.push({
+         path:"Teacher",
+         query:{
+           teacherId:i.teacher_id
+         }
+       })
+    }
+    }
+>>>>>>> 9b08959d556af362f40c4e9da170f1e497679df4
   },
 };
 </script>

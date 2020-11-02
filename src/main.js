@@ -16,8 +16,8 @@ router.beforeEach((to,from,next)=>{
   
   console.log(to,from)
   document.title=to.meta.title
-
-  next()
+ next()
+  
 })
 
 

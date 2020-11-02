@@ -3,7 +3,7 @@
     <div class="header">
       <header>
         <span>
-          <van-icon name="arrow-left" size="0.3rem"  @click="$router.go(-1)"/>
+          <van-icon name="arrow-left" size="0.3rem" @click="$router.go(-1)" />
         </span>
         <h3>预约课程</h3>
       </header>
@@ -11,7 +11,11 @@
     <section>
       <div class="xiang">
         <div class="top">
-          <img src alt />
+          <img
+            data-v-0da794c7=""
+            alt=""
+            src="https://baijiayun-wangxiao.oss-cn-beijing.aliyuncs.com/uploads/avatar.jpg"
+          />
           <div class="zi">
             <p>
               <span>李青</span>
@@ -21,7 +25,31 @@
               <span>25年教龄</span>
             </p>
           </div>
-          <van-button round type="info"  color="#EB6100" plain size="small" @click="$router.push()">查看详情</van-button>
+          <van-button
+            round
+            type="info"
+            color="#EB6100"
+            plain
+            size="small"
+            @click="$router.push()"
+            >查看详情</van-button
+          >
+        </div>
+      </div>
+
+      <div class="list">
+        <div class="list_title">
+          <p class="red_title"></p>
+          <span>选择时间 （北京时间）</span>
+        </div>
+
+        <div class="date"></div>
+        <ul>
+          
+        </ul>
+        <div v-show="list.length==0"  class="empty">
+          <img data-v-0fa74510="" src="https://wap.365msmk.com/img/empty.0d284c2e.png" />
+          <p data-v-0fa74510="">暂无信息</p>
         </div>
       </div>
     </section>
@@ -40,7 +68,9 @@ export default {
   components: {},
   // 组件状态值
   data() {
-    return {};
+    return {
+      list: [], //课程列表
+    };
   },
   // 计算属性
   computed: {},
@@ -70,7 +100,7 @@ export default {
   /**
    * keep-alive 组件停用时调用。 仅针对keep-alive 组件有效
    */
-  deactivated() {}
+  deactivated() {},
 };
 </script> 
 
@@ -117,9 +147,13 @@ section {
     border-radius: 0.05rem;
     .top {
       width: 100%;
-      height: 0.7rem;
+      height: 0.88rem;
       display: flex;
       align-items: center;
+      img {
+        width: 0.43rem;
+        margin-right: 0.1rem;
+      }
       .zi {
         flex: 1;
         :nth-child(1) {
@@ -148,6 +182,52 @@ section {
     }
   }
 }
+
+// 列表区域
+.list {
+  flex: 1;
+  padding: 0.1rem;
+  .list_title {
+    margin-top: 0.1rem;
+    width: 100%;
+    height: 0.18rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.2rem;
+    .red_title {
+      width: 0.03rem;
+      height: 100%;
+      background: red;
+    }
+    > :nth-child(2) {
+      font-size: 0.16rem;
+      margin-left: 0.1rem;
+    }
+  }
+  
+  .date{
+    width: 100%;
+    height: 0.8rem;
+    background: white;
+  }
+
+  .empty{
+   width: 100%;
+   height: 2.32rem;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   img{
+     width: 1.64rem;
+   }
+   p{
+     font-size: 0.16rem;
+   }
+  }
+
+}
+
 footer {
   width: 100%;
   height: 0.5rem;
