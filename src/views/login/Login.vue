@@ -46,9 +46,15 @@
             v-model="tel"
           >
             <template #button>
-              <span @click="getmsg" v-show="getCode" >获取验证码</span>
+              <span @click="getmsg" v-show="getCode">获取验证码</span>
               <div class="time_box" v-show="timeOut">
-                获取验证码 (<van-count-down ref="countDown" :time="time"  format="ss" @finish="timeend" :auto-start="false" />)
+                获取验证码 (<van-count-down
+                  ref="countDown"
+                  :time="time"
+                  format="ss"
+                  @finish="timeend"
+                  :auto-start="false"
+                />)
               </div>
             </template>
           </van-field>
@@ -68,7 +74,7 @@
         </div>
       </div>
     </div>
-    <div class="login_button_container"  v-show="loginShow">
+    <div class="login_button_container" v-show="loginShow">
       <div class="login_button_wrapper">
         <van-button
           type="primary"
@@ -80,7 +86,7 @@
         >
       </div>
     </div>
-     <div class="login_button_container" v-show="logonShow">
+    <div class="login_button_container" v-show="logonShow">
       <div class="login_button_wrapper">
         <van-button
           type="primary"
@@ -99,11 +105,13 @@
   </div>
 </template>
 <script>
+
 import Vue from "vue";
 import { Field } from "vant";
 Vue.use(Field);
 import axios from "axios";
-import {phoneTest}from '@/plugins/phoneTest.js'
+import { phoneTest, passwordTest } from "@/plugins/phoneTest.js"; //验证方法
+
 export default {
   data() {
     return {
@@ -116,10 +124,10 @@ export default {
       loginTel: "",
       loginPass: "",
       time: 60 * 1000,
-      timeOut:false,
-      getCode:true,
-      msgCode:'',
-      showtime:false
+      timeOut: false,
+      getCode: true,
+      msgCode: "",
+      showtime: false,
     };
   },
   methods: {
@@ -128,31 +136,46 @@ export default {
       this.loginShow = false;
       this.logonShow = true;
     },
+    //
+    // timeout(){
+    //   this.timeout=false
+    // },
+    //点击使用密码登录，登录页面显示，注册页面隐藏
     againClick() {
       this.loginShow = true;
       this.logonShow = false;
     },
     // 点击获取验证码按钮
     getmsg() {
-      if (this.tel == "" || !phoneTest(this.tel)) {
-        this.show = true;
-        setTimeout(() => {
-          this.show = false;
-        }, 1500);
+      if (phoneTest(this.tel) != true) {
+        this.$toast({
+          message: phoneTest(this.tel),
+          position: "top",
+        });
         return;
       }
-      // 验证码倒计时
-      this.$refs.countDown.start();
-      // 验证码第一个样式消失
-      this.getCode=false
-      // 验证码第二个样式出现
-      this.timeOut=true
-      axios.post("http://120.53.31.103:84/api/app/smsCode",{
+
+      axios
+        .post("http://120.53.31.103:84/api/app/smsCode", {
           mobile: this.tel,
-          sms_type:'login'
-      }).then(res=>{
-        console.log(res);
-      })
+          sms_type: "login",
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.data.code == 200) {
+            // 验证码倒计时
+            this.$refs.countDown.start();
+            // 验证码第一个样式消失
+            this.getCode = false;
+            // 验证码第二个样式出现
+            this.timeOut = true;
+          }else{
+               this.$toast({
+          message: "当前请求频繁,请稍后再试",
+          position: "top",
+        });
+          }
+        });
     },
     // 点击找回密码跳转该页面
     retrieve() {
@@ -160,42 +183,82 @@ export default {
     },
     // 点击首页面登录请求接口
     Signin() {
-      axios
-        .post("http://120.53.31.103:84/api/app/login", {
-          mobile: this.loginTel,
-          password: this.loginPass,
-          type: 1,
-        })
-        .then((res) => {
-          console.log(res);
+      console.log(passwordTest(this.loginPass));
+      // 账号验证
+      if (phoneTest(this.loginTel) != true) {
+        this.$toast({
+          message: phoneTest(this.loginTel),
+          position: "top",
         });
+
+        return false;
+      } else if (passwordTest(this.loginPass) != true) {
+        // 密码验证
+        this.$toast({
+          message: passwordTest(this.loginPass),
+          position: "top",
+        });
+
+        return false;
+      } else {
+        axios
+          .post("http://120.53.31.103:84/api/app/login", {
+            mobile: this.loginTel,
+            password: this.loginPass,
+            type: 1,
+          })
+          .then((res) => {
+          //  判断是否操作成功，成功的话就保存token
+          if(res.data.code==200){
+            console.log(res);
+            localStorage.device_id=res.data.data.device_id
+            localStorage.Token=res.data.data.remember_token
+            this.$router.push('/my')
+          }
+          });
+      }
     },
     // 点击注册页面的登录
-    logondenglu(){
-        axios.post(" http://120.53.31.103:84/api/app/login",{
-          mobile:this.tel,
-          sms_code:this.msgCode,
-          client:1,
-          type:2
-        }).then(res=>{
-          console.log(res);
-          if(res.data.msg==="操作成功"){
-            window.localStorage.setItem('Token',res.data.data.mobile)
-            this.$router.push('/setPass')
-            console.log(111111);
-          }
+   async logondenglu() {
+    let res = await axios
+        .post(" http://120.53.31.103:84/api/app/login", {
+          mobile: this.tel,
+          sms_code: this.msgCode,
+          client: 1,
+          type: 2,
         })
+          if(res.data.code==200){
+             
+           if(res.data.data.is_new==1){
+              window.localStorage.setItem("Token", res.data.data.mobile);
+                        this.$router.push("/setPass");
+          }else{
+               this.$router.push("/my");
+          }
+          }else{
+            this.$toast({
+          message:"验证码错误",
+          position: "top",
+        });
+          }
+
+          console.log(res); // 是否注册过
+          
+         
+      
     },
     // 倒计时结束时触发样式改变
-    timeend(){
-      this.timeOut=false
-      this.getCode=true
+    timeend() {
+      this.timeOut = false;
+      this.getCode = true;
       this.$refs.countDown.reset();
-    }
+    },
   },
 };
 </script>
-<style <style lang="scss">
+
+
+<style  lang="scss">
 .login_pic_container {
   width: 100%;
   height: 1.52rem;
@@ -296,7 +359,7 @@ export default {
   display: flex;
   justify-content: center;
   position: fixed;
-  top:2.95rem;
+  top: 2.95rem;
   left: 0px;
   span {
     display: inline-block;
@@ -312,7 +375,7 @@ export default {
 //   width: 20px;
 //   height: 10px;
 // }
-.time_box{
+.time_box {
   margin: 0;
   padding: 0;
   height: 0.4rem;
@@ -325,7 +388,6 @@ export default {
     width: 0.2rm;
     font-size: 0.04rem;
     color: #999;
+  }
 }
-}
-
 </style>

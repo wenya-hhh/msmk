@@ -1,7 +1,10 @@
 <template>
   <div class="index">
-   
-   <LoginMessage @Login="LoginMessageShow=!LoginMessageShow" :show="LoginMessageShow" v-show="LoginMessageShow"></LoginMessage>
+    <LoginMessage
+      @Login="LoginMessageShow = !LoginMessageShow"
+      :show="LoginMessageShow"
+      v-show="LoginMessageShow"
+    ></LoginMessage>
 
     <!-- 轮播图布局 -->
     <div class="banner">
@@ -31,7 +34,7 @@
           <img
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD8AAAA8CAYAAADRy2JxAAAHAElEQVRoQ+1bfWydVR1+nvO+vb392NptHStjwW3QtdsK6D6MUSPORAlEiQZBJZrFaDZjcPQrTP8wuUqIxLK26yLREqMxEAgzCJosmvDHEIKyTEeXguvHoNsQgl3XFvpx73vf9zzmbVdk3W3vbdc7+8d7/mvv+f3O7znn93XPfQ6RYfQdbNzuW9QDWkewDFCBgBTAYVBvG6HHgMcRU1daheNlBYMT1+7tmCCgTPoW+39v/2pPcXKiaJkPtxrCJyzsTgA3glxDYIWEgOAEiHOC/kWrg9UNrcdm2sFMhnW3NO4W9dusRhOjEPsA2wei01j93aZjr9Ts//n7WWXnOeHllvqiCjifErRD0DYY7IB0PUAnmyqKe6sbDnQsLvhLtfkEBgWcI/AkAv6uuunA+WyGZfv8zUQinlo+eido7yOwScBKAAXZ5D78+dUAP8MenSWd5mQaT3cfOzN4z+HDQa4GS2B/W11ZAOezAZQAcJMAk6v8ZSd8FU5+FtvYDdpfx6XH19e3vZMNQNcvvl9akC7+BmS/JeDTADKGZjY9/+eTn1qehCQkAfSIwf7NdQf/Mpvh3e0NtyhgC6CdgEonpRdhzOr23W2NT07rD8iHttz/SFfOCW+ehhGYMORPXQW/3FDfNjwt3tncVBIv0G5JDwEon6farNOnwfe0PrBZ9H88LcBTrQ0flCcj+/lNDW3P5wv8xUXTBI7YgA9ubjrwj57Wuo8K5gERX4EQz4pkAROmwfe21N8akEfnBn+wcbdsDqVuAYZMiUgAe0H8QcIXCW1ZLBfPZNL8wOda5xcM/uoKRuAbDnTk5vbRyecz5sMvARonMAawGEBJPgNhSbl9CNwl98LqhGhuttBj+dyAJQUexNnq+1vWX2yA2N3W8AaA9fk6/aUFHuivqW/ZMA22u62xT9INEfg87EB08kuo1EVuH8U8gCjhRdk+D6k+vFC5eI21VHr7KOFFCS9KeFF7G/X2+cj3UbaPevtcrq7zf4cX1fmozkd1PqrzUZ2P6vwi70DU5ERNTtTkZCEnRB1eXn+ljdrbqL2N2tsl1N72ttffGlgegRCyJvIxrlrMh9w/yty5qeGR53O6t+9K3B1zV6z7HISbCKyBzDWAKgFcI2EjiGVXuCOXgD/V2nAawMaF6aRHolNAF4GQ/f1vS15wrJISXMdlKjl45qXaxGEvJ/BzGaFEwvStfL/GBthOcptkd0qTrIpSASWknGycOgFna+rmy8wIuXuYgDgKg7do9Zxx8cKNlTjGe1onctm4ucGD+0ScgLWTnFcrBjHK84CU77rjsN5oadmKkQ3fToRc2mk6Ic+01VV6wtaQXyOyFlbbQGwGEMtICgxdkaiX1QnQ3AyoXUDRbHMBnYTwMh0cD3k8VSPl3UwkrBIJ983yoVUeCssdeSXWYQmtiVtrHUPHAS0lG8AYD4E8Q9YGwKPT61xCPwUQ8uO9KaZzuNG0IVtSYkDCB5GG5AEcAvkGYV8jzMmYgq6QUR3SKk82NxU7Bd6qOAu3+Na/F+RdmXKHoFECwxDLMoWRAJ/Qs4amQ9a+blz/vOPFKn3X7JCC7QJrJa0jVQwx3GQXhAvBCX+c+5/3KfzDCrAEXQGrZwOfi/dknENiAOIRAn+U7Cvj1NjwyKujVRVby8aCwkZYfE3CWnBOfm24wedp8SfSbVUQDMgJqgHzZQp3gKi5Et79TMNnnvyCwc8QDBnVnQ55HIYvTIyNvRQrXVZEP7gD0tfFSR594QcnAAQCOg3wTBDwzzR2NY35AoRdmuTlZg6fKzU2X+An7ZpyNw0R5jUhOPTUSPkz3ywZrUg7we0kfwbgWgDDJJsDH0/Q2OUhJR3AJyVUgAt/XZHLxrD/UNOGVDrwYE3KxDzPFBazOGVifkEyNjrOEscxKyBUEHaNL37EQBtFbAJQSSB+MVGFycrNviCPOrL3nfjbW6c+86WPx8eG/rPWMvmue2GVly5/b7eVHgaYjW/vA5OPF5KC0iSTEM6K6KFwzhgOWGnQJc77MoOO4VghOeG51g/GZE3Mo+vEHXhOfMEvGU4/vL/MFvvX+b69wZBVk/FosQ3A1tnjOnw9w34DtFXdsvxR7kr4oR6/yH/QWvsdTlFRLx/UOMTXCb4q2R7RnHZh+q38d9PvlQ3UJhJhkp73WDD4mSsdT+wpLltZuNJXwfVG+irEexU2SBmHRgX+nkZ/peVtFriLGTyHwAiB3wQwT7te6lxJeerC2r0d4/NGOYvAooGfqb+3/UergyD1PZJ7rOwagjk+BwubGXOBwFPG8X5Ste/QwGKBvSzb50vxtN7ulvrrQH5X4B5Aa7OtR+CYDH74ztA/X9yVOBrGd95G3k7+wxb3tv+gMI2CjzkBntAcPbygXtdxb6/a1xz2+nkf/wX17ObGsfXZpQAAAABJRU5ErkJggg=="
           />
-          <p @click="LoginMessageShow=!LoginMessageShow">学习日历</p>
+          <p @click="LoginMessageShow = !LoginMessageShow">学习日历</p>
         </li>
       </ul>
     </div>
@@ -51,7 +54,6 @@
             <div>
               <p>{{ i.teacher_name }}</p>
               <p>{{ i.introduction }}</p>
-           
             </div>
           </li>
         </ul>
@@ -147,11 +149,11 @@
 </template>
 
 <script>
-import LoginMessage from "@/components/LoginMessage"
+import LoginMessage from "@/components/LoginMessage";
 export default {
   name: "index",
-  components:{
-          LoginMessage
+  components: {
+    LoginMessage,
   },
   data() {
     return {
@@ -178,7 +180,7 @@ export default {
     async getBanner() {
       //获取列表数据
       let { data } = await this.$http.get("/api/app/recommend/appIndex");
-      console.log(data);
+      console.log(data); 
       this.mszr = data[4].list;
       this.jpkc = data[1].list;
       this.tjkc = data[3].list;
@@ -187,41 +189,34 @@ export default {
     },
 
     // 跳转到课程详情
-    toDetail(val){
-       console.log(val)
+    toDetail(val) {
+      console.log(val);
       this.$router.push({
-        path:"/couserDetail",
-        query:{
-          id:val.id
-        }
-      })
-
+        path: "/couserDetail",
+        query: {
+          id: val.id,
+        },
+      });
     },
 
     // 跳转到教师阵容详情页面
-    toTeacher(i){
-   
-      if(!localStorage.Token){
-
-      this.LoginMessageShow=!this.LoginMessageShow
-      
-    }else{
-       this.$router.push({
-         path:"Teacher",
-         query:{
-           id:i.id
-         }
-       })
-    }
-    }
+    toTeacher(i) {
+      if (!localStorage.Token) {
+        this.LoginMessageShow = !this.LoginMessageShow;
+      } else {
+        this.$router.push({
+          path: "Teacher",
+          query: {
+            id: i.id,
+          },
+        });
+      }
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
-
-
 .index {
   width: 100%;
   height: 100%;
@@ -400,13 +395,15 @@ export default {
     > :nth-child(4) {
       display: flex;
       width: 100%;
+      align-items: center;
       height: 0.48rem;
       justify-content: space-between;
       border-top: 0.01rem solid #f9f9f9;
       > :nth-child(1) {
         width: 2.93rem;
         height: 0.48rem;
-        align-items: 0.48rem;
+        display: flex;
+        align-items: center;
       }
     }
   }
@@ -415,7 +412,7 @@ export default {
   //免费
   width: 0.53rem;
   height: 0.48rem;
-  align-items: 0.48rem;
+  line-height: 0.48rem;
   img {
     width: 0.13rem;
     height: 0.14rem;
