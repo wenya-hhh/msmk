@@ -106,10 +106,6 @@
   </div>
 </template>
 <script>
-<<<<<<< HEAD
-
-=======
->>>>>>> 9b08959d556af362f40c4e9da170f1e497679df4
 import Vue from "vue";
 import { Field } from "vant";
 Vue.use(Field);
@@ -140,7 +136,6 @@ export default {
       this.loginShow = false;
       this.logonShow = true;
     },
-    //
     // timeout(){
     //   this.timeout=false
     // },
@@ -215,12 +210,6 @@ export default {
           //  判断是否操作成功，成功的话就保存token
           if(res.data.code==200){
             console.log(res);
-<<<<<<< HEAD
-            localStorage.device_id=res.data.data.device_id
-            localStorage.Token=res.data.data.remember_token
-            this.$router.push('/my')
-          }
-=======
            if(res.data.code==200){
 
                 localStorage.Token=res.data.data.remember_token
@@ -229,12 +218,9 @@ export default {
                this.$router.push("/my")
            }
             // 把token保存到本地
-           
-
-
->>>>>>> 9b08959d556af362f40c4e9da170f1e497679df4
-          });
-      }
+          }
+          }
+          )}
     },
     // 点击注册页面的登录
    async logondenglu() {
@@ -251,7 +237,8 @@ export default {
                 localStorage.deviceid=res.data.data.device_id
            if(res.data.data.is_new==1){
              
-                        this.$router.push("/setPass");
+              this.$router.push("/setPass");
+           
           }else{
                this.$router.push("/my");
           }
@@ -262,10 +249,7 @@ export default {
         });
           }
 
-          console.log(res); // 是否注册过
-          
-         
-      
+          console.log(res); // 是否注册过    
     },
     // 倒计时结束时触发样式改变
     timeend() {
@@ -273,7 +257,7 @@ export default {
       this.getCode = true;
       this.$refs.countDown.reset();
     },
-  },
+  }
 };
 </script>
 

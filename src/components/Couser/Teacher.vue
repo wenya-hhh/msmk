@@ -15,7 +15,7 @@
           <img src alt />
           <div class="zi">
             <p>
-              <span>李青</span>
+              <span>{{teacherName}}</span>
               <span>M20</span>
             </p>
             <p>
@@ -79,7 +79,9 @@ export default {
   },
   // 组件状态值
   data() {
-    return {};
+    return {
+      teacherName:''
+    };
   },
   // 计算属性
   computed: {},
@@ -95,6 +97,7 @@ export default {
  async getTeacherDetail(){
         let {data:res} = await this.$http("/api/app/teacher/"+this.$route.query.teacherId)
         console.log(res)
+        this.teacherName=res.teacher.real_name
         let {data} = await this.$http("/api/app/teacher/info/"+this.$route.query.teacherId)
         console.log(data)
    }
@@ -110,9 +113,10 @@ export default {
  * 如果 root 实例挂载了一个文档内元素，当 mounted 被调用时 vm.$ el 也在文档内。
  */
   mounted() {
-
     this.getTeacherDetail()
-    
+    // this.$http.get("/api/app/teacher/"+this.$route.query.teacherId).then(res=>{
+    //   console.log(res);
+    // })
     },
    
    

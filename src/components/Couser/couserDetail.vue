@@ -4,82 +4,110 @@
     <van-sticky>
       <header>
         <van-icon @click="$router.go(-1)" name="arrow-left" />
-        <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程介绍</span>
-        <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程大纲</span>
-        <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程评价</span>
-        <span v-if="flag">课程详情</span>
+        <div class="isShow" v-show="!flag">
+          <span :class="ischange == 1 ? 'ischange' : 'change'"
+            >课程介绍</span
+          >
+          <span :class="ischange == 2 ? 'ischange' : 'change'"
+            >课程大纲</span
+          >
+          <span :class="ischange == 3 ? 'ischange' : 'change'"
+            >课程评价</span
+          >
+        </div>
+
+        <span v-show="flag">课程详情</span>
         <van-icon name="info-o" />
       </header>
     </van-sticky>
     <!-- 中间 -->
-    <section id="section">
+    <section id="section" @scroll.passive="getScroll($event)">
       <div class="content" id="content">
         <!-- 第一块 -->
         <div class="top">
-          <p>{{arr.title}}</p>
+          <p>{{ arr.title }}</p>
           <van-icon name="star-o" size="0.25rem" />
           <span>免费</span>
           <p class="p1">
-            <span>共{{arr.total_periods}}课时</span>
-            <span style="margin:0 0.1rem;">|</span>
-            <span>{{arr.sales_num}}人已报名</span>
+            <span>共{{ arr.total_periods }}课时</span>
+            <span style="margin: 0 0.1rem">|</span>
+            <span>{{ arr.sales_num }}人已报名</span>
           </p>
-          <p class="p1">开课时间：{{arr.start_play_date}} ~ {{arr.end_play_date}}</p>
+          <p class="p1">
+            开课时间：{{ arr.start_play_date }} ~ {{ arr.end_play_date }}
+          </p>
         </div>
         <!-- 第二块 -->
         <div class="bottom">
           <p>教学团队</p>
-          <div class="tou" v-for="(item,index) in arr1" :key="index">
+          <div class="tou" v-for="(item, index) in arr1" :key="index">
             <div class="xiang" @click="goto(item.teacher_id)">
               <img :src="item.avatar" alt />
-              <span>{{item.teacher_name}}</span>
+              <span>{{ item.teacher_name }}</span>
             </div>
           </div>
         </div>
         <!-- 课程介绍 -->
-        <div class="jieshao">
+        <div class="jieshao" ref="jieshaos">
           <p>课程介绍</p>
+          <p>{{ arr.course_statement }}</p>
         </div>
         <!-- 课程大纲 -->
-        <div class="gang">
+        <div class="gang" ref="dagang">
           <p>课程大纲</p>
           <div class="gang_list">
-            <ul v-for="(item,index) in arr3" :key="index">
+            <ul v-for="(item, index) in arr3" :key="index">
               <li>
                 <div>
                   <span class="dian"></span>
                   <span class="hui">回放</span>
-                  <span>{{item.periods_title}}</span>
+                  <span>{{ item.periods_title }}</span>
                 </div>
                 <p>
                   <span
-                    style="margin-right:0.18rem"
-                    v-for="(i,k) in item.teachers"
+                    style="margin-right: 0.18rem"
+                    v-for="(i, k) in item.teachers"
                     :key="k"
-                  >{{i.teacher_name}}</span>
-                  <span>{{item.start_play}}</span> ~
-                  <span>{{item.end_play}}</span>
+                    >{{ i.teacher_name }}</span
+                  >
+                  <span>{{ item.start_play }}</span> ~
+                  <span>{{ item.end_play }}</span>
                 </p>
               </li>
             </ul>
           </div>
         </div>
         <!-- 课程评论-->
-        <div class="lun">
+        <div class="lun" ref="pingjia">
           <p>课程评论</p>
           <div class="ping">
             <ul>
-              <li v-for="(item,index) in arr4" :key="index">
+              <li v-for="(item, index) in arr4" :key="index">
                 <div class="tu">
                   <img :src="item.avatar" alt />
                 </div>
                 <div class="zi">
                   <p>
-                    <span style="margin-right:0.1rem;font-size:0.14rem">{{item.nickname}}</span>
-                    <van-rate v-model="item.grade" readonly size="0.14rem" color="#ea7a2f"></van-rate>
-                    <span>{{item.created_at}}</span>
+                    <span style="margin-right: 0.1rem; font-size: 0.14rem">{{
+                      item.nickname
+                    }}</span>
+                    <van-rate
+                      v-model="item.grade"
+                      readonly
+                      size="0.14rem"
+                      color="#ea7a2f"
+                    ></van-rate>
+                    <span>{{ item.created_at }}</span>
                   </p>
-                  <p style="margin-top:0.1rem;color:#8c8c8c;font-size:0.12rem">{{item.content}}</p>
+                  <p
+                    style="
+                      margin-top: 0.1rem;
+                      color: #8c8c8c;
+                      font-size: 0.12rem;
+                    "
+                  >
+                    {{ item.content }}
+                  </p>
                 </div>
               </li>
             </ul>
@@ -104,7 +132,7 @@ export default {
   // 组件状态值
   data() {
     return {
-      kai:true,
+      kai: true,
       top: 0,
       flag: true,
       id: this.$route.query.couserDetailId, //传过来的id
@@ -113,7 +141,8 @@ export default {
       arr3: [], //课程大纲
       arr4: [], //课程评论
       page: 1, //第几页
-      limit: 10 //数量
+      limit: 10, //数量
+      ischange: 0,
     };
   },
   // 计算属性
@@ -122,38 +151,62 @@ export default {
   watch: {},
   // 组件方法
   methods: {
-    bao(){
+    bao() {
       this.kai = false;
     },
-    xue(){
-      this.$router.push('/xuexi')
+    xue() {
+      this.$router.push("/xuexi");
     },
     async ajax() {
       // 课程内容
       let { data } = await first("/courseInfo/basis_id=" + this.id);
-      console.log(this.id, data);
-      this.arr = data.data.info;
-      this.arr1 = data.data.teachers;
+      // console.log(this.id, data);
+      this.arr = data.info;
+      // console.log(this.arr);
+      this.arr1 = data.teachers;
       // 课程大纲
       let { data: res } = await two("/courseChapter", { id: this.id });
-      console.log(res);
-      this.arr3 = res.data;
+      // console.log(res);
+      this.arr3 = res;
       // 课程评论
       let { data: lun } = await treen("/courseComment", {
         page: 1,
         limit: 10,
-        id: this.id
+        id: this.id,
       });
-      console.log(lun);
-      this.arr4 = lun.data.list;
+      // console.log(lun);
+      this.arr4 = lun.list;
     },
-    goto(id){
-      if(localStorage.Token){
- this.$router.push('/teacher?id='+id)
-      }else{
-         this.$router.push('/login')
+    goto(id) {
+      if (localStorage.Token) {
+        this.$router.push("/teacher?id=" + id);
+      } else {
+        this.$router.push("/login");
       }
-      
+    },
+
+    // 滑动改变头部样式
+    getScroll(event) {
+      let jieshao = this.$refs.jieshaos.offsetTop - 60;
+      let dagang = this.$refs.dagang.offsetTop - 60;
+      let pinglun = this.$refs.pingjia.offsetTop - 60;
+
+      let top = event.target.scrollTop;
+      if (top > 60) {
+        this.flag = false;
+      }
+      if (top > 60 && top < jieshao) {
+        this.ischange = 1;
+        // console.log(this.ischange);
+      } else if (top > jieshao && top < dagang) {
+        this.ischange = 2;
+        console.log(this.ischange);
+      } else if (top > dagang && top < pinglun) {
+        this.ischange = 3;
+        console.log(this.ischange);
+      } else if (top < 60) {
+        this.flag = true;
+      }
     },
   },
   created() {},
@@ -178,7 +231,7 @@ export default {
   /**
    * keep-alive 组件停用时调用。 仅针对keep-alive 组件有效
    */
-  deactivated() {}
+  deactivated() {},
 };
 </script> 
 
@@ -394,5 +447,19 @@ footer {
   font-size: 0.2rem;
   // position: fixed;
   // bottom: 0;
+}
+.isShow {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.ischange {
+  font-size: 0.18rem;
+  color: black;
+}
+.change {
+  font-size: 0.14rem;
+  color: #6666;
 }
 </style>
