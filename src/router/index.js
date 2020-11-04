@@ -338,7 +338,28 @@ meta:{
     title: '修改个人信息'
   }
 },
+// 修改个人信息下的小页面
+{
+  path: "/changeName", //修改个人信息
+  name: "ChangeName",
+  component: function () {
+    return import("@/components/myChild/ChangeName.vue")
+  },
+  meta: {
+    title: '修改个人信息'
+  }
+},
 
+{
+  path: "/changeSex", //修改个人信息
+  name: "ChangeSex",
+  component: function () {
+    return import("@/components/myChild/ChangeSex.vue")
+  },
+  meta: {
+    title: '修改个人信息'
+  }
+},
 // 课程详情
 {
   path: '/couserDetail',

@@ -32,12 +32,13 @@ serve.interceptors.request.use((req)=>{
 
 })
 
-serve.interceptors.response.use((res)=>{
+// 响应拦截
+serve.interceptors.response.use((res) => {
 
    loadingInstance1.close()
 
-    return res.data
-   
-   })
+   return res.data
 
-   export default serve
+})
+
+export default serve

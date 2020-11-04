@@ -131,6 +131,7 @@ export default {
 
       list: [],
       LoginMessageShow: false,
+      data: "",
     };
   },
   created() {},

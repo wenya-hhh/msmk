@@ -55,6 +55,7 @@ export default {
   bottom:0.82rem ;
   right: 0.3rem;
   display: flex;
+  z-index: 9999;
   justify-content: center;
   align-items: center;
   i{

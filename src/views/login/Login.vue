@@ -136,7 +136,6 @@ export default {
       this.loginShow = false;
       this.logonShow = true;
     },
-    //
     // timeout(){
     //   this.timeout=false
     // },
@@ -217,11 +216,9 @@ export default {
                this.$router.push("/my")
            }
             // 把token保存到本地
-           
-
-
-          });
-      }
+          }
+          
+          )}
     },
     // 点击注册页面的登录
    async logondenglu() {
@@ -238,7 +235,8 @@ export default {
                 localStorage.deviceid=res.data.data.device_id
            if(res.data.data.is_new==1){
              
-                        this.$router.push("/setPass");
+              this.$router.push("/setPass");
+           
           }else{
                this.$router.push("/my");
           }
@@ -249,10 +247,7 @@ export default {
         });
           }
 
-          console.log(res); // 是否注册过
-          
-         
-      
+          console.log(res); // 是否注册过    
     },
     // 倒计时结束时触发样式改变
     timeend() {
@@ -260,7 +255,7 @@ export default {
       this.getCode = true;
       this.$refs.countDown.reset();
     },
-  },
+  }
 };
 </script>
 

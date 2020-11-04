@@ -76,6 +76,7 @@
         <!-- 课程介绍 -->
         <div id="jieshao" ref="jieshao" class="jieshao">
           <p>课程介绍</p>
+          <p>{{ arr.course_statement }}</p>
         </div>
         <!-- 课程大纲 -->
         <div id="dagang" ref="dagang" class="gang">
@@ -589,5 +590,19 @@ footer {
   font-size: 0.2rem;
   // position: fixed;
   // bottom: 0;
+}
+.isShow {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.ischange {
+  font-size: 0.18rem;
+  color: black;
+}
+.change {
+  font-size: 0.14rem;
+  color: #6666;
 }
 </style>

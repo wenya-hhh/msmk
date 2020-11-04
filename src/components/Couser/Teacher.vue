@@ -138,10 +138,7 @@ export default {
       Toast("返回");
     },
     
-    // 取消关注
-  async cancel(){
-
-  },
+   
 
     // 关注讲师
    async collectTeacher(){

@@ -3,7 +3,7 @@ import vue from "vue"
 // 移动端拖拽指令
 vue.directive("drag",(el,binding)=>{
 
-    
+    // alert("555")
     el.ontouchstart  = function (e) {
         var touch;
          if (e.touches) {
