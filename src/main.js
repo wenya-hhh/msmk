@@ -10,6 +10,7 @@ import rem from "@/assets/rem"
 import "@/assets/font/iconfont.css"
 import "@/directives" //全局自定义指令
 import { FormItem } from 'element-ui'
+
 Vue.prototype.$http=axios
 
 router.beforeEach((to,from,next)=>{
@@ -29,3 +30,6 @@ new Vue({
   store,
   render: function (h) { return h(App) }
 }).$mount('#app')
+
+
+

@@ -38,7 +38,7 @@ const routes = [
           title:"我的"
         },
         component: function () {
-          return import('../components/My.vue')},
+          return import('../components/my/My.vue')},
         // var token=window.localStorage.getItem('Token')
         beforeEnter(to,from,next){
           console.log(to,from,next)
@@ -91,6 +91,102 @@ const routes = [
 },
 // 一级路由区域
 
+// 我的学习卡
+{
+  path:"/MyLearningCard",
+  name:"MyLearningCard",
+  component:()=>{
+    return import("../components/my/MyLearningCard")
+  },
+  meta:{
+    title:"学习卡"
+  }
+},
+
+// 我的优惠券
+{
+  path:"/MyDiscount",
+  name:"MyDiscount",
+  component:()=>{
+    return import("@/components/my/MyDiscount")
+  },
+  meta:{
+    title:"优惠券"
+  }
+},
+
+// 会员
+{
+path:"/MyVip",
+name:"MyVip",
+component:()=>{
+  return import("@/components/my/MyVip")
+},
+meta:{
+  title:"会员"
+}
+},
+
+// 搜索
+{
+  path:'/search',
+  name:"search",
+  component:()=>{
+    return import("@/components/Search")
+  },
+  meta:{
+   title:"搜索"
+  }
+},
+
+// 我的学习
+{
+ path:"/mystudy",
+ name:"mystudy",
+ component:()=>{
+  return import("@/components/my/MyStudy")
+
+ },
+
+},
+
+// 立即学习
+{
+  path:"/study",
+  name:"study",
+  component:()=>{
+    return import("@/components/Couser/Study")
+  },
+  meta:{
+    title:"学习详情"
+  }
+},
+
+// 确认订单
+{
+  path:"/confirmOrder",
+  name:"confirmOrder",
+  component:()=>{
+    return import("@/components/Couser/ConfirmOrder")
+  },
+  meta:{
+    title:"确认订单"
+  }
+},
+
+// 我的订单
+{
+  path:"/myorder",
+  name:"myorder",
+  component:function(){
+         return import("@/components/my/MyOrder")
+  },
+  meta:{
+    title:"我的订单"
+  }
+ 
+},
+
 //  我的关注
   {
    path:"/my-attention",
@@ -110,7 +206,7 @@ const routes = [
   path:"/my-collect",
   name:"MyCollect",
   component:function(){
-    return import("@/components/my/Collect")
+    return import("@/components/my/MyCollect")
   },
  meta:{
   title:"我的收藏"
@@ -407,8 +503,8 @@ const routes = [
 
 
 const router = new VueRouter({
-  // mode: 'history',
-  // base: process.env.BASE_URL,
+  mode: 'history',
+  base: process.env.BASE_URL,
   routes
 })
 

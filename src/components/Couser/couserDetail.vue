@@ -4,82 +4,135 @@
     <van-sticky>
       <header>
         <van-icon @click="$router.go(-1)" name="arrow-left" />
-        <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程介绍</span>
-        <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程大纲</span>
-        <span v-if="!flag" style="color:#666666;font-size:0.14rem">课程评价</span>
-        <span v-if="flag">课程详情</span>
-        <van-icon name="info-o" />
+        <span v-show="titleStatus > 0"
+          ><a
+            @click="titleStatus = 1"
+            :class="{ titleActive: titleStatus == 1 }"
+            href="#jieshao"
+            >课程介绍</a
+          ></span
+        >
+        <span v-show="titleStatus > 0"
+          ><a
+            @clickt="titleStatus = 2"
+            :class="{ titleActive: titleStatus == 2 }"
+            href="#dagang"
+            >课程大纲</a
+          ></span
+        >
+        <span v-show="titleStatus > 0"
+          ><a
+            @click="titleStatus = 3"
+            :class="{ titleActive: titleStatus == 3 }"
+            href="pinglun"
+            >课程评价</a
+          ></span
+        >
+        <p v-if="titleStatus == 0">课程详情</p>
+        <i @click="share" class="el-icon-share"></i>
       </header>
     </van-sticky>
     <!-- 中间 -->
-    <section id="section">
+    <section @scroll.passive="getScroll($event)" id="section">
       <div class="content" id="content">
         <!-- 第一块 -->
         <div class="top">
-          <p>{{arr.title}}</p>
-          <van-icon name="star-o" size="0.25rem" />
+          <p class="arr_title">{{ arr.title }}</p>
+          <p>
+            <van-icon
+              v-show="is_collect == 0"
+              @click="isCollect"
+              name="star-o"
+              size="0.25rem"
+            />
+            <van-icon
+              @click="cancel_collect"
+              v-show="is_collect == 1"
+              color="#FC5500"
+              name="star"
+            />
+          </p>
+
           <span>免费</span>
           <p class="p1">
-            <span>共{{arr.total_periods}}课时</span>
-            <span style="margin:0 0.1rem;">|</span>
-            <span>{{arr.sales_num}}人已报名</span>
+            <span>共{{ arr.total_periods }}课时</span>
+            <span style="margin: 0 0.1rem">|</span>
+            <span>{{ arr.sales_num }}人已报名</span>
           </p>
-          <p class="p1">开课时间：{{arr.start_play_date}} ~ {{arr.end_play_date}}</p>
+          <p class="p1">
+            开课时间：{{ arr.start_play_date }} ~ {{ arr.end_play_date }}
+          </p>
         </div>
         <!-- 第二块 -->
         <div class="bottom">
           <p>教学团队</p>
-          <div class="tou" v-for="(item,index) in arr1" :key="index">
+          <div class="tou" v-for="(item, index) in arr1" :key="index">
             <div class="xiang" @click="goto(item.teacher_id)">
               <img :src="item.avatar" alt />
-              <span>{{item.teacher_name}}</span>
+              <span>{{ item.teacher_name }}</span>
             </div>
           </div>
         </div>
         <!-- 课程介绍 -->
-        <div class="jieshao">
+        <div id="jieshao" ref="jieshao" class="jieshao">
           <p>课程介绍</p>
         </div>
         <!-- 课程大纲 -->
-        <div class="gang">
+        <div id="dagang" ref="dagang" class="gang">
           <p>课程大纲</p>
           <div class="gang_list">
-            <ul v-for="(item,index) in arr3" :key="index">
+            <ul v-for="(item, index) in arr3" :key="index">
               <li>
                 <div>
                   <span class="dian"></span>
                   <span class="hui">回放</span>
-                  <span>{{item.periods_title}}</span>
+                  <span>{{ item.periods_title }}</span>
                 </div>
                 <p>
                   <span
-                    style="margin-right:0.18rem"
-                    v-for="(i,k) in item.teachers"
+                    style="margin-right: 0.18rem"
+                    v-for="(i, k) in item.teachers"
                     :key="k"
-                  >{{i.teacher_name}}</span>
-                  <span>{{item.start_play}}</span> ~
-                  <span>{{item.end_play}}</span>
+                    >{{ i.teacher_name }}</span
+                  >
+                  <span>{{ item.start_play }}</span> ~
+                  <span>{{ item.end_play }}</span>
                 </p>
               </li>
             </ul>
           </div>
         </div>
         <!-- 课程评论-->
-        <div class="lun">
+        <div id="pinglun" ref="pinglun" class="lun">
           <p>课程评论</p>
           <div class="ping">
             <ul>
-              <li v-for="(item,index) in arr4" :key="index">
+              <li v-for="(item, index) in arr4" :key="index">
                 <div class="tu">
                   <img :src="item.avatar" alt />
                 </div>
                 <div class="zi">
                   <p>
-                    <span style="margin-right:0.1rem;font-size:0.14rem">{{item.nickname}}</span>
-                    <van-rate v-model="item.grade" readonly size="0.14rem" color="#ea7a2f"></van-rate>
-                    <span>{{item.created_at}}</span>
+                    <span style="margin-right: 0.1rem; font-size: 0.14rem">{{
+                      item.nickname
+                    }}</span>
+                    <van-rate
+                      v-model="item.grade"
+                      readonly
+                      size="0.14rem"
+                      color="#ea7a2f"
+                    ></van-rate>
+                    <span>{{ item.created_at }}</span>
                   </p>
-                  <p style="margin-top:0.1rem;color:#8c8c8c;font-size:0.12rem">{{item.content}}</p>
+                  <p
+                    style="
+                      margin-top: 0.1rem;
+                      color: #8c8c8c;
+                      font-size: 0.12rem;
+                    "
+                  >
+                    {{ item.content }}
+                  </p>
                 </div>
               </li>
             </ul>
@@ -88,12 +141,25 @@
       </div>
     </section>
     <!-- 尾部立即报名 -->
-    <footer @click="bao()" v-show="kai">立即报名</footer>
-    <footer @click="xue()" v-show="!kai">立即学习</footer>
+    <footer @click="apply()" v-show="arr.is_buy == 0">立即报名</footer>
+    <footer @click="study()" v-show="arr.is_buy == 1">立即学习</footer>
+
+    <!-- 分享二维码 -->
+    <van-overlay :show="show" @click="close">
+      <div class="wrapper" >
+        <div class="block" @click.stop>
+          <p>分享</p>
+          <p id="qrcode" ref="qrcode"></p>
+        </div>
+      </div>
+    </van-overlay>
   </div>
 </template>
 <script>
-import { first, two, treen } from "../../utils/api";
+
+    import QRCode from 'qrcodejs2'
+import { first, two, treen, cancelCollect, applyApi } from "../../utils/api";
+import axios from "axios";
 export default {
   // 组件名称
   name: "",
@@ -104,8 +170,10 @@ export default {
   // 组件状态值
   data() {
     return {
-      kai:true,
+      kai: true,
+      titleStatus: 0,
       top: 0,
+      show: false,
       flag: true,
       id: this.$route.query.couserDetailId, //传过来的id
       arr: [], //课程内容
@@ -113,47 +181,127 @@ export default {
       arr3: [], //课程大纲
       arr4: [], //课程评论
       page: 1, //第几页
-      limit: 10 //数量
+      limit: 10, //数量
+      is_collect: 0, //是否收藏
     };
   },
   // 计算属性
   computed: {},
   // 侦听器
-  watch: {},
+  watch: {
+    getscroll(val) {
+      console.log(val);
+    },
+  },
   // 组件方法
   methods: {
-    bao(){
-      this.kai = false;
+    getScroll(event) {
+      let jieshao = this.$refs.jieshao.offsetTop - 60;
+      // console.log(jieshao);
+      let dagang = this.$refs.dagang.offsetTop - 60;
+      let pinglun = this.$refs.pinglun.offsetTop - 0;
+      let top = event.target.scrollTop;
+
+      if (top > 10 && top < jieshao) {
+        this.titleStatus = 1;
+      } else if (top > dagang && top < pinglun) {
+        this.titleStatus = 2;
+      } else if (top > pinglun) {
+        this.titleStatus = 3;
+      } else if (top < 10) {
+        this.titleStatus = 0;
+      }
+      // console.log(top, jieshao, dagang, pinglun);
     },
-    xue(){
-      this.$router.push('/xuexi')
+
+    // 分享
+    share() {
+      this.show=true
+      let qrcode = new QRCode("qrcode", {
+        width: 160, // 设置宽度，单位像素
+        height: 160, // 设置高度，单位像素
+        text: "https://www.baidu.com", // 设置二维码内容或跳转地址
+      });
+
+      console.log(qrcode);
     },
-    async ajax() {
+
+    close(){
+            this.show=false
+            // alert("44")
+    },
+
+    // 收藏
+    async isCollect() {
+      let res = await this.$http.post("/api/app/collect", {
+        course_basis_id: this.id,
+        type: 1,
+      });
+
+      console.log(res);
+      if (res.code == 200) {
+        this.couserInfo();
+        this.$toast.success("收藏成功");
+      }
+    },
+
+    //  取消收藏
+    async cancel_collect() {
+      let res = await cancelCollect(this.arr.collect_id);
+      if (res.code == 200) {
+        this.$toast("已取消收藏");
+        this.couserInfo();
+      }
+      console.log(res);
+    },
+
+    // 立即报名
+    async apply() {
+      this.$router.push({
+        //跳转到确认订单页面
+        path: "/confirmOrder",
+        query: {
+          confirmOrderId: this.id,
+        },
+      });
+    },
+
+    // 立即学习
+    study() {
+      this.$router.push(`/study?couser_id=${this.id}`);
+    },
+
+    async couserInfo() {
       // 课程内容
       let { data } = await first("/courseInfo/basis_id=" + this.id);
-      console.log(this.id, data);
-      this.arr = data.data.info;
-      this.arr1 = data.data.teachers;
+      console.log(data);
+      this.arr = data.info;
+      this.is_collect = data.info.is_collect;
+      this.arr1 = data.teachers;
+    },
+
+    async courseChapter() {
       // 课程大纲
       let { data: res } = await two("/courseChapter", { id: this.id });
       console.log(res);
       this.arr3 = res.data;
+    },
+    async courseComment() {
       // 课程评论
       let { data: lun } = await treen("/courseComment", {
         page: 1,
         limit: 10,
-        id: this.id
+        id: this.id,
       });
       console.log(lun);
-      this.arr4 = lun.data.list;
+      this.arr4 = lun.list;
     },
-    goto(id){
-      if(localStorage.Token){
- this.$router.push('/teacher?id='+id)
-      }else{
-         this.$router.push('/login')
+    goto(id) {
+      if (localStorage.Token) {
+        this.$router.push("/teacher?id=" + id);
+      } else {
+        this.$router.push("/login");
       }
-      
     },
   },
   created() {},
@@ -163,22 +311,10 @@ export default {
  * 如果 root 实例挂载了一个文档内元素，当 mounted 被调用时 vm.$ el 也在文档内。
  */
   mounted() {
-    this.ajax();
-    window.addEventListener("scroll", this.handleScrollx, true);
+    this.couserInfo();
+    this.courseChapter();
+    this.courseComment();
   },
-  /**
-   * 由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。
-   * 当这个钩子被调用时，组件 DOM 已经更新，所以你现在可以执行依赖于 DOM 的操作。
-   */
-  updated() {},
-  /**
-   * keep-alive 组件激活时调用。 仅针对keep-alive 组件有效
-   */
-  activated() {},
-  /**
-   * keep-alive 组件停用时调用。 仅针对keep-alive 组件有效
-   */
-  deactivated() {}
 };
 </script> 
 
@@ -195,6 +331,42 @@ export default {
   flex-direction: column;
   // overflow: auto;
 }
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .block {
+    width: 3.2rem;
+    height: 2.6rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 0.2rem;
+    >:nth-child(1){
+      width: 100%;
+      height: 0.4rem;
+      text-align: center;
+      font-size: 0.25rem;
+      line-height: 0.6rem;
+    }
+     >:nth-child(2){
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      height: 2.2rem;
+      align-items: center;
+      img{
+        width:1.8rem !important;
+        height: 1.8rem  !important;
+      }
+    }
+  }
+
 // 头部布局
 header {
   height: 0.5rem;
@@ -207,6 +379,17 @@ header {
   font-size: 0.2rem;
   background: white;
   border-bottom: 1px solid #f1f1f1;
+
+  .titleActive {
+    font-size: 0.2rem;
+    font-weight: bold;
+    color: #333333;
+  }
+  a {
+    font-size: 0.16rem;
+    color: #8c8c8c;
+    text-decoration: none;
+  }
 }
 
 // 中间第一块
@@ -216,22 +399,34 @@ section {
 }
 .content {
   width: 100%;
-  // height: 100%;
+  min-height: 101%;
   box-sizing: border-box;
+  overflow: auto;
   .top {
     width: 100%;
     box-sizing: border-box;
     padding: 0.15rem 0.15rem;
     background: white;
     position: relative;
-    .van-icon {
+    > :nth-child(2) {
       position: absolute;
       right: 0.2rem;
       top: 0rem;
+      font-size: 0.16rem;
+      .van-icon {
+        width: 0.5rm;
+        height: 0.5rem;
+        font-size: 0.2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
-    p {
+    > :nth-child(1) {
+      width: 3rem;
       font-size: 0.16rem;
     }
+
     > span {
       display: block;
       color: orange;

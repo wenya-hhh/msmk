@@ -4,97 +4,100 @@
       <!-- 标题导航栏 -->
       <van-nav-bar title="特色课">
         <template #right>
-          <van-icon name="search" size="24" color="black" />
+          <van-icon @click="toSearch()" name="search" size="24" color="black" />
         </template>
       </van-nav-bar>
       <!-- 分类排序筛选 -->
       <van-dropdown-menu>
         <!-- 分类 -->
-        <van-dropdown-item title="分类" ref="item">
+        <van-dropdown-item title="分类" ref="classify">
           <div class="box">
-            <div class="top">
-              <p>年级</p>
+            <div class="top" v-for="(i,k) in attrclassify" :key="k">
+              <p>{{i.name}}</p>
               <div class="s">
-                <span>初一</span>
-                <span>初二</span>
-                <span>初三</span>
-                <span>高一</span>
-                <span>高二</span>
+                <span :class="{ 'active': grade == i.id+'.'+item.id || subject == i.id+'.'+item.id }" @click="classify(k,i.id,item.id)" v-for="(item,key) in i.child" :key="key">{{item.name}}</span>
+               
               </div>
             </div>
-            <div class="top">
+            <!-- <div class="top">
               <p>学科</p>
               <div class="s">
                 <span>语文</span>
-                <span>数学</span>
-                <span>英语</span>
-                <span>物理</span>
-                <span>化学</span>
+              
               </div>
-            </div>
+            </div> -->
             <div class="bt">
-              <button style="border: 1px solid #f1f1f1;">重置</button>
-              <button style="background:orange;color:white">确定</button>
+              <button style="border: 1px solid #f1f1f1">重置</button>
+              <button @click="submitClassify" style="background: orange; color: white">确定</button>
               <!-- <van-button type="default">重置</van-button>
               <van-button type="danger">确定</van-button>-->
             </div>
           </div>
         </van-dropdown-item>
         <!-- 排序 -->
-        <van-dropdown-item title="排序">
+        <van-dropdown-item ref="sort" title="排序">
           <ul>
-            <li style="color:#ee0a24">综合排序</li>
-            <li>最新</li>
-            <li>最热</li>
-            <li>价格从低到高</li>
-            <li>价格从高到低</li>
+            <li v-for="(i,k) in sortArr" :key="k" :class="{'sortActive':k==sortActive}" @click="sort(k)">{{i}}</li>
+           
           </ul>
         </van-dropdown-item>
         <!-- 筛选 -->
-        <van-dropdown-item title="筛选">
+        <van-dropdown-item ref="screen" id="screen" title="筛选">
           <div class="shai">
-            <span class="active">全部</span>
-            <span>大班课</span>
-            <span>小班课</span>
-            <span style="margin-right:0;">公开课</span>
-            <span>点播课</span>
-            <span>面授课</span>
-            <span>音频课</span>
-            <span style="margin-right:0;">系统课</span>
-            <span>图文课</span>
-            <span>会员课</span>
+            <span
+              @click="selectAppCourseType(k, i.id)"
+              v-for="(i,k) in appCourseType"
+              :key="k"
+              :class="{ active: k == appCourseTypeActive }"
+              >{{ i.name }}</span
+            > 
           </div>
         </van-dropdown-item>
       </van-dropdown-menu>
     </header>
     <!-- 中间课程 -->
     <section>
-      <div class="con">
-      <div class="list" v-for="(item,index) in arr" :key="index" @click="$router.push('/couserDetail?couserDetailId='+item.id)">
-        <p>{{item.title}}</p>
-        <div class="time">
-          <van-icon name="clock-o" style="margin-right:0.1rem" />
-          <span>{{item.start_play_date|time}} ~ {{item.end_play_date|time}}</span>
-          <span style="margin-left:0.1rem;margin-right:0.1rem;">|</span>
-          <span>共{{item.total_periods}}课时</span>
-        </div>
-        <div class="tou" v-for="(i,k) in item.teachers_list" :key="k">
-          <img :src="i.teacher_avatar" alt />
-          <span>{{i.teacher_name}}</span>
-        </div>
-        <p class="section_p">
-          <span>{{item.sales_num}}人已报名</span>
-          <span style="color:green;font-size:0.18rem">免费</span>
-        </p>
-      </div>
-      </div>
-     
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        :offset="offsetTop"
+        :immediate-check="false"
+        @load="onLoad"
+      >
+        <van-cell v-for="(item, index) in arr" :key="index">
+          <div @click="$router.push('/couserDetail?couserDetailId=' + item.id)">
+            <p>{{ item.title }}</p>
+            <div class="time">
+              <van-icon name="clock-o" style="margin-right: 0.1rem" />
+              <span
+                >{{ item.start_play_date | time }} ~
+                {{ item.end_play_date | time }}</span
+              >
+              <span style="margin-left: 0.1rem; margin-right: 0.1rem">|</span>
+              <span>共{{ item.total_periods }}课时</span>
+            </div>
+            <div class="tou" v-for="(i, k) in item.teachers_list" :key="k">
+              <p>
+                 <img :src="i.teacher_avatar" alt />
+              <span>{{ i.teacher_name }}</span>
+              </p>
+             
+              <img v-show="item.has_buy==1" src="@/assets/img/has_buy.png" alt="">
+            </div>
+            <p class="section_p">
+              <span>{{ item.sales_num }}人已报名</span>
+              <span style="color: green; font-size: 0.18rem">免费</span>
+            </p>
+          </div>
+        </van-cell>
+      </van-list>
     </section>
   </div>
 </template>
 
 <script>
-import { all } from "../../utils/api";
+import { all , classify } from "../../utils/api";
 export default {
   // 组件名称
   name: "",
@@ -106,10 +109,87 @@ export default {
   data() {
     return {
       arr: [],
-      page: 1,
-      limit: 10,
+      sortActive:0,
+      grade:1.1,
+      subject:2.1,
+      sortArr:[
+        "综合排序","最新","最热","价格从低到高","价格从高到低",
+      ],
+
+    attrclassify:[
+            {
+                "id":1,
+                "name":"年级",
+                "parent_id":0,
+                "child":[
+                    {
+                        "id":1,
+                        "name":"初一"
+                    },
+                    {
+                        "id":2,
+                        "name":"初二"
+                    },
+                    {
+                        "id":3,
+                        "name":"初三"
+                    },
+                    {
+                        "id":4,
+                        "name":"高一"
+                    },
+                    {
+                        "id":5,
+                        "name":"高二"
+                    }
+                ]
+            },
+            {
+                "id":2,
+                "name":"学科",
+                "parent_id":0,
+                "child":[
+                    {
+                        "id":7,
+                        "name":"语文"
+                    },
+                    {
+                        "id":8,
+                        "name":"数学"
+                    },
+                    {
+                        "id":9,
+                        "name":"英语"
+                    },
+                    {
+                        "id":12,
+                        "name":"物理"
+                    },
+                    {
+                        "id":13,
+                        "name":"化学"
+                    }
+                ]
+            }
+        ],
+      appCourseTypeActive: 0,
       switch1: false,
-      switch2: false
+      switch2: false,
+      loading: false,
+      finished: false,
+      appCourseType: [],
+      classifyObj:{
+         page: 1,
+        limit: 4,
+        course_type:"",
+        classify_id:"",
+        order_by:"",
+        attr_val_id:"",
+        is_vip: 0,
+      },
+      total: "",
+      lastpage: "",
+      offsetTop: 0,
     };
   },
   // 计算属性
@@ -118,49 +198,118 @@ export default {
   watch: {},
   // 组件方法
   methods: {
+
+    // 跳转到搜索
+    toSearch(){
+        this.$router.push("/search")
+    },
+  
+  // 排序
+    sort(k){
+       this.sortActive=k
+      this.classifyObj.order_by=k
+        this.ajax()
+       this.$refs.sort.toggle()
+
+    },
+
+    // 选择课程类型
+    selectAppCourseType(k, id) {
+      this.appCourseTypeActive = k;
+      this.$refs.screen.toggle()
+      this.classifyObj.course_type=id
+      this.ajax();
+     
+    },
+    
+    // 分类筛选数据
+    submitClassify(){
+      
+       this.ajax()
+       this.$refs.classify.toggle()
+
+
+    },
+
+    // 分类
+    classify(k,i,t){
+       if(i==1){
+        this.grade=i+"."+t
+       }else{
+this.subject=i+"."+t
+       }
+
+       this.classifyObj.attr_val_id=i+','+t
+       console.log(this.grade)
+       
+
+    },
+   
+  //  特色课分类
+    async getClassify() {
+      let res = await classify();
+      console.log(res);
+       this.appCourseType = res.data.appCourseType;
+      
+    },
+
+    onLoad() {
+      // 异步更新数据
+      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
+      setTimeout(() => {
+        if (this.classifyObj.limit < this.total) {
+          this.classifyObj.limit+=5;
+          this.ajax();
+        } else {
+          this.finished = true;
+        }
+
+        // 加载状态结束
+        this.loading = false;
+
+        // 数据全部加载完成
+        if (this.arr.length >= this.total) {
+          this.finished = true;
+        }
+      }, 1000);
+    },
+
     // 获取的数据
     async ajax() {
-      let { data } = await all({ page: this.page, limit: this.limit });
-      console.log(data);
-      this.arr = data.data.list;
-      console.log(data.data.list);
+     
+      
+      let res = await all(this.classifyObj);
+      console.log(res);
+      this.lastpage = res.data.last_page;
+      this.total = res.data.total;
+      this.arr=res.data.list;
+      console.log(this.arr);
+
     },
-    handleScrollx() {
-      // console.log('滚动高度', window.pageYOffset)
-      // console.log( this.$refs.content.scrollTop)
-    }
+   
   },
   filters: {
-    time: function(val) {
+    time: function (val) {
       var obj = new Date(val);
       // 月
       var month = (obj.getMonth() + 1).toString().padStart(2, "0");
       // 日
-      var day = obj
-        .getDate()
-        .toString()
-        .padStart(2, "0");
+      var day = obj.getDate().toString().padStart(2, "0");
       // 时
-      var hour = obj
-        .getHours()
-        .toString()
-        .padStart(2, "0");
+      var hour = obj.getHours().toString().padStart(2, "0");
       // 分
-      var minute = obj
-        .getMinutes()
-        .toString()
-        .padStart(2, "0");
+      var minute = obj.getMinutes().toString().padStart(2, "0");
       return month + "月" + day + "日" + " " + hour + ":" + minute;
-    }
+    },
   },
   created() {},
   mounted() {
     this.ajax();
-    window.addEventListener("scroll", this.handleScrollx, true);
+    this.getClassify();
   },
   updated() {},
   activated() {},
-  deactivated() {}
+  deactivated() {},
 };
 </script> 
 
@@ -173,7 +322,7 @@ export default {
   flex-direction: column;
   // overflow: auto;
 }
-header{
+header {
   width: 100%;
   height: 1rem;
 }
@@ -233,6 +382,13 @@ ul {
     border-top: 1px solid #f1f1f1;
   }
 }
+ .active {
+    color: #eb6100 !important;
+    background: #ebeefe !important;
+  }
+.sortActive{
+  color: #ee0a24;
+}
 // 筛选布局
 .shai {
   display: flex;
@@ -251,64 +407,77 @@ ul {
     line-height: 0.35rem;
     color: #595959;
   }
-  .active {
-    color: #eb6100;
-    background: #ebeefe;
-  }
+ 
 }
 // 中间课程布局
-section{
+section {
   flex: 1;
   overflow: auto;
 }
-.con {
+
+.van-list {
   width: 100%;
-  height: 100%;
-  box-sizing: border-box;
+  min-height: 101%;
   padding: 0.15rem 0.15rem;
-  background: #f0f2f5;
-  .list {
+  background: #F0F2F5;
+
+}
+.van-cell {
+  width: 100%;
+  background: white;
+  // height: 1.9rem;
+  box-sizing: border-box;
+  padding: 0 0.15rem;
+  margin-bottom: 0.15rem !important;
+  border-radius: 0.05rem;
+  padding-top: 0.15rem;
+
+  .time {
     width: 100%;
-    // height: 1.9rem;
-    background: white;
-    box-sizing: border-box;
-    padding: 0 0.15rem;
-    margin-bottom: 0.15rem;
-    border-radius: 0.05rem;
-    padding-top: 0.15rem;
-    .time {
-      width: 100%;
+    height: 0.3rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.12rem;
+    color: #666666;
+  }
+  .tou {
+    width: 3.5rem;
+    height: 0.8rem;
+    display: flex;
+    font-size: 0.12rem;
+    align-items: center;
+    color: #666666;
+    display: flex;
+    justify-content: space-between;
+    >:nth-child(2){
+      width: 0.72rem;
+      height: 0.59rem;
+    }
+    p{
+      width: 0.9rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
+       img {
+      width: 0.3rem;
       height: 0.3rem;
-      display: flex;
-      align-items: center;
+      border-radius: 50%;
+      margin-right: 0.1rem;
+    }
+    }
+   
+  }
+  .section_p {
+    width: 100%;
+    height: 0.5rem;
+    // background: red;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f0f2f5;
+    span {
       font-size: 0.12rem;
       color: #666666;
-    }
-    .tou {
-      width: 0.8rem;
-      height: 0.7rem;
-      display: flex;
-      font-size: 0.12rem;
-      align-items: center;
-      color: #666666;
-      img {
-        width: 0.3rem;
-        height: 0.3rem;
-        margin-right: 0.1rem;
-      }
-    }
-    .section_p {
-      width: 100%;
-      height: 0.5rem;
-      // background: red;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid #f0f2f5;
-      span {
-        font-size: 0.12rem;
-        color: #666666;
-      }
     }
   }
 }

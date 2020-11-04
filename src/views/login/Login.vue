@@ -155,8 +155,8 @@ export default {
         return;
       }
 
-      axios
-        .post("http://120.53.31.103:84/api/app/smsCode", {
+     this.$http
+        .post("/api/app/smsCode", {
           mobile: this.tel,
           sms_type: "login",
         })
@@ -201,19 +201,19 @@ export default {
 
         return false;
       } else {
-        axios
-          .post("http://120.53.31.103:84/api/app/login", {
+       this.$http
+          .post("/api/app/login", {
             mobile: this.loginTel,
             password: this.loginPass,
             type: 1,
           })
           .then((res) => {
-            console.log(res);
-           if(res.data.code==200){
+            console.log(res.code);
+           if(res.code==200){
 
-                localStorage.Token=res.data.data.remember_token
-                localStorage.deviceid=res.data.data.device_id
-               
+                localStorage.Token=res.data.remember_token
+                localStorage.deviceid=res.data.device_id
+               console.log(res)
                this.$router.push("/my")
            }
             // 把token保存到本地

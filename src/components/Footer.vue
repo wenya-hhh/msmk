@@ -85,7 +85,7 @@ export default {
         justify-content: center;
         align-items: center;
         color: #B7B7B7;
-        span{
+        i{
            font-size: 0.2rem;
         }
         p{

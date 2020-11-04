@@ -28,19 +28,30 @@
 </template>
 
 <script>
+import { collect } from "@/utils/api";
 export default {
   name: "MyAttention", //我的关注
   data() {
     return {};
   },
   created() {},
-  mounted() {},
-  methods: {
+  mounted() {
+     
+     this.getCollectTeacher()
 
+  },
+  methods: {
     //   跳转到讲师详情页面
-   toCouserDetail(){
-       this.$router.push("//teacher")
-   }
+    toCouserDetail() {
+      this.$router.push("/teacher");
+    },
+
+    //  获取关注的老师
+    async getCollectTeacher() {
+      let res = await collect({ page: 1, limit: 10, type: 2 });
+
+      console.log(res)
+    },
   },
 };
 </script>
@@ -81,7 +92,7 @@ header {
   align-items: center;
   > ul {
     width: 100%;
-  margin-bottom: 0.3rem;
+    margin-bottom: 0.3rem;
     justify-content: space-between;
     > li {
       width: 100%;
@@ -96,16 +107,16 @@ header {
         height: 0.43rem;
         margin-right: 0.1rem;
       }
-      >:nth-child(3){
-          width: 0.83rem;
-          height: 0.3rem;
-          display: flex;
-          border-radius: 0.15rem;
-          background: #FDEFE5;
-          color: #F0774A;
-         justify-content: center;
-          font-size: 0.14rem;
-          align-items: center;
+      > :nth-child(3) {
+        width: 0.83rem;
+        height: 0.3rem;
+        display: flex;
+        border-radius: 0.15rem;
+        background: #fdefe5;
+        color: #f0774a;
+        justify-content: center;
+        font-size: 0.14rem;
+        align-items: center;
       }
 
       > :nth-child(2) {
@@ -126,7 +137,7 @@ header {
           margin-top: 0.1rem;
           text-overflow: ellipsis;
           white-space: nowrap;
-          color: #B7B7B7;
+          color: #b7b7b7;
         }
       }
     }

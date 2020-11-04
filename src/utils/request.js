@@ -14,7 +14,7 @@ serve.interceptors.request.use((req)=>{
 
    if(localStorage.Token){  //把token 放到请求头上
         
-      req.headers.authorization=`Beaer ${localStorage.Token}`
+      req.headers.authorization=`Bearer ${localStorage.Token}`
    }
 
    if(localStorage.deviceid){  //设置设备id
@@ -24,7 +24,7 @@ serve.interceptors.request.use((req)=>{
       req.headers.deviceid=localStorage.deviceid
 
    }
-    req.headers.deviceType="H5"  //设备类型
+    req.headers.devicetype="H5"  //设备类型
 
    loadingInstance1 = Loading.service({background:"rgba(0, 0, 0, 0.8)", text:"拼命加载中", fullscreen: true, spinner:'el-icon-loading'});
   
