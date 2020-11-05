@@ -214,6 +214,98 @@ meta:{
 
  },
 
+  {
+      path: "/xiaoxi", //我的消息
+      name: "xiaoxi",
+      component: function () {
+        return import("@/components/myChild/xiaoxi.vue")
+      },
+      meta: {
+        title: '消息通知',
+        isShowNav: true,
+        isShowLeft: true,
+        isShowRight: false,
+      }
+    },
+    {
+      path: "/yijian", //系统通知
+      name: "yijian",
+      component: function () {
+        return import("@/components/myChild/yijian.vue")
+      },
+      meta: {
+        title: '意见反馈',
+        isShowNav: true,
+        isShowLeft: true,
+        isShowRight: false,
+      }
+    },
+    {
+      path: "/kechengTz", //课程通知
+      name: "kechengTz",
+      component: function () {
+        return import("@/components/myChild/kechengTz.vue")
+      },
+      meta: {
+        title: '课程通知',
+        isShowNav: true,
+        isShowLeft: true,
+        isShowRight: false,
+      }
+    },
+    {
+      path: "/xitongTz", //系统通知
+      name: "xitongTz",
+      component: function () {
+        return import("@/components/myChild/xitongTz.vue")
+      },
+      meta: {
+        title: '系统通知',
+        isShowNav: true,
+        isShowLeft: true,
+        isShowRight: false,
+      }
+    },
+    {
+      path: "/dingdanTz", //订单通知
+      name: "dingdanTz",
+      component: function () {
+        return import("@/components/myChild/dingdanTz.vue")
+      },
+      meta: {
+        title: '订单通知',
+        isShowNav: true,
+        isShowLeft: true,
+        isShowRight: false,
+      }
+    },
+    {
+      path: "/yuekeTz", //约课通知
+      name: "yuekeTz",
+      component: function () {
+        return import("@/components/myChild/yuekeTz.vue")
+      },
+      meta: {
+        title: '约课通知',
+        isShowNav: true,
+        isShowLeft: true,
+        isShowRight: false,
+      }
+    },
+    {
+      path: "/kaoshiTz", //考试通知
+      name: "kaoshiTz",
+      component: function () {
+        return import("@/components/myChild/kaoshiTz.vue")
+      },
+      meta: {
+        title: '考试通知',
+        isShowNav: true,
+        isShowLeft: true,
+        isShowRight: false,
+      }
+    },
+
   
 
   // 一对一辅导
