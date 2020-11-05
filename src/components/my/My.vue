@@ -29,7 +29,7 @@
               <p>一对一辅导</p>
               <p>我的一对一老师辅导</p>
             </li>
-            <li>
+            <li @click="$router.push('/mybalance')">
               <p>0.00</p>
               <p>剩余学习币</p>
               <p>查看剩余学习币</p>

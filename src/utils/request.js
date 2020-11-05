@@ -3,8 +3,8 @@ import { Loading } from 'element-ui';
 import {Guid} from "@/plugins/guid.js"
 let serve=  axios.create({
 
-//  baseURL:"https://wap.365msmk.com",
-   baseURL:"http://120.53.31.103:84",
+ baseURL:"https://www.365msmk.com",
+   // baseURL:"http://120.53.31.103:84",
    timeout:5000
 
 })

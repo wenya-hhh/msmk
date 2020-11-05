@@ -213,6 +213,29 @@ meta:{
  }
 
  },
+// 我的余额
+{
+  path:"/mybalance",
+  name:"MyBalance",
+  component:function(){
+    return import("@/components/my/MyBalance")
+  },
+ meta:{
+  title:"我的余额"
+ }
+
+ },
+{
+  path:"/mingxi",
+  name:"Mingxi",
+  component:function(){
+    return import("@/components/my/mingxi")
+  },
+ meta:{
+  title:"余额明细"
+ }
+
+ },
 
   
 
