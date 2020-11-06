@@ -116,15 +116,6 @@ export function attention(id) {
     return axios.get("/api/app/teacher/collect/" + id)
 }
 
-<<<<<<< HEAD
-//课程通知接口
-export function getMessage(params) {
-    return axios.post("/api/app/message/getMessage", params)
-}
-//消息通知接口
-export function classifyMessage(params) {
-    return axios.post("/api/app/message/classifyMessage", params)
-=======
 // 取消关注
 export function cancelAttention(id){
     return axios.put("/api/app/collect/cancel/"+id+"/2")
@@ -154,5 +145,4 @@ export function invite(params){
 // 预约时间
 export function selectTime(params){
     return axios.post("/api/app/teacher/invite",params)
->>>>>>> a657fc3e533109a622130ef6eb7f731fc7b84fe4
 }

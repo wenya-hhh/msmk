@@ -89,10 +89,6 @@
     <van-popup v-model="cityshow" position="bottom">
       <van-area
         :area-list="bm"
-<<<<<<< HEAD
-=======
-      
->>>>>>> a657fc3e533109a622130ef6eb7f731fc7b84fe4
         @cancel="cancel"
         ref="djj"
         @change="Picker"
@@ -182,17 +178,9 @@ export default {
       console.log(Picker, data, index);
       if (index == 0) {
         this.sheng = data[index].name;
-<<<<<<< HEAD
         var datases = await this.$http.get(
           "/api/app/sonArea/" + data[index].code
         );
-=======
-        var data = await this.$http.get("/api/app/sonArea/" + data[index].code);
-        // this.city_list = {};
-        // this.county_list = {};
-        // console.log(this.bm.city_list);F
-        // console.log(data.data);
->>>>>>> a657fc3e533109a622130ef6eb7f731fc7b84fe4
         this.bm.city_list = {};
         datases.data.forEach((el) => {
           this.$set(this.bm.city_list, el.id, el.area_name);
