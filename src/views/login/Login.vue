@@ -154,7 +154,7 @@ export default {
         return;
       }
 
-     this.$http
+      this.$http
         .post("/api/app/smsCode", {
           mobile: this.tel,
           sms_type: "login",
@@ -168,11 +168,11 @@ export default {
             this.getCode = false;
             // 验证码第二个样式出现
             this.timeOut = true;
-          }else{
-               this.$toast({
-          message: "当前请求频繁,请稍后再试",
-          position: "top",
-        });
+          } else {
+            this.$toast({
+              message: "当前请求频繁,请稍后再试",
+              position: "top",
+            });
           }
         });
     },
@@ -200,7 +200,7 @@ export default {
 
         return false;
       } else {
-       this.$http
+        this.$http
           .post("/api/app/login", {
             mobile: this.loginTel,
             password: this.loginPass,
@@ -208,46 +208,45 @@ export default {
           })
           .then((res) => {
             console.log(res.code);
-           if(res.code==200){
+            if (res.code == 200) {
+              localStorage.Token = res.data.remember_token;
+              localStorage.deviceid = res.data.device_id;
+              console.log(res);
 
-                localStorage.Token=res.data.remember_token
-                localStorage.deviceid=res.data.device_id
-               console.log(res)
-               this.$router.push("/my")
-           }
+              if (localStorage.getItem("returnPage")&&localStorage.getItem("returnItem")!="/mySet") {
+                this.$router.push(localStorage.getItem("returnPage"));
+              } else {
+                this.$router.push("/my");
+              }
+            }
             // 把token保存到本地
-          }
-          
-          )}
+          });
+      }
     },
     // 点击注册页面的登录
-   async logondenglu() {
-    let res = await axios
-        .post(" http://120.53.31.103:84/api/app/login", {
-          mobile: this.tel,
-          sms_code: this.msgCode,
-          client: 1,
-          type: 2,
-        })
-          if(res.data.code==200){
-             
-                localStorage.Token=res.data.data.remember_token
-                localStorage.deviceid=res.data.data.device_id
-           if(res.data.data.is_new==1){
-             
-              this.$router.push("/setPass");
-           
-          }else{
-               this.$router.push("/my");
-          }
-          }else{
-            this.$toast({
-          message:"验证码错误",
+    async logondenglu() {
+      let res = await axios.post(" http://120.53.31.103:84/api/app/login", {
+        mobile: this.tel,
+        sms_code: this.msgCode,
+        client: 1,
+        type: 2,
+      });
+      if (res.data.code == 200) {
+        localStorage.Token = res.data.data.remember_token;
+        localStorage.deviceid = res.data.data.device_id;
+        if (res.data.data.is_new == 1) {
+          this.$router.push("/setPass");
+        } else {
+          this.$router.push("/my");
+        }
+      } else {
+        this.$toast({
+          message: "验证码错误",
           position: "top",
         });
-          }
+      }
 
-          console.log(res); // 是否注册过    
+      console.log(res); // 是否注册过
     },
     // 倒计时结束时触发样式改变
     timeend() {
@@ -255,7 +254,7 @@ export default {
       this.getCode = true;
       this.$refs.countDown.reset();
     },
-  }
+  },
 };
 </script>
 

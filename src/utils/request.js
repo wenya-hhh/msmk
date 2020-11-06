@@ -13,7 +13,6 @@ let loadingInstance1;
 serve.interceptors.request.use((req)=>{
 
    if(localStorage.Token){  //把token 放到请求头上
-        
       req.headers.authorization=`Bearer ${localStorage.Token}`
    }
 
