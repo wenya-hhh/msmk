@@ -109,3 +109,33 @@ export function attention(id){
          return axios.get("/api/app/teacher/collect/"+id)
 }
 
+// 取消关注
+export function cancelAttention(id){
+    return axios.put("/api/app/collect/cancel/"+id+"/2")
+}
+
+// 个人主要信息
+export function UCenterInfo(){
+
+   return axios.get("/api/app/getUCenterInfo")
+}
+
+// 一对一辅导列表
+export function otoList(params){
+    return axios.get("/api/app/otoCourse",{params})
+}
+
+// 老师条件
+export function condition(){
+    return axios.get("api/app/otoCourseOptions")
+}
+
+// 预约时间列表
+export function invite(params){
+    return axios.post("api/app/teacher/invite",params)
+}
+
+// 预约时间
+export function selectTime(params){
+    return axios.post("/api/app/teacher/invite",params)
+}

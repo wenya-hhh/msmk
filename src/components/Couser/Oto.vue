@@ -11,22 +11,25 @@
     <div class="content">
       <!-- 选项卡 -->
       <div class="tab">
-        <p @click="content = 1" :class="content == 1 ? 'bottom' : ''">
+        <p @click="tab(1)" :class="content == 1 ? 'bottom' : ''">
           选择上课时间<span></span>
         </p>
-        <p @click="content = 2" :class="content== 2 ? 'bottom' : ''">
+        <p @click="tab(2)" :class="content == 2 ? 'bottom' : ''">
           选择老师条件<span></span>
         </p>
       </div>
 
       <!-- 日期 -->
-      <div  v-show="content==1" class="date">
-         
+      <div v-show="content == 1" class="date">
         <van-calendar
           :show-title="false"
+          :show-mark="false"
+          :default-date="defaultDate"
           type="single"
           :poppable="false"
+          :show-subtitle="false"
           lazy-render
+          @select="changeDate"
           row-height="0.6rem"
           :show-confirm="false"
           :style="{ height: '3rem' }"
@@ -37,102 +40,270 @@
           <p>时段</p>
           <div>
             <p @click="changeTime(1)">
-              <input v-model="startTime"  placeholder="开始时间" type="text" /><span
-                ><van-icon name="underway"
-              /></span>
+              <input
+                v-model="startTime"
+                placeholder="开始时间"
+                type="text"
+              /><span><van-icon name="underway" /></span>
             </p>
-            <p  @click="changeTime(2)">
-              <input v-model="endTime" placeholder="结束时间" type="text" /><span
-                ><van-icon name="underway"
-              /></span>
+            <p @click="changeTime(2)">
+              <input
+                v-model="endTime"
+                placeholder="结束时间"
+                type="text"
+              /><span><van-icon name="underway" /></span>
             </p>
           </div>
         </div>
 
-<!-- 日期弹框 -->
-<van-popup position="bottom" v-model="popup_show">
- <div style="width:100%;">
-        <van-datetime-picker
-          v-model="currentTime"
-          @confirm="confirm"
-          @canel="canel"
-          type="time"
-          title="选择时间"
-          :min-hour="10"
-          :max-hour="20"
-        />
-   </div>
-
-</van-popup>
+        <!-- 日期弹框 -->
+        <van-popup position="bottom" v-model="popup_show">
+          <div style="width: 100%">
+            <van-datetime-picker
+              v-model="currentTime"
+              @confirm="confirm"
+              @canel="canel"
+              type="time"
+              title="选择时间"
+              :min-hour="10"
+              :max-hour="20"
+            />
+          </div>
+        </van-popup>
 
         <!-- 按钮 -->
         <div class="date_btn">
-          <button>重置</button>
-          <button>确定</button>
+          <button @click="reset">重置</button>
+          <button @click="schooltime">确定</button>
         </div>
       </div>
 
       <!-- 列表 -->
-      <div v-show="content == 3" class="mingxing">
+      <div v-show="content == 0" class="mingxing">
         <ul>
-          <li>
-            <img
-              src="https://msmk2019.oss-cn-shanghai.aliyuncs.com/uploads/image/2019X3gWvILU7J1571983543.png"
-              alt=""
-            />
+          <li v-for="(i, k) in list" :key="k">
+            <img :src="i.avatar" alt="" />
             <div>
               <p>
-                <span>杨德胜</span>
+                <span>{{ i.real_name }}</span>
               </p>
-              <p>男 9000年教龄(孔子也是我学生)</p>
+              <p>{{ i.sex | issex }} {{ i.teach_age }}年教龄</p>
             </div>
             <p>预约</p>
           </li>
         </ul>
       </div>
-     
-       <!-- 选择老师条件区域 -->
 
-      <div v-show="content==2" class="Teacher_condition">
-         
-         <p>老师类型</p>
-         <ul>
-             <li v-for="i in 20" :key="i">
-                 M{{i}}
-             </li>
-         </ul>
-          
-        
-          
-         
-   <div class="date_btn">
-          <button>重置</button>
-          <button>确定</button>
+      <!-- 选择老师条件区域 -->
+
+      <div v-show="content == 2" class="Teacher_condition">
+        <div class="content">
+          <p>老师类型</p>
+          <ul>
+            <li
+              @click="checkedType = i.level_id"
+              :class="{ active: checkedType == i.level_id }"
+              v-for="(i, k) in typeList"
+              :key="k"
+            >
+              {{ i.level_name }}
+            </li>
+          </ul>
+
+          <p>只看</p>
+          <section>
+            <p><input v-model="is_collect" type="checkbox" />已关注</p>
+            <p><input v-model="is_attended" type="checkbox" />上过课的</p>
+          </section>
+
+          <p>性别</p>
+          <ul>
+            <li @click="checkedSex = 0" :class="{ active: checkedSex == 0 }">
+              男
+            </li>
+            <li @click="checkedSex = 1" :class="{ active: checkedSex == 1 }">
+              女
+            </li>
+          </ul>
+          <p>年级</p>
+          <ul>
+            <li
+              @click="checkedClass = i.attr_val_id"
+              :class="{ active: checkedClass == i.attr_val_id }"
+              v-for="(i, k) in classList.child"
+              :key="k"
+            >
+              {{ i.attr_val_name }}
+            </li>
+          </ul>
+          <p>学科</p>
+          <ul>
+            <li
+              @click="checkedSubject = i.attr_val_id"
+              :class="{ active: checkedSubject == i.attr_val_id }"
+              v-for="(i, k) in subjectList.child"
+              :key="k"
+            >
+              {{ i.attr_val_name }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="date_btn">
+          <button @click="resetCondition">重置</button>
+          <button @click="screenCondition">确定</button>
         </div>
       </div>
-
-
     </div>
   </div>
 </template>
 
 <script>
+import { otoList, condition } from "@/utils/api";
 export default {
   name: "oto", //一对一辅导页面
+  filters: {
+    issex(val) {
+      if (val == 0) {
+        return "男";
+      } else {
+        return "女";
+      }
+    },
+  },
   data() {
     return {
-      content: 3,
+      content: 0,
+      dates: "",
+      defaultDate: new Date(),
       currentTime: "12:00",
       drawer: false,
       popup_show: false,
       startTime: "",
       endTime: "",
       status: 1, //开始和结束时间的状态
+      query: {
+        page: 1,
+        limit: 10,
+        attr_val_id: 18,
+      },
+      list: [],
+      typeList: [],
+      classList: [],
+      subjectList: [],
+      checkedClass: 18,
+      checkedSubject: "",
+      checkedType: "",
+      checkedSex: "3",
+      is_attended: "",
+      is_collect:0
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.getTeacherList();
+    this.getTeacherCondition();
+  },
   methods: {
+    // 显示哪个选项卡
+    tab(i) {
+      if (this.content == i) {
+        this.content = 0;
+      } else {
+        this.content = i;
+      }
+    },
+
+    // 确定筛选
+
+    screenCondition() {
+
+      if(this.is_attended){
+        this.is_attended=1
+      }else{
+        this.is_attended=0
+      }
+      
+      if(this.is_collect){
+           this.is_collect=1
+      }else{
+        this.is_collect=0
+      }
+
+      this.query = {
+        page: 1,
+        limit: 10,
+        start_time: "",
+        end_time: "",
+        level_id: this.checkedType,
+        is_collect: this.is_collect,
+        is_attended: this.is_attended,
+        sex: this.checkedSex,
+        attr_val_id:this.checkedSubject+","+this.checkedClass,
+      };
+
+      this.getTeacherList()
+
+      this.content=0
+    },
+    
+    // 重置老师条件
+    resetCondition(){
+
+    },
+   
+
+    // 获取条件列表
+    async getTeacherCondition() {
+      let res = await condition();
+
+      console.log(res);
+
+      this.typeList = res.data.otoTeacherLevel;
+      this.classList = res.data.attrList[0];
+      this.subjectList = res.data.attrList[1];
+    },
+
+    //  获取老师列表
+    async getTeacherList() {
+      let res = await otoList(this.query);
+      console.log(res);
+      this.list = res.data;
+    },
+
+    // 重置
+    reset() {
+      this.startTime = "";
+      this.endTime = "";
+      console.log(this.defaultDate);
+      this.defaultDate = new Date();
+      this.getTeacherList();
+      this.content = 0;
+    },
+
+    // 选择上课时间
+    async schooltime() {
+      this.query = {
+        page: 1,
+        limit: 10,
+        start_time: this.dates + "%20" + this.startTime,
+        end_time: this.dates + "%20" + this.endTime,
+        level_id: "",
+        is_collect: 0,
+        is_attended: 0,
+        sex: "",
+        attr_val_id: 18,
+      };
+
+      this.getTeacherList();
+      this.content = 0;
+    },
+
+    changeDate(val) {
+      console.log(new Date(val).toLocaleDateString().replaceAll("/", "-"));
+      this.dates = new Date(val).toLocaleDateString().replaceAll("/", "-");
+    },
+
     //   确定时间
     confirm(val) {
       this.popup_show = false;
@@ -163,24 +334,60 @@ export default {
   width: 100%;
   background: white;
   height: 100%;
-  padding: 0.2rem;
-  > p {
-    font-size: 0.16rem;
-  }
-  ul {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 0.2rem;
-    border-bottom: 0.01rem solid slategrey;
-    justify-content: space-between;
-    li {
-      width: 0.75rem;
-      height: 0.36rem;
-      background: #f5f5f5;
-      text-align: center;
-      line-height: 0.36rem;
-      margin-bottom: 0.1rem;
+  // padding: 0.2rem;
+  overflow: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  > .content {
+    flex: 1;
+    background: white;
+    padding: 0.2rem 0.1rem;
+    > p {
+      font-size: 0.16rem;
+      margin-bottom: 0.05rem;
+    }
+    section {
+      width: 100%;
+      margin-bottom: 0.2rem;
+      border-bottom: 0.01rem solid #f1f1f1;
+      display: flex;
+
+      p {
+        width: 0.85rem;
+        height: 0.36rem;
+      }
+      input {
+        border: 0.02rem solid #e2e2e2;
+        margin-right: 0.05rem;
+      }
+    }
+
+    > ul,
+    div {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0 0.1rem;
+      margin-bottom: 0.2rem;
+      border-bottom: 0.01rem solid #f1f1f1;
+      // justify-content: space-between;
+      li,
+      p {
+        width: 0.75rem;
+        height: 0.36rem;
+        margin-right: 0.17rem;
+
+        background: #f5f5f5;
+        text-align: center;
+        line-height: 0.36rem;
+        margin-bottom: 0.1rem;
+      }
+      .active {
+        background: #ebeefe;
+        color: #eb6152;
+      }
     }
   }
 }

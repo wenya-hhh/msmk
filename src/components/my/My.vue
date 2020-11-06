@@ -6,10 +6,10 @@
         <div class="top_portrait_container">
           <div class="portrait_container">
             <div class="portrait_wrapper" @click="gotoSet">
-              <img :src="myInfo.avatar" alt="" />
+              <img :src="mainInfo.avatar" alt="" />
             </div>
             <div class="portrait_name" @click="gotoChange">
-              <span>马兴龙123</span>
+              <span>{{mainInfo.nickname}}</span>
               <span><img src="@/assets/编辑.png" alt="" /></span>
             </div>
           </div>
@@ -20,17 +20,17 @@
         <div class="kecheng_container">
           <ul>
             <li>
-              <p>1</p>
+              <p>{{mainInfo.courses}}</p>
               <p>我的特色课</p>
               <p>已购特色课程的学习</p>
             </li>
             <li>
-              <p>0</p>
+              <p>{{mainInfo.oto}}</p>
               <p>一对一辅导</p>
               <p>我的一对一老师辅导</p>
             </li>
             <li>
-              <p>0.00</p>
+              <p>{{mainInfo.integral}}.00</p>
               <p>剩余学习币</p>
               <p>查看剩余学习币</p>
             </li>
@@ -188,19 +188,20 @@
   </div>
 </template>
 <script>
-import { userInfo } from "@/utils/api" 
+import { userInfo,UCenterInfo } from "@/utils/api" 
 export default {
   name:"My",
   data(){
     return {
-        myInfo:{}
+        myInfo:{},
+        mainInfo:""
     };
   },
   
   mounted(){
 
     this.getMyUserInfo()
-
+    this.getUCenterInfo()
   },
   methods:{ 
 
@@ -212,6 +213,15 @@ export default {
         this.myInfo=res.data
 
     },
+
+  //  获取我的主要信息
+  async getUCenterInfo(){
+
+let res = await UCenterInfo()
+console.log(res)
+this.mainInfo=res.data
+
+  } ,
  
     toOrder(type){  //跳转到我的订单
 
@@ -264,20 +274,26 @@ export default {
   }
   .my_top_container {
     width: 100%;
-    height: 35vh;
+    height: 2.3rem;
     background-color: rgba(24, 30, 32, 0);
     display: flex;
+   
+    // padding: 0.1rem;
     justify-content: center;
     .my_top_wrapper {
       width: 92%;
       height: 80%;
+      display: flex;
+      flex-direction: column;
+      // justify-content: space-around;
       background-color: #ffff;
       margin-top: 6vh;
       border-radius: 0.1rem 0.1rem 0 0;
       z-index: 999;
+       padding-top: 0.2rem ;
       .top_portrait_container {
         width: 100%;
-        height: 15vh;
+        height: 0.67rem;
         // background-color: skyblue;
         display: flex;
         justify-content: space-between;
@@ -287,13 +303,20 @@ export default {
           //   background-color: pink;
           display: flex;
           align-items: center;
-          // justify-content: space-around;
+            display: flex;
+            align-items: center;
+            
+           margin-bottom:  0.3rem ;
+          // justify-content: space-between;
           .portrait_wrapper {
             width: 0.7rem;
             height: 0.7rem;
+           
             // margin-right: 0.2rem;
             //    border: 1px solid black;
             border-radius: 50%;
+          
+            margin-right: 0.2rem;
             margin-left: 0.2rem;
             img {
               width: 100%;
@@ -307,9 +330,10 @@ export default {
             height: 0.4rem;
             display: flex;
             align-items: center;
-            justify-content: space-around;
+            // justify-content: space-around;
             img {
               width: 0.35rem;
+             
             }
           }
         }
@@ -333,7 +357,7 @@ export default {
       }
       .kecheng_container {
         width: 100%;
-        height: 15vh;
+        height: 0.8rem;
         //   background-color: cadetblue;
         ul {
           width: 100%;
@@ -341,6 +365,7 @@ export default {
           display: flex;
           justify-content: space-around;
           align-items: center;
+         
           li {
             display: flex;
             flex-wrap: wrap;

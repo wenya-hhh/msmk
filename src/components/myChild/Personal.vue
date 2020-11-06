@@ -89,7 +89,7 @@
     <van-popup v-model="cityshow" position="bottom">
       <van-area
         :area-list="bm"
-        value="bm"
+      
         @cancel="cancel"
         ref="djj"
         @change="Picker"
@@ -178,7 +178,7 @@ export default {
         var data = await this.$http.get("/api/app/sonArea/" + data[index].code);
         // this.city_list = {};
         // this.county_list = {};
-        // console.log(this.bm.city_list);
+        // console.log(this.bm.city_list);F
         // console.log(data.data);
         this.bm.city_list = {};
         data.data.forEach((el) => {

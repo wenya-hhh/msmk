@@ -7,19 +7,18 @@
 
     <div class="content">
       <ul>
-        <li @click="toCouserDetail()">
+        <li v-for="(i, k) in list " :key="k" @click="toCouserDetail()">
           <img
             data-v-4cf843a1=""
-            src="https://msmk2019.oss-cn-shanghai.aliyuncs.com/uploads/image/2019X3gWvILU7J1571983543.png"
+            :src="i.avatar"
           />
           <div>
-            <p><span>杨胜德</span><span>M20</span></p>
+            <p><span>{{i.teacher_name}}</span><span>{{i.level_name}}</span></p>
             <p>
-              　杨老师,特级教师.多次被中国数学会评为全国高中数学竞联赛优秀教练员。长期从事名校理科班的数学教学和数学竞赛辅导工作。辅导学生参加全国高中数学联赛有数百人次获全国高中数学联赛一、二、三等奖，数十人被免试保送到清华大学、北京大学等名牌大学学习。十多人获CMO获一、二、三等奖，一人获IMO金牌。
-              　　特别是近年来大学试行自主招生，有很多同学通过上他的竞赛辅导课进入清华大学、北京大学、上海交通大学等。
+              　{{i.introduction}}
             </p>
           </div>
-          <p>取消关注</p>
+          <p @click.stop="cancel(i.collect_id)">取消关注</p>
         </li>
       </ul>
       <p>没有更多了</p>
@@ -28,11 +27,13 @@
 </template>
 
 <script>
-import { collect } from "@/utils/api";
+import { collect,cancelAttention } from "@/utils/api";
 export default {
   name: "MyAttention", //我的关注
   data() {
-    return {};
+    return {
+      list:[]
+    };
   },
   created() {},
   mounted() {
@@ -40,6 +41,8 @@ export default {
      this.getCollectTeacher()
 
   },
+  
+
   methods: {
     //   跳转到讲师详情页面
     toCouserDetail() {
@@ -51,7 +54,21 @@ export default {
       let res = await collect({ page: 1, limit: 10, type: 2 });
 
       console.log(res)
+      this.list=res.data.list
     },
+
+    // 取消关注
+    async cancel(id){
+     
+
+   let res = await cancelAttention(id)
+
+   if(res.code==200){
+     this.$toast("取消关注")
+     this.getCollectTeacher()
+   }
+
+    }
   },
 };
 </script>
@@ -132,7 +149,7 @@ header {
         }
         > :nth-child(2) {
           overflow: hidden;
-          width: 2.5rem;
+          width: 2.2rem;
           font-size: 0.12rem;
           margin-top: 0.1rem;
           text-overflow: ellipsis;

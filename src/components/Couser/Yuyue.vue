@@ -14,15 +14,15 @@
           <img
             data-v-0da794c7=""
             alt=""
-            src="https://baijiayun-wangxiao.oss-cn-beijing.aliyuncs.com/uploads/avatar.jpg"
+            :src="teacherInfo.avatar"
           />
           <div class="zi">
             <p>
-              <span>李青</span>
+              <span>{{teacherInfo.teacher_name}}</span>
             </p>
             <p>
-              <span>男</span>
-              <span>25年教龄</span>
+              <span>{{teacherInfo.sex | sex}}</span>
+              <span>{{teacherInfo.teach_age}}年教龄</span>
             </p>
           </div>
           <van-button
@@ -30,8 +30,7 @@
             type="info"
             color="#EB6100"
             plain
-            size="small"
-            @click="$router.push()"
+            @click="$router.go(-1)"
             >查看详情</van-button
           >
         </div>
@@ -42,11 +41,18 @@
           <p class="red_title"></p>
           <span>选择时间 （北京时间）</span>
         </div>
-
-        <div class="date"></div>
-        <ul>
+        
+        <div class="date">
           
+        <ul >
+        
+           <li @click="changeTime(i.isdisabled,i.day,k)" :style="{'color':i.isdisabled?'#B7B7B7':''}"  :class="{'dateActive':k==isActive}" v-for="(i,k) in dayList" :key="k">
+             <p>{{i.week }}</p>
+             <p>{{i.day}}</p>
+           </li>
         </ul>
+        </div>
+       
         <div v-show="list.length==0"  class="empty">
           <img data-v-0fa74510="" src="https://wap.365msmk.com/img/empty.0d284c2e.png" />
           <p data-v-0fa74510="">暂无信息</p>
@@ -54,11 +60,12 @@
       </div>
     </section>
 
-    <footer>立即预约</footer>
+    <footer @click="lijiyuyue">立即预约</footer>
   </div>
 </template>
 
 <script>
+import {teacher,invite,selectTime} from "@/utils/api"
 export default {
   // 组件名称
   name: "",
@@ -70,38 +77,124 @@ export default {
   data() {
     return {
       list: [], //课程列表
+      teacherInfo:"",
+      day:new Date(),
+      dayList:[],
+      isActive:""
     };
   },
   // 计算属性
-  computed: {},
+  computed: {
+    nowtime(){
+        
+        let month=new Date(this.day).getMonth()
+ let date=new Date(this.day).getDate()
+ console.log( month+'/'+date)
+ return  month+'/'+date
+    },
+    
+  
+
+  },
   // 侦听器
-  watch: {},
+  watch: {
+    
+  },
   // 组件方法
-  methods: {},
-  /**
-   * 组件实例创建完成，属性已绑定，但DOM还未生成，$ el属性还不存在
-   */
-  created() {},
-  /**
- /**
- * el 被新创建的 vm.$ el 替换，并挂载到实例上去之后调用该钩子。
- * 如果 root 实例挂载了一个文档内元素，当 mounted 被调用时 vm.$ el 也在文档内。
- */
-  mounted() {},
-  /**
-   * 由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。
-   * 当这个钩子被调用时，组件 DOM 已经更新，所以你现在可以执行依赖于 DOM 的操作。
-   */
-  updated() {},
-  /**
-   * keep-alive 组件激活时调用。 仅针对keep-alive 组件有效
-   */
-  activated() {},
-  /**
-   * keep-alive 组件停用时调用。 仅针对keep-alive 组件有效
-   */
-  deactivated() {},
-};
+  methods: {
+
+    // 获取老师信息
+     async getteacher(){
+      let {data} = await teacher(this.$route.query.yuyueId)
+      this.teacherInfo=data.teacher
+      console.log(data)
+    },
+
+    // 选择时间
+   async changeTime(i,k,index){
+
+      if(i){
+        return false
+      }
+     this.isActive=index
+      this.dayList[index].isActive=true
+      // console.log(k)
+     
+     let res = await selectTime({teacher_id: "3", week_day: new Date(k).getDate(), is_next: 0})
+     
+    //  console.log(res)
+
+    },
+
+    // 立即预约
+    lijiyuyue(){
+
+      this.$toast("请选择预约时间")
+
+    },
+
+    // 获取时间列表
+    async getTime(){
+     
+      let res = await invite({teacher_id:this.$route.query.yuyueId , week_day: this.day.getDay(), is_next: 0})
+        
+      // console.log(res)
+      
+      this.dayList=res.data.weekDateList
+      let year=new Date().getFullYear()+'/'
+      // 转换日期格式
+      this.dayList=  this.dayList.map((res)=>{
+
+        return year+res.replace('月','/').replace('日','')
+      })
+      // console.log(this.dayList)
+      
+     
+      // 添加后一个星期时间
+      let num=new Date(this.dayList[6])
+     console.log(num)
+      for( let i=1 ; i<8; i++){
+          
+          this.dayList.push(new Date(num.getTime()+i*1000*60*60*24))
+
+      }
+     
+      let weekArr=["周一","周二","周三","周四","周五","周六","周日"]
+      this.dayList= this.dayList.map((res)=>{
+
+         
+         return {
+           week:weekArr[new Date(res).getDay()],
+           day:new Date(res).toLocaleDateString().replace("2020/",''),
+           isdisabled:new Date(res).getDate()<new Date().getDate(),
+         
+         }
+          
+         
+
+      })
+      console.log( this.dayList)
+
+     this.isActive= this.dayList.findIndex((res)=>{
+        return new Date(res.day).getDate()==new Date().getDate()
+      })
+
+
+        
+      console.log(this.dayList)
+    
+
+
+    }
+  },
+  
+  mounted() {
+    
+        this,this.getteacher()
+        this.getTime()
+
+  },
+}
 </script> 
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -209,6 +302,32 @@ section {
     width: 100%;
     height: 0.8rem;
     background: white;
+    
+    overflow: auto;
+    ul{
+      min-width: 101%;
+      height: 100%;
+      display: flex;
+    li{
+      width: 0.61rem !important;
+      height: 0.67rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+     padding-left: 0.3rem;
+      p{
+        width: 0.61rem;
+        font-size: 0.14rem;
+        text-align: center;
+        ;
+      }
+    }
+    .dateActive{
+     color: red;
+    }
+    }
+
   }
 
   .empty{
