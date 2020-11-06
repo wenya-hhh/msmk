@@ -46,7 +46,38 @@
         </div>
       </div>  
               <!-- 底部按钮 -->
-    <van-button type="primary" id="zqd">立即支付</van-button>
+    <!-- <van-button type="primary" id="zqd">立即支付</van-button> -->
+      <van-button type="primary" text="立即支付" @click="show = true" />
+      <van-overlay :show="show">
+  <div class="wrapper" @click.stop="show = false">
+    <div class="block">
+      <p><span>提示</span><span>x</span></p>
+      <p>
+        <van-icon name="info-o" color="orange" style="margin-right:0.1rem"/>
+        <span>你确定购买此会员</span>
+      </p>
+      <p>
+        <button>取消</button>
+        <button style="background:orange;color:#fff;margin-left:0.1rem" @click="show1 = true">确定</button>
+      </p>
+    </div>
+  </div>
+  </van-overlay>
+   <van-overlay :show="show1">
+  <div class="wrapper" @click.stop="show1 = false">
+    <div class="block">
+      <p><span>提示</span><span>x</span></p>
+      <p>
+        <van-icon name="info-o" color="orange" style="margin-right:0.1rem"/>
+        <span>很抱歉，学习币不足，无法支付</span>
+      </p>
+      <p>
+        <button>取消</button>
+        <button style="background:orange;color:#fff;margin-left:0.1rem" @click="$router.push('/MyBalance')">去充值</button>
+      </p>
+    </div>
+  </div>
+</van-overlay>
     </div>
   
     </div>
@@ -60,7 +91,9 @@ export default {
   data() {
     return {
        a:1,
-       arr:''
+       arr:'',
+       show:false,
+       show1:false,
     };
   },
   created() {},
@@ -86,6 +119,39 @@ export default {
 </script>
 
 <style scoped lang="scss">
+ .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  .block {
+    width: 3rem;
+    height: 1rem;
+    background-color: #fff;
+    box-sizing: border-box;
+    padding: 0 0.2rem;
+    font-size: 0.14rem;
+    P:nth-child(1){
+      display: flex;
+      justify-content: space-between;
+      line-height: 0.3rem;
+    }
+    P:nth-child(2){
+      line-height: 0.3rem;
+    }
+    P:nth-child(3){
+      box-sizing: border-box;
+      padding-left: 1.5rem;
+       line-height: 0.3rem;
+       button{
+         width: 0.5rem;
+         height: 0.3rem;
+        background: white;
+        border: 1px solid #8c8c8c;
+       }
+    }
+  }
 .vip{
   width: 100%;
   height: 100%;
@@ -158,12 +224,12 @@ export default {
    }
   }
 }
-#zqd{
+.van-button{
    width: 3.5rem;
    height: 0.5rem;
    border: 0;
   //  margin-left: 0.3rem;
-   margin-top: 2.3rem;
+   margin-top: 3rem;
    border-radius: 0.5rem;
    background: linear-gradient(90deg,#eac687,#c8ae84);
 }

@@ -3,9 +3,9 @@ import { Loading } from 'element-ui';
 import { Guid } from "@/plugins/guid.js"
 let serve = axios.create({
 
-   baseURL: "https://www.365msmk.com",
+ baseURL:"https://www.365msmk.com",
    // baseURL:"http://120.53.31.103:84",
-   timeout: 5000
+   timeout:5000
 
 })
 
