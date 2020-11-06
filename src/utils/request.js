@@ -12,9 +12,14 @@ let serve = axios.create({
 let loadingInstance1;
 serve.interceptors.request.use((req) => {
 
+<<<<<<< HEAD
    if (localStorage.Token) {  //把token 放到请求头上
 
       req.headers.authorization = `Bearer ${localStorage.Token}`
+=======
+   if(localStorage.Token){  //把token 放到请求头上
+      req.headers.authorization=`Bearer ${localStorage.Token}`
+>>>>>>> a657fc3e533109a622130ef6eb7f731fc7b84fe4
    }
 
    if (localStorage.deviceid) {  //设置设备id

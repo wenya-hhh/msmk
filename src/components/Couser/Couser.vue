@@ -218,14 +218,18 @@ export default {
       this.appCourseTypeActive = k;
       this.$refs.screen.toggle()
       this.classifyObj.course_type=id
+      this.classifyObj.page=1
+      this.classifyObj.limit=4
       this.ajax();
      
     },
     
-    // 分类筛选数据
+    // 确定分类
     submitClassify(){
-      
+        this.classifyObj.page=1
+      this.classifyObj.limit=4
        this.ajax()
+       
        this.$refs.classify.toggle()
 
 
@@ -240,6 +244,8 @@ this.subject=i+"."+t
        }
 
        this.classifyObj.attr_val_id=i+','+t
+      
+    
        console.log(this.grade)
        
 
@@ -247,6 +253,7 @@ this.subject=i+"."+t
    
   //  特色课分类
     async getClassify() {
+      
       let res = await classify();
       console.log(res);
        this.appCourseType = res.data.appCourseType;

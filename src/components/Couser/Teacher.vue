@@ -14,20 +14,20 @@
           <img :src="info.avatar" alt />
           <div class="zi">
             <p>
-              <span>{{ info.real_name }}</span>
-              <span>M20</span>
+              <span>{{ info.teacher_name }}</span>
+              <span>{{info.level_name}}</span>
             </p>
             <p>
-              <span>男</span>
-              <span>25年教龄</span>
+              <span>{{info.level_sex}}</span>
+              <span>{{info.teach_age}}年教龄</span>
             </p>
           </div>
           <button @click="collectTeacher" v-show="flag == 2">关注</button>
           <p @click="collectTeacher" v-show="flag == 1" class="cancel">已关注</p>
         </div>
-        <div class="xia">
-          <span v-for="(i, k) in commentList" :key="k">{{ i.title }}</span>
-        </div>
+        <ul class="xia">
+          <li v-show="k<4" v-for="(i, k) in commentTitleList" :key="k">{{ i.title }}</li>
+        </ul>
       </div>
     <section>
      
@@ -37,17 +37,14 @@
             <van-tab title="讲师介绍">
               <div class="nr">
                 <ul>
-                  <li>
-                    <span>教学年龄</span>
-                    <font>99</font>
+                  <li v-show="i.attr_name=='教学年龄' || i.attr_name=='授课价格'" v-for="(i,k) in intro.attr" :key="k">
+                    <span>{{i.attr_name}}</span>
+                    <font>{{i.attr_value[0].attr_value_name}}</font>
                   </li>
+                 
                   <li>
-                    <span>授课价格</span>
-                    <font>900学习币</font>
-                  </li>
-                  <li>
-                    <span>教师简介</span>
-                    <font>{{ info.introduction }}</font>
+                    <span>老师简介</span>
+                    <font>{{ intro.intro }}</font>
                   </li>
                 </ul>
               </div>
@@ -90,14 +87,47 @@
 
             </van-tab>
             <van-tab title="学员评价">
-              <Null title="暂无评论"></Null>
+              
+              <div class="comment">
+                  <ol ref="tag" class="tag">
+                      <li v-for="(i,k) in  commentTitleList" :key="k">
+                         {{i.title}} ({{i.count}})
+                      </li>
+                  </ol>
+                  <p class="unfold">
+                    <van-icon @click="changeUnfold()" v-show="isUnfold" name="arrow-up" />
+                    <van-icon  @click="changeUnfold()" v-show="!isUnfold" name="arrow-down" />
+                  </p>
+                 
+                 <div class="commentList">
+                     <div class="comment_box" v-for="(i,k) in commentList" :key="k">
+                       <p class="avatr">
+                          <img :src="i.avatar" alt="">
+                          <van-rate v-model="i.grade" />
+                       </p>
+                      
+                       <div class="comment_tag">
+                         <p v-for="(item,key) in i.tag_content" :key="key">{{item}}</p>
+                       </div>
+
+                       <p class="comment_content">{{i.content}}</p>
+
+                     </div>
+
+                 </div>
+
+              </div>
+             
+              
+              
+              <Null v-show="commentList.length==0" title="暂无评论"></Null>
             </van-tab>
           </van-tabs>
         </div>
       </div>
     </section>
 
-    <footer @click="$router.push('/yuyue')">立即预约</footer>
+    <footer @click="jumpyuyue">立即预约</footer>
   </div>
 </template>
 
@@ -114,9 +144,11 @@ export default {
   data() {
     return {
       info: "",
+      isUnfold:false,
       recomment: "", //老师介绍
       flag: 2,
-      commentList: [],
+      commentTitleList: [],
+      commentList:[],
       courseList: [],
       total: "",
       page: 1,
@@ -125,6 +157,7 @@ export default {
       offsetTop:3,
       finished: false,
       loading: false,
+      intro:""
     };
   },
   // 计算属性
@@ -138,13 +171,25 @@ export default {
       Toast("返回");
     },
     
+    // 跳转到预约
+    jumpyuyue(){
+    //  console.log(this.info)
+      this.$router.push({
+        path:"/yuyue",
+        query:{
+            yuyueId:this.info.id
+        }
+      
+      })
+
+    },
    
 
     // 关注讲师
    async collectTeacher(){
      
      let res = await attention(this.$route.query.teacherId)
-     console.log(res)
+    //  console.log(res)
      if(res.code==200){
 
        if(this.flag==2){
@@ -193,6 +238,7 @@ export default {
       let res = await teacherInfo(this.$route.query.teacherId);
 
       console.log(res);
+      this.intro=res.data
     },
 
     // 讲师评价
@@ -204,7 +250,15 @@ export default {
       });
 
       console.log(res);
-      this.commentList = res.data.comment.list;
+      this.commentTitleList = res.data.tag;
+      this.commentList=res.data.comment.list
+      
+      this.commentList.forEach((res)=>{
+           
+           res.tag_content= res.tag_content.split(',')
+
+      })
+
     },
 
     //  主讲课程
@@ -215,10 +269,26 @@ export default {
         teacher_id: this.$route.query.teacherId,
       });
 
-      console.log(res);
+      // console.log(res);
       this.total = res.total;
       this.list = res.data.list;
     },
+
+    // 切换评论标签展开状态
+    changeUnfold(){
+      this.isUnfold=!this.isUnfold
+      
+      if( this.isUnfold){
+             
+             this.$refs.tag.style.height=1+"rem"
+             console.log( this.$refs.tag.offsetHeight)
+      }else{
+             this.$refs.tag.style.height=0.25+"rem"
+             console.log( this.$refs.tag.offsetHeight)
+
+      }
+
+    }
   },
 
   mounted() {
@@ -228,27 +298,110 @@ export default {
     this.getMainCourse();
   },
 
-  /**
-   * 由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。
-   * 当这个钩子被调用时，组件 DOM 已经更新，所以你现在可以执行依赖于 DOM 的操作。
-   */
-  updated() {},
-  /**
-   * keep-alive 组件激活时调用。 仅针对keep-alive 组件有效
-   */
-  activated() {},
-  /**
-   * keep-alive 组件停用时调用。 仅针对keep-alive 组件有效
-   */
-  deactivated() {},
+ 
 };
 </script> 
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<!--使用了scoped属性之后，父组件的style样式将不会渗透到子组件中，-->
-<!--然而子组件的根节点元素会同时被设置了scoped的父css样式和设置了scoped的子css样式影响，-->
-<!--这么设计的目的是父组件可以对子组件根元素进行布局。-->
+
 <style scoped lang="scss">
+
+// 学生评论
+.comment{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  .unfold{
+   
+    width: 0.2rem;
+    height: 0.2rem;
+    border-radius: 50%;
+    background: #DDDDDD;
+    font-size: 0.12rem;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 3.8rem;
+    top:0.2rem;
+}
+  .tag{
+    // width: 100%;
+    width: 3.6rem;
+     overflow: hidden;
+    height: 0.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0.2rem;
+    >li{
+       width: 1rem;
+       height: 0.4rem;
+       margin-left: 0.2rem;
+       margin-bottom: 0.1rem;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       border: 0.01rem solid #EA7A2F;
+     
+        color: #EA7A2F;
+       font-size: 0.14rem;
+       height: 0.25rem;
+    }
+   
+  }
+}
+
+.commentList{
+  flex: 1;
+  padding: 0.2rem;
+  .comment_box{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.2rem;
+    .avatr{
+      display: flex;
+      height: 0.4rem;
+      align-items: center;
+      img{
+      width: 0.27rem;
+      height: 0.27rem;
+      margin-right: 0.2rem;
+    }
+    }
+    .comment_tag{
+      width: 100%;
+      display: flex;
+      height: 0.4rem;
+      align-items: center;
+      margin: 0.1rem 0 0 0.4rem;
+      color: #8C8C8C;
+      p{
+        width: 0.96rem;
+        height: 0.24rem;
+        margin-right: 0.1rem;
+        background: #F5F5F5;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.14rem;
+        
+      }
+    
+    }
+    .comment_content{
+      width: 4rem;
+      padding-left: 0.4rem;
+      margin-top: 0.1rem;
+      color: #8C8C8C;
+      font-size: 0.14rem;
+
+    }
+    
+  }
+}
+
 .teacher {
   width: 100%;
   height: 100%;
@@ -284,7 +437,6 @@ export default {
   left: 0.11rem;
   padding:0.1rem;
   top: 0.6rem;
-  height: 1.3rem;
   border-radius: 0.05rem;
   img {
     width: 0.48rem;
@@ -331,20 +483,25 @@ export default {
   }
   .xia {
     width: 100%;
-    height: 0.4rem;
+   
     box-sizing: border-box;
     padding-bottom: 0.2rem;
     display: flex;
-    justify-content: space-between;
-    span {
+    flex-wrap: wrap;
+    // justify-content: space-around;
+    >li {
       width: 0.8rem;
-      height: 0.2rem;
+      height: 0.25rem;
+      // margin: 0.1rem;
+      margin: 0.1rem 0.1rem 0 0;
       border-radius: 0.15rem;
       background: #ffe4d3;
       color: #eb6100;
       font-size: 0.14rem;
+      justify-content: center;
       text-align: center;
-      line-height: 0.3rem;
+      display: flex;
+      align-items: center;
     }
   }
 }
@@ -376,7 +533,7 @@ section {
         box-sizing: border-box;
         padding: 0 0.2rem;
         background: white;
-        li {
+        >li {
           display: flex;
           font-size: 0.14rem;
           line-height: 0.44rem;
@@ -412,7 +569,9 @@ footer {
   line-height: 0.5rem;
   font-size: 0.2rem;
 }
-
+.content{
+  height: 4rem;
+}
 .van-list {
   width: 100%;
   padding: 0.15rem 0.15rem;

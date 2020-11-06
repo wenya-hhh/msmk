@@ -116,6 +116,7 @@ export function attention(id) {
     return axios.get("/api/app/teacher/collect/" + id)
 }
 
+<<<<<<< HEAD
 //课程通知接口
 export function getMessage(params) {
     return axios.post("/api/app/message/getMessage", params)
@@ -123,4 +124,35 @@ export function getMessage(params) {
 //消息通知接口
 export function classifyMessage(params) {
     return axios.post("/api/app/message/classifyMessage", params)
+=======
+// 取消关注
+export function cancelAttention(id){
+    return axios.put("/api/app/collect/cancel/"+id+"/2")
+}
+
+// 个人主要信息
+export function UCenterInfo(){
+
+   return axios.get("/api/app/getUCenterInfo")
+}
+
+// 一对一辅导列表
+export function otoList(params){
+    return axios.get("/api/app/otoCourse",{params})
+}
+
+// 老师条件
+export function condition(){
+    return axios.get("api/app/otoCourseOptions")
+}
+
+// 预约时间列表
+export function invite(params){
+    return axios.post("api/app/teacher/invite",params)
+}
+
+// 预约时间
+export function selectTime(params){
+    return axios.post("/api/app/teacher/invite",params)
+>>>>>>> a657fc3e533109a622130ef6eb7f731fc7b84fe4
 }

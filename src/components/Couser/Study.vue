@@ -3,7 +3,7 @@
     <header>
       <van-icon @click="$router.go(-1)" name="arrow-left" />
       <span>{{ title.title }}</span>
-      <van-icon name="calendar-o" />
+      <van-icon @click="$router.push('/date')" name="calendar-o" />
     </header>
     <section>
       <div class="content">
