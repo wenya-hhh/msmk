@@ -11,7 +11,7 @@
         <span>头像</span>
         <div class="data_right" @click="changeHead">
           <span>
-            <img src="@/assets/00.png" alt="" />
+            <img :src="info.avatar" alt="" />
           </span>
           <van-icon name="arrow" />
         </div>
@@ -19,14 +19,14 @@
       <div class="all_data_wrapper" @click="changeName">
         <span>昵称</span>
         <div class="name_data_right">
-          <span> 马兴龙123 </span>
+          <span> {{ info.nickname }}</span>
           <van-icon name="arrow" size="0.25rem" color="#b7b7b7" />
         </div>
       </div>
       <div class="all_data_wrapper">
         <span>手机号</span>
         <div class="name_data_right">
-          <span> 15810195203 </span>
+          <span> {{ info.mobile }} </span>
           <van-icon name="arrow" size="0.28rem" color="#fff" />
         </div>
       </div>
@@ -47,14 +47,14 @@
       <div class="all_data_wrapper" @click="changes">
         <span>所在城市</span>
         <div class="name_data_right">
-          <van-field v-model="changeCity" input-align="right" size="mini" />
+          <van-field v-model="tem" input-align="right" size="mini" />
           <van-icon name="arrow" size="0.25rem" color="#b7b7b7" />
         </div>
       </div>
-      <div class="all_data_wrapper">
+      <div class="all_data_wrapper" @click="changeSubject">
         <span>学科</span>
         <div class="name_data_right">
-          <span> 化学 </span>
+          <span> {{ subject }} </span>
           <van-icon name="arrow" size="0.25rem" color="#b7b7b7" />
         </div>
       </div>
@@ -81,18 +81,18 @@
         type="date"
         :min-date="minDate"
         :max-date="maxDate"
-        @confirm="confirm"
-        @cancel="cancel"
+        @confirm="confirms"
+        @cancel="cancels"
       />
     </van-popup>
     <!-- 城市选择 -->
     <van-popup v-model="cityshow" position="bottom">
       <van-area
         :area-list="bm"
-        value="bm"
         @cancel="cancel"
         ref="djj"
         @change="Picker"
+        @confirm="confirm"
       />
     </van-popup>
   </div>
@@ -100,20 +100,20 @@
 <script>
 import axios from "axios";
 import Vue from "vue";
-import { Area } from "vant";
+import { Area , } from "vant";
 
 Vue.use(Area);
 export default {
   data() {
     return {
-      headshow: false,
-      dateshow: false,
-      minDate: new Date(1890, 0, 1),
-      maxDate: new Date(),
-      currentDate: new Date(),
-      birthdate: "",
-      nowdate: new Date().toLocaleDateString(),
-      changeCity: "内蒙古自治区，呼和浩特市，武川县",
+      headshow: false, //头像框
+      dateshow: false, //日期框
+      minDate: new Date(1890, 0, 1), //最小日期
+      maxDate: new Date(), //最大日期
+      currentDate: new Date(), //当前选中日期
+      birthdate: "", //出生日期
+      nowdate: new Date().toLocaleDateString(), //当前日期
+      // changeCity: "内蒙古自治区，呼和浩特市，武川县",
       cityshow: false,
       areaList: "",
       bm: {
@@ -125,12 +125,14 @@ export default {
       county: "",
       sheng: "",
       tem: "",
+      subject: this.$route.query.val,
+      info: "",
     };
   },
   methods: {
     // 点击左上角返回
     onClickLeft() {
-      this.$router.go(-1);
+      this.$router.push("/my");
     },
     // 点击头像选择框
     changeHead() {
@@ -146,7 +148,7 @@ export default {
     },
     changes() {
       this.cityshow = true;
-      this.bm = {...this.bm};
+      this.bm = { ...this.bm };
       console.log(this.bm);
     },
     // 日期
@@ -154,34 +156,33 @@ export default {
       this.dateshow = true;
     },
     // 时间选择框的完成
-    confirm(val) {
-      // console.log(val.toLocaleDateString());
-      // console.log(this.nowdate);
+    confirms(val) {
       if (val.toLocaleDateString() == this.nowdate) {
         this.$toast("出生日期最少是当前日期的前一天");
       } else {
         this.birthdate = val.toLocaleDateString();
+        this.birthdate=this.birthdate.replace(/\//g,'-')
         this.dateshow = false;
       }
     },
     // 时间取消
-    cancel() {
+    cancels() {
       this.dateshow = false;
     },
+    // 城市选择取消
     cancel() {
       this.cityshow = false;
     },
+    // 当改变省份时
     async Picker(Picker, data, index) {
-      // console.log(Picker, data, index);
+      console.log(Picker, data, index);
       if (index == 0) {
         this.sheng = data[index].name;
-        var data = await this.$http.get("/api/app/sonArea/" + data[index].code);
-        // this.city_list = {};
-        // this.county_list = {};
-        // console.log(this.bm.city_list);
-        // console.log(data.data);
+        var datases = await this.$http.get(
+          "/api/app/sonArea/" + data[index].code
+        );
         this.bm.city_list = {};
-        data.data.forEach((el) => {
+        datases.data.forEach((el) => {
           this.$set(this.bm.city_list, el.id, el.area_name);
         });
 
@@ -189,9 +190,9 @@ export default {
         for (const key in this.bm.city_list) {
           arr.push(key);
         }
-        console.log(arr);
+        // console.log(arr);
         var datas = await this.$http.get("/api/app/sonArea/" + arr[0]);
-        console.log(datas.data);
+        // console.log(datas.data);
         datas.data.forEach((el) => {
           this.$set(this.bm.county_list, el.id, el.area_name);
         });
@@ -213,7 +214,7 @@ export default {
       res.data.forEach((element) => {
         this.bm.province_list[element.id] = element.area_name;
       });
-      console.log(this.bm.province_list);
+      // console.log(this.bm.province_list);
       var arrs = [];
       for (const keys in this.bm.province_list) {
         arrs.push(keys);
@@ -234,13 +235,45 @@ export default {
       datas.data.forEach((el) => {
         this.$set(this.bm.county_list, el.id, el.area_name);
       });
-      console.log(this.bm.city_list);
-      console.log(this.bm.county_list);
+      // console.log(this.bm.city_list);
+      // console.log(this.bm.county_list);
+    },
+    // 点击城市选择完成时
+    confirm(val) {
+      this.tem = "";
+      console.log(val);
+      val.forEach((el) => {
+        if (el.name.indexOf("区") != -1 || el.name.indexOf("县") != -1) {
+          this.tem += el.name;
+        } else {
+          this.tem += el.name + ",";
+        }
+      });
+      this.cityshow = false;
+    },
+
+    // 点击改变课程类型
+    changeSubject() {
+      this.$router.push("/changeSubject");
     },
   },
   mounted() {
     this.$http.get("/api/app/userInfo").then((res) => {
-      // console.log(res);
+      console.log(res);
+      this.info = res.data;
+      // 出生日期
+      this.birthdate = this.info.birthday;
+      // 所在城市
+      this.tem =
+        this.info.province_name +
+        "," +
+        this.info.city_name +
+        "," +
+        this.info.district_name;
+      // 学科
+      // this.subject = this.info.attr[1].attr_value;
+      // console.log(this.subject);
+
     });
     this.beijing();
   },

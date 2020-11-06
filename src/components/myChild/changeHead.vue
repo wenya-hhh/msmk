@@ -6,6 +6,7 @@
         left-arrow
         @click-left="onClickLeft"
         right-text="保存"
+        @click-right="onClickRight"
       />
     </div>
   </div>
@@ -15,6 +16,9 @@ export default {
     methods:{
         onClickLeft(){
             this.$emit('changeHead')
+        },
+        onClickRight(){
+          this.$emit('keep')
         }
     }
 }

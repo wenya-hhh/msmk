@@ -109,3 +109,8 @@ export function attention(id){
          return axios.get("/api/app/teacher/collect/"+id)
 }
 
+// 保存我的学科
+export function Myattr(params){
+    return axios.put("api/app/user",params)
+}
+
