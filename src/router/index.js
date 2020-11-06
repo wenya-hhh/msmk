@@ -490,6 +490,20 @@ meta:{
     title: '修改个人信息'
   }
 },
+
+{
+  path: "/changeSubject", //修改个人信息
+  name: "ChangeSubject",
+  component: function () {
+    return import("@/components/myChild/ChangeSubject.vue")
+  },
+  meta: {
+    title: '修改个人信息'
+  }
+},
+
+
+
 // 课程详情
 {
   path: '/couserDetail',

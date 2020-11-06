@@ -48,11 +48,11 @@
       <div class="all_data_wrapper" @click="changes">
         <span>所在城市</span>
         <div class="name_data_right">
-          <van-field v-model="changeCity" input-align="right" size="mini" />
+          <van-field v-model="tem" input-align="right" size="mini" />
           <van-icon name="arrow" size="0.25rem" color="#b7b7b7" />
         </div>
       </div>
-      <div class="all_data_wrapper">
+      <div class="all_data_wrapper" @click="changeSubject">
         <span>学科</span>
         <div class="name_data_right" @click="$router.push('/changeSubject')">
           <span style="margin-right:0.03rem;" v-for="(i,k) in info.attr" :key="k" v-show="i.attr=='学科'"> {{i.attr_value}}  </span>
@@ -83,8 +83,8 @@
         type="date"
         :min-date="minDate"
         :max-date="maxDate"
-        @confirm="confirm"
-        @cancel="cancel"
+        @confirm="confirms"
+        @cancel="cancels"
       />
     </van-popup>
     
@@ -108,6 +108,7 @@
         @cancel="cancel"
         ref="djj"
         @change="Picker"
+        @confirm="confirm"
       />
     </van-popup>
   </div>
@@ -272,7 +273,7 @@ export default {
     },
     changes() {
       this.cityshow = true;
-      this.bm = {...this.bm};
+      this.bm = { ...this.bm };
       console.log(this.bm);
     },
     // 日期
@@ -287,6 +288,7 @@ export default {
         this.$toast("出生日期最少是当前日期的前一天");
       } else {
         this.birthdate = val.toLocaleDateString();
+        this.birthdate=this.birthdate.replace(/\//g,'-')
         this.dateshow = false;
         
         let res = await updateAjax({birthday:new Date( val).toLocaleDateString().replaceAll('/','-')})
@@ -298,23 +300,23 @@ export default {
       }
     },
     // 时间取消
-    cancel() {
+    cancels() {
       this.dateshow = false;
     },
+    // 城市选择取消
     cancel() {
       this.cityshow = false;
     },
+    // 当改变省份时
     async Picker(Picker, data, index) {
-      // console.log(Picker, data, index);
+      console.log(Picker, data, index);
       if (index == 0) {
         this.sheng = data[index].name;
-        var data = await this.$http.get("/api/app/sonArea/" + data[index].code);
-        // this.city_list = {};
-        // this.county_list = {};
-        // console.log(this.bm.city_list);F
-        // console.log(data.data);
+        var datases = await this.$http.get(
+          "/api/app/sonArea/" + data[index].code
+        );
         this.bm.city_list = {};
-        data.data.forEach((el) => {
+        datases.data.forEach((el) => {
           this.$set(this.bm.city_list, el.id, el.area_name);
         });
 
@@ -322,9 +324,9 @@ export default {
         for (const key in this.bm.city_list) {
           arr.push(key);
         }
-        console.log(arr);
+        // console.log(arr);
         var datas = await this.$http.get("/api/app/sonArea/" + arr[0]);
-        console.log(datas.data);
+        // console.log(datas.data);
         datas.data.forEach((el) => {
           this.$set(this.bm.county_list, el.id, el.area_name);
         });

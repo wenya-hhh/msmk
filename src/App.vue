@@ -1,17 +1,18 @@
 <template>
   <div id="app">
+        <p v-show="toastShow" class="toast">留言失败,请下辈子再试</p>
     
-   <router-view></router-view>
+   <router-view ></router-view>
 
    <!-- 留言 -->
-    <p v-drag class="liuyan" @click="messageShow=!messageShow"><i style="" class="el-icon-message"></i></p>
+    <p v-drag class="liuyan" @click=" kefu"><i style="" class="el-icon-message"></i></p>
    
    <!-- 留言页面 -->
    <div v-show="messageShow" class="message">
        
        <header>
          <p>给我们留言</p>
-         <i @click="messageShow=!messageShow" class="el-icon-arrow-down"></i>
+         <i @click=" kefu" class="el-icon-arrow-down"></i>
        </header>
 
         <p class="tishi">
@@ -23,9 +24,8 @@
           <input type="text" placeholder="请输入">
            <p>留言内容</p>
            <textarea name="" id="" cols="30" rows="10"></textarea>
-           <button>提交</button>
+           <button @click="submitLiuyan">提交</button>
         </div>
-
    </div>
 
   </div>
@@ -37,14 +37,54 @@ export default {
   name: 'app',
   data(){
     return {
-      messageShow:false,
+      toastShow:false
     }
   },
+  methods:{
+    kefu(){ //显示隐藏留言
+        this.$store.commit("changeShow")
+    },
+    
+    submitLiuyan(){ // 留言 
+      
+      this.toastShow=true
+
+      setTimeout(()=>{
+        this.toastShow=false
+      },1500)
+     
+    }
+
+   
+  },
+   computed:{
+
+      messageShow(){
+        return this.$store.state.show
+      }
+
+    }
   
 }
 </script>
 
 <style lang="scss">
+
+.toast{
+  width: 2rem;
+  height: 0.4rem;
+  background:rgba(0, 0, 0, 0.8);
+  position: absolute;
+  z-index: 9999999999999999;
+  top: 30%;
+  left: 50%;
+  margin-left: -1rem;
+  margin-top: -0.2rem;
+  font-size: 0.16rem;
+  color: white;
+  text-align: center;
+  line-height: 0.4rem;
+}
 
 .liuyan{
   width: 0.62rem;
@@ -55,7 +95,7 @@ export default {
   bottom:0.82rem ;
   right: 0.3rem;
   display: flex;
-  z-index: 9999;
+  z-index: 10000000;
   justify-content: center;
   align-items: center;
   i{
@@ -69,7 +109,7 @@ export default {
   width: 100%;
   height: 100%;
   position: absolute;
-  z-index: 10000;
+  z-index: 10000000;
   background:#F2F3F5;
   top: 0;
   header{
