@@ -213,7 +213,8 @@ export default {
               localStorage.deviceid = res.data.device_id;
               console.log(res);
 
-              if (localStorage.getItem("returnPage")&&localStorage.getItem("returnItem")!="/mySet") {
+              if (localStorage.getItem("returnPage")&&localStorage.getItem("returnPage")!="/mySet") {
+                  console.log(localStorage.getItem("returnPage"),"/mySet")
                 this.$router.push(localStorage.getItem("returnPage"));
               } else {
                 this.$router.push("/my");

@@ -76,14 +76,14 @@
         <!-- 课程介绍 -->
         <div id="jieshao" ref="jieshao" class="jieshao">
           <p>课程介绍</p>
-          <p>{{ arr.course_statement }}</p>
+          <p style="fontSize:0.16rem; margin:0.1rem 0;">{{ arr.course_statement }}</p>
         </div>
         <!-- 课程大纲 -->
         <div id="dagang" ref="dagang" class="gang">
           <p>课程大纲</p>
           <div class="gang_list">
             <ul v-for="(item, index) in arr3" :key="index">
-              <li>
+              <li @click="jumpVideo(item.video_id)">
                 <div>
                   <span class="dian"></span>
                   <span class="hui">回放</span>
@@ -176,7 +176,7 @@ export default {
       top: 0,
       show: false,
       flag: true,
-      id: this.$route.query.couserDetailId, //传过来的id
+      id: this.$route.query.couserDetailId||localStorage.getItem("couserDetailId"), //传过来的id
       arr: [], //课程内容
       arr1: [], //头像内容
       arr3: [], //课程大纲
@@ -193,7 +193,20 @@ export default {
     getscroll(val) {
       console.log(val);
     },
+    
   },
+  
+  beforeRouteLeave(to,from,next){
+      
+      if(localStorage.Token&&to.path=="/login"){
+         
+         next("/couser")
+
+      }
+      next()
+
+  },
+
   // 组件方法
   methods: {
     getScroll(event) {
@@ -213,6 +226,13 @@ export default {
         this.titleStatus = 0;
       }
       // console.log(top, jieshao, dagang, pinglun);
+    },
+
+    // 跳转到视频
+    jumpVideo(id){
+
+      window.location.href=`https://b62268033.at.baijiayun.com/web/playback/index?classid=${id}&token=b2ltdBu3G_n2k75tP5p2wGpyIBOrBvGKGDJWXfIa-xME3WuzF8STARlHfN6_xDNX3EqSkiDSYgg`
+
     },
 
     // 分享
@@ -269,7 +289,7 @@ export default {
 
     // 立即学习
     study() {
-      this.$router.push(`/study?couser_id=${this.id}`);
+      this.$router.push(`/study?course_id=${this.id}`);
     },
 
     async couserInfo() {
@@ -285,7 +305,7 @@ export default {
       // 课程大纲
       let { data: res } = await two("/courseChapter", { id: this.id });
       console.log(res);
-      this.arr3 = res.data;
+      this.arr3 = res;
     },
     async courseComment() {
       // 课程评论
@@ -299,7 +319,7 @@ export default {
     },
     goto(id) {
       if (localStorage.Token) {
-        this.$router.push("/teacher?id=" + id);
+        this.$router.push("/teacher?teacherId=" + id);
       } else {
         this.$router.push("/login");
       }
@@ -315,6 +335,7 @@ export default {
     this.couserInfo();
     this.courseChapter();
     this.courseComment();
+     localStorage.setItem("couserDetailId",this.id)
   },
 };
 </script> 
@@ -470,7 +491,7 @@ section {
   // 课程介绍
   .jieshao {
     width: 100%;
-    height: 0.8rem;
+    // height: 0.8rem;
     background: white;
     margin-top: 0.2rem;
     box-sizing: border-box;

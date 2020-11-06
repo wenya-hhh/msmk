@@ -1,7 +1,7 @@
 <template>
   <div class="changeNname">
     <!-- 标题 -->
-    <changeHead @changeHead='changeHead'></changeHead>
+    <changeHead @save="save" @changeHead='changeHead'></changeHead>
 
     <div class="name_null"></div>
     <!-- 个人昵称 -->
@@ -13,18 +13,27 @@
 
 <script>
 import changeHead from './changeHead'
+import { updateAjax } from "@/utils/api"
 export default {
     components:{
     changeHead
     },
     data() {
         return {
-            value:'小绵羊'
+            value:this.$route.query.name
         }
     },
   methods: {
     changeHead() {
       this.$router.go(-1);
+    },
+      // 设置名字
+   async save(){
+     let res = await updateAjax({nickname:this.value})
+     console.log(res)
+     if(res.code==200){
+         this.$router.go(-1)
+     }
     },
   },
 };

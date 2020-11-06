@@ -19,18 +19,18 @@
         </div>
         <div class="kecheng_container">
           <ul>
-            <li>
+            <li @click="$router.push('/mystudy')">
               <p>{{mainInfo.courses}}</p>
               <p>我的特色课</p>
               <p>已购特色课程的学习</p>
             </li>
             <li>
-              <p>{{mainInfo.oto}}</p>
+              <p @click="$router.push('/oto')">{{mainInfo.oto}}</p>
               <p>一对一辅导</p>
               <p>我的一对一老师辅导</p>
             </li>
             <li>
-              <p>{{mainInfo.integral}}.00</p>
+              <p @click="$router.push('/mybalance')">{{mainInfo.integral}}.00</p>
               <p>剩余学习币</p>
               <p>查看剩余学习币</p>
             </li>

@@ -1,5 +1,5 @@
 import axios from "./request.js"
-// import http from "axios"
+import http from "axios"
 
 export function gets(url, data) {
 
@@ -72,6 +72,12 @@ export function rmList() {
 export function classify() {
     return axios.get("/api/app/courseClassify")
 }
+
+// 特色课分类接口
+export function classifys() {
+    return http.get("http://120.53.31.103:84/api/app/courseClassify")
+}
+
 // 我的收藏
 export function collect(params) {
     return axios.get('/api/app/collect', {
@@ -145,4 +151,20 @@ export function invite(params){
 // 预约时间
 export function selectTime(params){
     return axios.post("/api/app/teacher/invite",params)
+}
+
+// 上传图片接口调用
+export function updateImageSubmit(params) {
+    return axios.post(`/api/app/public/img`,params)
+}
+
+// 上传图片接口调用
+export function updateAjax(params) {
+    return axios.put(`/api/app/user`,params)
+}
+
+// 获取年级学科属性
+export function getAttribute(){
+
+    return axios("/api/app/module/attribute/1?")
 }

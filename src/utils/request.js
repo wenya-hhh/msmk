@@ -26,7 +26,10 @@ serve.interceptors.request.use((req)=>{
     req.headers.devicetype="H5"  //设备类型
 
    loadingInstance1 = Loading.service({background:"rgba(0, 0, 0, 0.8)", text:"拼命加载中", fullscreen: true, spinner:'el-icon-loading'});
-  
+  setTimeout(()=>{
+   loadingInstance1.close()
+
+  },5000)
  return req
 
 })

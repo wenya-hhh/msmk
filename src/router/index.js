@@ -91,6 +91,18 @@ const routes = [
 },
 // 一级路由区域
 
+{
+    path: "/changeSubject", //修改个人学科
+    name: "ChangeSubject",
+    component: function () {
+      return import("@/components/myChild/ChangeSubject.vue")
+    },
+    meta: {
+      title: '修改学科'
+    }
+  },
+
+
 // 我的学习卡
 {
   path:"/MyLearningCard",
@@ -147,6 +159,9 @@ meta:{
   return import("@/components/my/MyStudy")
 
  },
+ meta:{
+   title:"我的学习"
+ }
 
 },
 

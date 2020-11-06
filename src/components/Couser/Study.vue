@@ -8,7 +8,7 @@
     <section>
       <div class="content">
         <div class="xian">
-          <span>共{{ list.length }}课时</span>
+          <span>共{{ title.num }}课时</span>
           <div style="width: 2.5rem">
             <el-progress
               :show-text="false"
@@ -19,16 +19,16 @@
           <span>已学习{{ title.progress_rate }}%</span>
         </div>
         <ul>
-          <li v-for="(i, k) in list" :key="k">
+          <li @click="jumpVideo(i.video_id)" v-for="(i, k) in list" :key="k">
             <div>
               <span class="dian"></span>
               <span class="hui">[回放]</span>
-              <span>{{ i.title }}</span>
+              <span>{{ i.periods_title }}</span>
             </div>
             <p>
               <span style="margin-right: 0.18rem">李青</span>
-              <span>asdasasd</span> ~
-              <span>894941238</span>
+              <span>{{i.total_start_play}}</span> ~
+              <span>{{i.total_end_play}}</span>
             </p>
             <div class="xian1">
               <el-progress
@@ -36,7 +36,7 @@
                 :show-text="false"
                 :percentage="i.progress_rate"
               ></el-progress>
-              <span>已观看0%</span>
+              <span>已观看{{i.progress_rate}}%</span>
             </div>
           </li>
         </ul>
@@ -47,7 +47,7 @@
         <van-icon name="edit" />
         <span>写评论</span>
       </div>
-      <div @click="$router.push(`/couserDetail?couserDetailId=${$route.query.couser_id}`)">
+      <div @click="$router.push(`/couserDetail?couserDetailId=${$route.query.id}`)">
         <van-icon name="qr" />
         <span>课程详情</span>
       </div>
@@ -115,6 +115,13 @@ export default {
       this.show = true;
     },
 
+// 跳转到视频
+    jumpVideo(id){
+
+      window.location.href=`https://b62268033.at.baijiayun.com/web/playback/index?classid=${id}&token=b2ltdBu3G_n2k75tP5p2wGpyIBOrBvGKGDJWXfIa-xME3WuzF8STARlHfN6_xDNX3EqSkiDSYgg`
+
+    },
+
 
 
     // 移除列表
@@ -136,7 +143,7 @@ export default {
     async comment() {
       let res = await myStudyComment({
         content: this.commentVal,
-        course_id: this.$route.query.couser_id,
+        course_id: this.$route.query.course_id,
         grade: this.value,
         type: 1,
       });
@@ -155,20 +162,17 @@ export default {
 
     // 获取数据
     async studyData() {
-      let res = await StudyApi(this.$route.query.couser_id);
+      let res = await StudyApi(this.$route.query.course_id);
       this.title = res.data.course;
-      if (res.data.periods) {
         this.list = res.data.periods;
-      }
       console.log(res);
-     
       console.log(this.list);
     },
   },
 
   mounted() {
     this.studyData();
-    console.log(this.$route.query.couser_id);
+    // console.log(this.$route.query.id);
   },
 };
 </script> 

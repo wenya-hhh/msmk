@@ -28,13 +28,13 @@ router.beforeEach((to,from,next)=>{
    
   // Token失效返回登录
   if(!localStorage.Token&&to.path=="/confirmOrder"){
-      
+    localStorage.setItem('returnPage',to.path)
       next("/login")
   }
 
   // 登陆成功之后返回的页面
 
-  if(to.path=="/login"){
+  if(to.path=="/login"&&from.path!="/confirmOrder"){
     localStorage.setItem('returnPage',from.path)
   }
 

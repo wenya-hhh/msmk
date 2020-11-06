@@ -27,7 +27,7 @@
               </div>
             </div> -->
             <div class="bt">
-              <button style="border: 1px solid #f1f1f1">重置</button>
+              <button @click="classifyReset()" style="border: 1px solid #f1f1f1">重置</button>
               <button @click="submitClassify" style="background: orange; color: white">确定</button>
               <!-- <van-button type="default">重置</van-button>
               <van-button type="danger">确定</van-button>-->
@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { all , classify } from "../../utils/api";
+import { all , classify,classifys } from "../../utils/api";
 export default {
   // 组件名称
   name: "",
@@ -117,60 +117,7 @@ export default {
       ],
 
     attrclassify:[
-            {
-                "id":1,
-                "name":"年级",
-                "parent_id":0,
-                "child":[
-                    {
-                        "id":1,
-                        "name":"初一"
-                    },
-                    {
-                        "id":2,
-                        "name":"初二"
-                    },
-                    {
-                        "id":3,
-                        "name":"初三"
-                    },
-                    {
-                        "id":4,
-                        "name":"高一"
-                    },
-                    {
-                        "id":5,
-                        "name":"高二"
-                    }
-                ]
-            },
-            {
-                "id":2,
-                "name":"学科",
-                "parent_id":0,
-                "child":[
-                    {
-                        "id":7,
-                        "name":"语文"
-                    },
-                    {
-                        "id":8,
-                        "name":"数学"
-                    },
-                    {
-                        "id":9,
-                        "name":"英语"
-                    },
-                    {
-                        "id":12,
-                        "name":"物理"
-                    },
-                    {
-                        "id":13,
-                        "name":"化学"
-                    }
-                ]
-            }
+          
         ],
       appCourseTypeActive: 0,
       switch1: false,
@@ -232,7 +179,23 @@ export default {
        
        this.$refs.classify.toggle()
 
+       
+    },
 
+    // 课程分类重置
+    classifyReset(){
+       this.classifyObj={
+           page: 1,
+        limit: 4,
+        course_type:"",
+        classify_id:"",
+        order_by:"",
+        attr_val_id:"",
+        is_vip: 0,
+       }
+
+      this.ajax()
+       this.$refs.classify.toggle()
     },
 
     // 分类
@@ -255,9 +218,13 @@ this.subject=i+"."+t
     async getClassify() {
       
       let res = await classify();
+      let data =await classifys()
       console.log(res);
-       this.appCourseType = res.data.appCourseType;
-      
+      // console.log(data);
+
+       this.appCourseType = data.data.data.appCourseType;
+       this.attrclassify=res.data.attrclassify
+      console.log(this.attrclassify)
     },
 
     onLoad() {

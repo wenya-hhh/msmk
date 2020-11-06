@@ -10,7 +10,10 @@
           image="/img/yueke_loading.jpg"
           description="还没有待上课记录哦"
         >
-          <van-button @click="onChange" class="bottom-button">
+        <van-button @click="onLogin" v-show="show" class="bottom-button">
+            立即登录
+          </van-button>
+          <van-button @click="onChange" v-show="!show" class="bottom-button">
             立即约课
           </van-button>
         </van-empty>
@@ -21,7 +24,10 @@
           image="/img/yueke_loading.jpg"
           description="还没有上课记录哦"
         >
-          <van-button @click="onChange" class="bottom-button">
+         <van-button @click="onLogin" v-show="show" class="bottom-button">
+            立即登录
+          </van-button>
+          <van-button @click="onChange" v-show="!show" class="bottom-button">
             立即约课
           </van-button>
         </van-empty>
@@ -43,14 +49,25 @@ export default {
   data() {
     return {
       active: "0",
+      show:true
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    var token = localStorage.getItem("Token")
+    if(token == null){
+      this.show = true;
+    }else if(token){
+      this.show = false
+    }
+  },
   methods: {
       //点击跳转到一对一辅导
+      onLogin(){
+          this.$router.push("/login")
+      },
       onChange(){
-          this.$router.push("/oto")
+           this.$router.push("/oto")
       }
   },
 };

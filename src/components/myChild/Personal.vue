@@ -1,5 +1,6 @@
 <template>
   <div>
+      <input ref="file" type="file" style="display:none;" @change="changeImg">
     <!-- 标题 -->
     <div class="back_container">
       <van-nav-bar title="个人信息" left-arrow @click-left="onClickLeft" />
@@ -11,7 +12,7 @@
         <span>头像</span>
         <div class="data_right" @click="changeHead">
           <span>
-            <img src="@/assets/00.png" alt="" />
+            <img :src="info.avatar" alt="" />
           </span>
           <van-icon name="arrow" />
         </div>
@@ -19,28 +20,28 @@
       <div class="all_data_wrapper" @click="changeName">
         <span>昵称</span>
         <div class="name_data_right">
-          <span> 马兴龙123 </span>
+          <span> {{info.nickname}} </span>
           <van-icon name="arrow" size="0.25rem" color="#b7b7b7" />
         </div>
       </div>
       <div class="all_data_wrapper">
         <span>手机号</span>
         <div class="name_data_right">
-          <span> 15810195203 </span>
+          <span> {{info.mobile}} </span>
           <van-icon name="arrow" size="0.28rem" color="#fff" />
         </div>
       </div>
       <div class="all_data_wrapper" @click="changeSex">
         <span>性别</span>
         <div class="name_data_right">
-          <span> 女 </span>
+          <span> {{info.sex | sex}} </span>
           <van-icon name="arrow" size="0.25rem" color="#b7b7b7" />
         </div>
       </div>
       <div class="all_data_wrapper" @click="changedate">
         <span>出生日期</span>
         <div class="name_data_right">
-          <van-field v-model="birthdate" input-align="right" />
+          <van-field v-model="info.birthday" input-align="right" />
           <van-icon name="arrow" size="0.25rem" color="#b7b7b7" />
         </div>
       </div>
@@ -53,15 +54,16 @@
       </div>
       <div class="all_data_wrapper">
         <span>学科</span>
-        <div class="name_data_right">
-          <span> 化学 </span>
+        <div class="name_data_right" @click="$router.push('/changeSubject')">
+          <span style="margin-right:0.03rem;" v-for="(i,k) in info.attr" :key="k" v-show="i.attr=='学科'"> {{i.attr_value}}  </span>
           <van-icon name="arrow" size="0.25rem" color="#b7b7b7" />
         </div>
       </div>
-      <div class="all_data_wrapper">
+      <div @click="gradePopup=true" class="all_data_wrapper">
         <span>年级</span>
         <div class="name_data_right">
-          <span> 小学一年级 </span>
+                   <span v-for="(i,k) in info.attr" :key="k" v-show="i.attr=='年级'"> {{i.attr_value}} </span>
+
           <van-icon name="arrow" size="0.25rem" color="#b7b7b7" />
         </div>
       </div>
@@ -69,8 +71,8 @@
     <!-- 更改头像 -->
     <van-popup v-model="headshow" position="bottom">
       <ul class="headStyle">
-        <li>拍照</li>
-        <li>从手机相册选择</li>
+        <li @click="updataImg()">拍照</li>
+        <li  @click="updataImg()">从手机相册选择</li>
         <li>取消</li>
       </ul>
     </van-popup>
@@ -85,11 +87,24 @@
         @cancel="cancel"
       />
     </van-popup>
+    
+    <!-- 年级选择器 -->
+    <van-popup v-model="gradePopup" position="bottom">
+      
+          <van-picker
+        @confirm="onConfirm"
+      show-toolbar
+      :columns="columns"
+    
+    />
+
+    </van-popup>
+
     <!-- 城市选择 -->
     <van-popup v-model="cityshow" position="bottom">
       <van-area
         :area-list="bm"
-      
+     
         @cancel="cancel"
         ref="djj"
         @change="Picker"
@@ -100,17 +115,18 @@
 <script>
 import axios from "axios";
 import Vue from "vue";
-import { Area } from "vant";
-
+import { Area ,} from "vant";
+import {updateImageSubmit,updateAjax,getAttribute} from "@/utils/api"
 Vue.use(Area);
 export default {
   data() {
     return {
+      gradePopup:false,
       headshow: false,
       dateshow: false,
       minDate: new Date(1890, 0, 1),
       maxDate: new Date(),
-      currentDate: new Date(),
+      currentDate:new Date(),
       birthdate: "",
       nowdate: new Date().toLocaleDateString(),
       changeCity: "内蒙古自治区，呼和浩特市，武川县",
@@ -125,12 +141,110 @@ export default {
       county: "",
       sheng: "",
       tem: "",
+      info:"",
+      columns:[]
     };
   },
   methods: {
+
+    // 获取学科信息
+    async attribute(){
+
+      let res = await getAttribute()
+         console.log(res)
+        //  this.columns=res.data[0]
+
+         res.data[0].value.forEach((res)=>{
+            this.columns.push({
+              keyId:res.id,
+              text:res.name
+            })
+         })
+    },
+
+   async onConfirm(val){
+    this.gradePopup=false
+     this.info.attr.push(val)
+    //  let res = await updateAjax({})
+     console.log(this.info.attr)
+     let  arr = []
+      this.info.attr.forEach((el, index) => {
+         arr.push({
+             "attr_id":el.attr_id,"attr_val_id":el.attr_val_id
+         })
+      });
+
+      arr.push({
+         "attr_id":1,"attr_val_id":val.keyId
+      })
+   
+      arr=arr.filter((res)=>{
+        return res.attr_id
+      })
+      
+
+        console.log(arr)
+        let  res = await updateAjax({'user_attr':JSON.stringify(arr)})
+        // console.log(res)
+        this.getInfo()
+    
+    },
+
+    // 获取个人信息
+    getInfo(){
+
+       this.$http.get("/api/app/userInfo").then((res) => {
+      console.log(res);
+      this.info=res.data
+    
+    this.currentDate=new Date(res.data).toLocaleDateString().replaceAll('/','-')
+   
+  console.log(this.currentDate)
+   });
+
+    },
+   
+  //  更新头像
+    updataImg(){
+
+      this.$refs.file.click()  
+
+    },
+  
+  // 上传图片
+   async changeImg(){
+
+      let formdata = new FormData()
+       
+      formdata.append("file",event.target.files[0])
+      console.log(formdata)
+
+      let { data:res } = await updateImageSubmit(formdata)
+         console.log(res)
+      
+      // 调用更新图片方法
+        this.updateInfoImg({
+                avatar:res.path
+            })
+
+    },
+
+    // 更新图片
+    async updateInfoImg(params){
+        let res = await updateAjax(params)
+        console.log(res)
+        if(res.code==200){ 
+           //更新成功重新渲染页面
+           this.headshow=false
+          this.getInfo()
+         
+        }
+
+    },
+
     // 点击左上角返回
     onClickLeft() {
-      this.$router.go(-1);
+      this.$router.push("/my");
     },
     // 点击头像选择框
     changeHead() {
@@ -138,11 +252,23 @@ export default {
     },
     // 跳转到改变名字页面
     changeName() {
-      this.$router.push("/changeName");
+      this.$router.push({
+          path:"/changeName",
+          query:{
+            name:this.info.nickname,
+            mobile:this.info.mobile
+          }
+          
+        });
     },
     // 改变性别
     changeSex() {
-      this.$router.push("/changeSex");
+      this.$router.push({
+         path:"/changeSex",
+          query:{
+           sex:this.info.sex
+          }}
+      );
     },
     changes() {
       this.cityshow = true;
@@ -154,7 +280,7 @@ export default {
       this.dateshow = true;
     },
     // 时间选择框的完成
-    confirm(val) {
+  async  confirm(val) {
       // console.log(val.toLocaleDateString());
       // console.log(this.nowdate);
       if (val.toLocaleDateString() == this.nowdate) {
@@ -162,6 +288,13 @@ export default {
       } else {
         this.birthdate = val.toLocaleDateString();
         this.dateshow = false;
+        
+        let res = await updateAjax({birthday:new Date( val).toLocaleDateString().replaceAll('/','-')})
+
+        console.log(res)
+        this.getInfo()
+    
+
       }
     },
     // 时间取消
@@ -213,7 +346,7 @@ export default {
       res.data.forEach((element) => {
         this.bm.province_list[element.id] = element.area_name;
       });
-      console.log(this.bm.province_list);
+      // console.log(this.bm.province_list);
       var arrs = [];
       for (const keys in this.bm.province_list) {
         arrs.push(keys);
@@ -234,16 +367,18 @@ export default {
       datas.data.forEach((el) => {
         this.$set(this.bm.county_list, el.id, el.area_name);
       });
-      console.log(this.bm.city_list);
-      console.log(this.bm.county_list);
+      // console.log(this.bm.city_list);
+      // console.log(this.bm.county_list);
     },
   },
   mounted() {
-    this.$http.get("/api/app/userInfo").then((res) => {
-      // console.log(res);
-    });
     this.beijing();
+    this.attribute()
   },
+  created(){
+    this.getInfo()
+
+  }
 };
 </script>
 <style lang="scss" soped>

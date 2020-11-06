@@ -81,7 +81,7 @@
       <!-- 列表 -->
       <div v-show="content == 0" class="mingxing">
         <ul>
-          <li v-for="(i, k) in list" :key="k">
+          <li @click="toDetail(i)" v-for="(i, k) in list" :key="k">
             <img :src="i.avatar" alt="" />
             <div>
               <p>
@@ -155,13 +155,21 @@
         </div>
       </div>
     </div>
+
+    <LoginMessage @Login="LoginMessageShow = !LoginMessageShow"
+      :show="LoginMessageShow"
+      v-show="LoginMessageShow"></LoginMessage>
   </div>
 </template>
 
 <script>
 import { otoList, condition } from "@/utils/api";
+import LoginMessage from "@/components/LoginMessage"
 export default {
   name: "oto", //一对一辅导页面
+  components:{
+    LoginMessage
+  },
   filters: {
     issex(val) {
       if (val == 0) {
@@ -196,7 +204,8 @@ export default {
       checkedType: "",
       checkedSex: "3",
       is_attended: "",
-      is_collect:0
+      is_collect:0,
+      LoginMessageShow :false
     };
   },
   created() {},
@@ -205,6 +214,22 @@ export default {
     this.getTeacherCondition();
   },
   methods: {
+    toDetail(i){
+
+       if (!localStorage.Token) {
+        this.LoginMessageShow = !this.LoginMessageShow;
+      } else {
+        this.$router.push({
+          path: "/Teacher",
+          query: {
+            teacherId: i.teacher_id,
+          },
+        });
+      }
+      
+
+    },
+
     // 显示哪个选项卡
     tab(i) {
       if (this.content == i) {
