@@ -4,7 +4,7 @@
     <!-- 头部 -->
     <NavigationBar></NavigationBar>
     <NullStateJian v-show="this.list==0"></NullStateJian>
-        
+        {{list.name}}
   </div>
 </template>
 
